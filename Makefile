@@ -36,6 +36,9 @@ clean:
 	rm $(INDEX)
 	rm -rf $(PUBLISH)
 
+.PHONY: test
+test: $(CSS_OUT)
+
 $(INDEX): index.html $(HTML_PAGES) $(MARKDOWN_PAGES) $(CSS_OUT)
 	cp index.html publish/index.html
 
