@@ -1,0 +1,14 @@
+{
+  "name": "ayasuda.github.io",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:ayasuda/ayasuda.github.io.git",
+  "author": "Atsushi Yasuda <atsushi.yasuda.jp@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "postcss": "^6.0.7",
+    "postcss-cli": "^4.1.0",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-import": "^10.0.0"
+  }
+}
