@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="yard-のアーキテクチャ">YARD のアーキテクチャ</h1>
+<p>YARD は主に３つのコンポーネントに分けられています。</p>
+<ul>
+<li>Code Parsing &amp; Processing</li>
+<li>Data Storage</li>
+<li>Post Processing &amp; Output Generation</li>
+</ul>
+<p>主な流れとしては次の通りです。 まず、 Code Parsing &amp; Processing コンポーネントが 文書化対象のファイルをパースし、その結果を Data Storage コンポーネント内に格納します。 次に Post Processing &amp; Output Generation コンポーネントが Data Storage の内容を参照しながらドキュメントを出力します。</p>
+<p>実装を見てみましょう。 <code>yardoc foo.rb</code> コマンドを実行した時に呼び出されるのは <a href="http://www.rubydoc.info/gems/yard/YARD/CLI/Yardoc#run-instance_method">YARD::CLI::Yardoc.rub</a> です。 このメソッドの実装は上で説明した通りとなっています。 コマンドライン引数のパースなどを省き、メインとなる処理を抜き出すと次のようになります。</p>
+<div class="sourceCode"><pre class="sourceCode rb"><code class="sourceCode ruby"><span class="kw">if</span> save_yardoc
+  <span class="dt">Registry</span>.lock_for_writing <span class="kw">do</span>
+    <span class="co"># Code Parsing &amp; Processing コンポーネントを呼び出し</span>
+    <span class="co"># 対象ファイルをパースし、結果を Data Storage コンポーネントの Registry に書き込む</span>
+    <span class="dt">YARD</span>.parse(files, excluded)
+
+    <span class="co"># Data Storage コンポーネントの Registry の内容を永続化する</span>
+    <span class="dt">Registry</span>.save(use_cache)
+  <span class="kw">end</span>
+<span class="kw">else</span>
+  <span class="co"># Code Parsing &amp; Processing コンポーネントを呼び出し</span>
+  <span class="co"># 対象ファイルをパースし、結果を Data Storage コンポーネントの Registry に書き込む</span>
+  <span class="dt">YARD</span>.parse(files, excluded)
+<span class="kw">end</span>
+
+<span class="kw">if</span> generate
+  <span class="co"># Post Processing &amp; Output Generation コンポーネントを呼び出し</span>
+  <span class="co"># Storage の内容を書き出す</span>
+  run_generate(checksums)
+  copy_assets
+<span class="kw">elsif</span> list
+  print_list
+<span class="kw">end</span></code></pre></div>
+<p>基本となる動きをなんとなく把握しましたら、次に各コンポーネントの中を深堀りしていきましょう。</p>
+<h2 id="code-parsing-processing-component">Code Parsing &amp; Processing Component</h2>
+<p>文書化対象のファイルをパースし、その構造を Data Storage コンポーネントの <a href="http://www.rubydoc.info/gems/yard/YARD/Registry">YARD::Registory</a> に突っ込むコンポーネントです。</p>
+<p>このコンポーネントは以下に示す４つのサブコンポーネントで構成されています。</p>
+<ul>
+<li><a href="http://www.rubydoc.info/gems/yard/file/docs/Parser.md">Parser</a>: ソースファイルを解析し、ステートメントごとに登録されている Handler に渡します</li>
+<li><a href="http://www.rubydoc.info/gems/yard/file/docs/Handlers.md">Handlers</a>: ステートメントを受け取り、 CodeObject を生成します</li>
+<li><a href="http://www.rubydoc.info/gems/yard/file/docs/CodeObjects.md">CodeObjects</a>: 解析した結果作られるオブジェクトのツリーで、 Registroy に突っ込まれます</li>
+<li><a href="http://www.rubydoc.info/gems/yard/file/docs/Tags.md">Tags</a>: Handler などにより CodeObject に添付されるメタデータです</li>
+</ul>
+<h2 id="data-storage-component">Data Storage Component</h2>
+<p>このコンポーネントの実装は <a href="http://www.rubydoc.info/gems/yard/YARD/Registry">YARD::Registory</a> です。</p>
+<p>Code Parsing &amp; Processing Component によ生成されたデータはこの Registroy 内に格納され、永続化され、そしてアクセスされます。 YARD は拡張可能であり、その気になればより良いストレージなどに Registory を置き換え可能です。</p>
+<h2 id="post-processing-output-generation-component">Post Processing &amp; Output Generation Component</h2>
+<p>このコンポーネントは Registroy に記録された CodeObject を元に、様々な種類のアウトプットを生成するコンポーネントです。 アウトプットのフォーマットやデザイン、どのようにアウトプットするかなどはすべて変更可能で、詳細は <a href="http://www.rubydoc.info/gems/yard/file/docs/Templates.md">Templates Archtecture</a> に記載されています。</p>
+<h1 id="parser">Parser</h1>
+<p>YARD が文書化をする際、最初に呼び出されるコンポーネントが Parser です。 Parser の役割は、ソースファイルを解析し、次に起動する <a href="http://www.rubydoc.info/gems/yard/file/docs/Handlers.md">Handlers</a> が理解出来る「ステートメント」のセットに変換することです。</p>
+<p><code>YARD.parse(files, excluded)</code> からの流れを見てみましょう。 <a href="http://www.rubydoc.info/gems/yard/YARD#parse-class_method">YARD.parse</a> は実装を見ればわかりますが、そのまま <a href="http://www.rubydoc.info/gems/yard/YARD/Parser/SourceParser">YARD::Parser::SourceParser</a> の <code>.parse</code> を呼び出します。</p>
+<div class="sourceCode"><pre class="sourceCode rb"><code class="sourceCode ruby"><span class="co"># File &#39;lib/yard.rb&#39;, line 20</span>
+<span class="kw">def</span> <span class="dv">self</span>.parse(*args) <span class="dt">Parser</span>::<span class="dt">SourceParser</span>.parse(*args) <span class="kw">end</span></code></pre></div>
+<p><code>YARD::Parser::SourceParser</code> の主な役割は <a href="http://www.rubydoc.info/gems/yard/YARD/Parser/Base">YARD::Parser::Base</a> の具象クラスのファクトリです。</p>
+<p>ファイルごとに拡張子や内容などを見て、どの Parser を使ってソースを解析するかを決め、パースをします。 YARD はデフォルトで <a href="http://www.rubydoc.info/gems/yard/YARD/Parser/Ruby">YARD::Parser::Ruby</a> と <a href="http://www.rubydoc.info/gems/yard/YARD/Parser/C">YARD::Parser::C</a> が同梱されているので、 Ruby と C のコードをパースできます。</p>
+<p>YARD::Parser::Base を継承したクラスを定義し、 <a href="http://www.rubydoc.info/gems/yard/YARD/Parser/SourceParser#register_parser_type-class_method">YARD:：Parser：：SourceParser.register_parser_type</a> でパーサを登録することで、他言語のパースをすることも可能です。 例えば、<a href="https://github.com/pvande/yard-perl-plugin">pvande/yard-perl-plugin</a> では perl のパーサが定義されています。</p>
+<p>さて、<code>YARD::Parser::SourceParser.parse</code> はファイルの並び替えや無視するファイルの整理などをした後、 ファイルごとに <a href="http://www.rubydoc.info/gems/yard/YARD%2FParser%2FSourceParser:parse">YARD::Parser::SourceParser#parse</a> を呼び出します。</p>
+<p>ソースから重要なところを抜粋しましょう。 <code>parse</code> メソッドではファイルごとにパーサを作り、ファイルをパースしています。 パースすることで、ソースコードがステートメントごとに分解されます。 その後 <code>post process</code> メソッドを呼び出しています。</p>
+<p><code>post process</code> メソッドでは <code>Handlers::Processor</code> を作り、 <code>Handlers::Processor#process</code> を呼ぶことで Handlers が呼び出されます。</p>
+<div class="sourceCode"><pre class="sourceCode rb"><code class="sourceCode ruby"><span class="co"># 以下、各行の間に中略いっぱいあります</span>
+<span class="kw">def</span> parse(content = <span class="dv">__FILE__</span>)
+  <span class="ot">@file</span> = <span class="dt">File</span>.cleanpath(content)
+  <span class="ot">@parser</span> = parser_class.new(content, file)
+  <span class="ot">@parser</span>.parse
+  post_process
+  <span class="ot">@parser</span>
+<span class="kw">end</span>
+
+<span class="kw">private</span>
+
+<span class="kw">def</span> post_process
+  <span class="kw">return</span> <span class="kw">unless</span> <span class="ot">@parser</span>.respond_to?(<span class="st">:enumerator</span>)
+  enumerator = <span class="ot">@parser</span>.enumerator
+  <span class="kw">if</span> enumerator
+    post = <span class="dt">Handlers</span>::<span class="dt">Processor</span>.new(<span class="dv">self</span>)
+    post.process(enumerator)
+  <span class="kw">end</span>
+<span class="kw">end</span></code></pre></div>
+<p>もう少し詳しくパースを行うところを見ていきましょう。 普通の ruby プログラムのファイルが指定されている時、パーサクラスは <a href="http://www.rubydoc.info/gems/yard/YARD/Parser/Ruby/RubyParser">YARD::Parser::Ruby::RubyParser</a> が使われます。 このパーサの内部では <a href="https://docs.ruby-lang.org/ja/latest/class/Ripper.html">Ripper</a> が使われており、ParseTree などと似た様な S式ライブラリと同じ様な構文木を生成します。 構文木の各ノードは <a href="http://www.rubydoc.info/gems/yard/YARD/Parser/Ruby/AstNode">YARD::Parser::Ruby::AstNode</a> のサブクラスで構成されています。</p>
+</body>
+</html>

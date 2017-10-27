@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="docker-ことはじめ">Docker ことはじめ</h1>
+<p>コンテナだよ！</p>
+<p><a href="https://www.docker.com/">Docker</a></p>
+<h2 id="コンテナとは何か">コンテナとは何か？</h2>
+<p>コンテナとは、軽量のアプリケーション実行環境です。 もっとも簡単な例で説明しましょう。 Docker をインストール済みの環境で下記のコマンドを実行します。</p>
+<pre><code>$ docker run hello-world</code></pre>
+<p>このコマンドを実行すると、</p>
+<ul>
+<li>(hello-world イメージがないなら) イメージをダウンロード</li>
+<li>コンテナにイメージを読み込んで実行</li>
+</ul>
+<p>が行われます。 このイメージは標準出力にメッセージを表示しておしまいですので、イメージの実行が終わったらコンテナは破棄されます。</p>
+<p>これのどこが嬉しいのかと言うと・・・・ 「実行環境がイメージに閉じている点」です。 例えばとある rails アプリケーションを実行する <code>foo/bar</code> というイメージがあるとして、 必要なバージョンの ruby や、mysql などはイメージの中に一通りインストール済みのまま 持ち運びが可能です！</p>
+<p>どれくらい強力なのかを試すために、例えば Redmine を動かしてみましょう。</p>
+<pre><code>$ docker run -p 3001:3000 redmine</code></pre>
+<p>このコマンドを実行すると公式の Redmine イメージがダウンロードされて、コンテナに載せて実行されます。 <code>-p 3001:3000</code> を指定することで、コンテナ内の 3000 番ポートとホストの 3001 番ポートとをマッピングしています。 コンテナが実行されたら、<code>http://localhost:3001</code> にアクセスしてみましょう。 コンテナに載っているイメージ内に Redmine を実行可能なすべての環境が整っているため、Redmine のトップページが開いたはずです！</p>
+<p>このように、<code>redmine</code> というアプリケーションを実行する環境を実行する軽量な環境がコンテナです。</p>
+<p>コンテナは他のコンテナやホストと環境が隔離されています。 試しにホストの ruby と redmine イメージの ruby のバージョンを比べてみましょう。</p>
+<pre><code>$ ruby --version
+ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]
+$ docker run redmine ruby --version
+ruby 2.2.7p470 (2017-03-28 revision 58194) [x86_64-linux]</code></pre>
+<p>このように、環境がイメージが載っている環境ごとに違うのがわかるかと思います。</p>
+<p>最後に、 docker run コマンドの凡例だけ記しておきましょう。</p>
+<pre><code>$ docker run [OPTIONS] IMAGE [COMMAND] [ARGS...]</code></pre>
+<p>OPTIONS は <code>docker run</code> に渡すオプションです。 先ほど、 redmine イメージを載せたコンテナを起動した際に <code>-p, --publish</code> オプションを 使い、ホストマシンとコンテナとのポートをマッピングしました。 他にも、ホストマシンの指定ディレクトリとコンテナ内の指定ディレクトリとを紐付ける <code>-v, --volume</code> オプションや コンテナの起動をバックグラウンドで行う <code>-d, --detach</code> オプションなどがあります。</p>
+<p>IMAGE はコンテナに載せて起動する docker イメージです。イメージについては次の項でもう少し詳しく説明します。</p>
+<p>COMMAND [ARGS...] はイメージを載せたコンテナ上で実行したいコマンドです。 先ほどは <code>ruby --version</code> を指定したので、コンテナ上で <code>ruby --version</code> が実行されました。 docker イメージにはコンテナ実行時にデフォルトで実行するコマンドが用意されているものも多くあり、 <code>redmine</code> イメージもその一つなので、特にコマンドを指定しない場合はコンテナ内部で <code>rails server</code> が実行されていました。 デフォルトのコマンドが用意されているイメージでは、 COMMAND [ARGS...] を指定することで コンテナ上ではデフォルトのコマンドではなく、指定したコマンドが実行されます。 デフォルトのコマンドが用意されていないイメージでは、 COMMAND [ARGS...] を指定しないとすぐにコンテナが終了します。</p>
+<h2 id="イメージとは何か">イメージとは何か？</h2>
+<p>イメージとはコンテナの元です。</p>
+<p>イメージについて理解を深めるために、 世界中の人々が作成したイメージが集まる <a href="https://hub.docker.com/">Docker Hub</a> へアクセスし、 <a href="https://hub.docker.com/r/docker/whalesay/">docker/whalesay</a> へ移動します。</p>
+<p>How to use にも書かれている通り、このイメージの使い方を早速試してみましょう。</p>
+<pre><code>$ docker run docker/whalesay cowsay boo</code></pre>
+<p>このコマンドを実行することで、イメージがダウンロードされ、このイメージを載せたコンテナが起動し、 コンテナ上で <code>cowsay boo</code> が実行され、コンテナが終了しました。</p>
+<p>ダウンロードをしたので、手元にあるイメージが増えたはずです。確認してみましょう。</p>
+<pre><code>$ docker images
+REPOSITORY      TAG    IMAGE ID     CREATED     SIZE
+hello-world     latest 1815c82652c0 3 weeks ago 1.84kB
+docker/whalesay latest 6b362a9f73eb 2 years ago 247MB</code></pre>
+<p>なお、いちいちコンテナを起動しなくても、 <code>docker pull</code> コマンドを使えばイメージのダウンロードのみを行うことも可能です。</p>
+<pre><code>$ docker pull docker/whalesay</code></pre>
+<p>さて、手元にあるイメージには、自分で変更を加えることができます。 例えば、<code>docker/whalesay</code> で ruby が使えるようにしましょう。 下記の通り、このイメージには ruby がインストールされていません。</p>
+<pre><code>$ docker run docker/whalesay ruby --version</code></pre>
+<p>イメージを変更するために変更したいイメージを載せた、シェルを実行するコンテナを立ち上げましょう。 <code>docker run</code> コマンドのオプションとして、 標準入力をコンテナに割り当てる <code>-i</code> オプションと tty を割り当てる <code>-t</code> オプションを付与して コンテナ上でシェルを実行します。</p>
+<pre><code>$ docker run -t -i docker/whalesay /bin/bash
+root@5c4b292514e8:/cowsay#</code></pre>
+<p>シェルが動き始めたら、 ruby をインストールしてみます。インストールが完了したら exit でシェル、コンテナを終了します。</p>
+<pre><code>$ docker run -t -i docker/whalesay /bin/bash
+root@5c4b292514e8:/cowsay# apt install ruby
+root@5c4b292514e8:/cowsay# ruby --version
+ruby 1.9.3p484 (2013-11-22 revision 43786) [x86_64-linux]
+root@5c4b292514e8:/cowsay# exit</code></pre>
+<p>これで、元のイメージとは環境の変更されたコンテナができました。このコンテナを元に新しくイメージを名前をつけて記録します。 使うコマンドは <code>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]</code> です。</p>
+<pre><code>$ docker commit -m &#39;add ruby&#39; -a &#39;Atsushi Yasuda&#39; 5c4b292514e8 ayasuda/whalesay:v2
+sha256:d37dbfc2a79a35696b2ac870ca7ff3e3f67b92c6b7efd2d4701cfe948fc98a20</code></pre>
+<p>上記のコマンドのように、環境の変更されたコンテナの id を指定して、 ayasuda/whalesay:v2 という名前でコミットしています。 コミットすることで、次のコンテナを立ち上げる時に使用出来るイメージの一覧に ayasuda/whalesay:v2 が増えています。 確認してみましょう。イメージの一覧を見るコマンドは <code>docker images</code> です。</p>
+<pre><code>$ docker images
+REPOSITORY        TAG    IMAGE ID     CREATED     SIZE
+hello-world       latest 1815c82652c0 3 weeks ago    1.84kB
+docker/whalesay   latest 6b362a9f73eb 2 years ago    247MB
+ayasuda/whalesay  v2     d37dbfc2a79a 26 seconds ago 260MB</code></pre>
+<p>もちろん、今作ったイメージを載せた新しいコンテナを立ち上げることもできます。</p>
+<pre><code>$ docker run ayasuda/whalesay:v2 ruby --version
+ruby 1.9.3p484 (2013-11-22 revision 43786) [x86_64-linux]</code></pre>
+<p>新しいイメージは docker hub などにあげることで、他のホストでも利用することができるようになります。 こうすることで <strong>他のホストでも同じ環境でアプリケーションを実行する</strong> ことができるようになります。</p>
+<h2 id="dockerfile">Dockerfile</h2>
+<p><code>docker commit</code> コマンドを使うこと新しいイメージを作ることができるのはお分かりいただけたかと思います。 しかし、この方法には幾つかのデメリットがあります。</p>
+<ol style="list-style-type: decimal">
+<li>操作が煩わしい。ミスをした時などに気軽に修正しづらい。</li>
+<li>公開されているイメージが、具体的にどのように作られたのかの検証性に欠ける</li>
+</ol>
+<p>これらを解決するために、 <code>Dockerfile</code> というテキストファイルを元にしてイメージを構築する方法が用意されています。</p>
+<pre class=":dockerfile"><code>FROM docker/whalesay:latest
+CMD date | cowsay</code></pre>
+<p>Dockerfile はイメージを作るための命令を記述していきます。 詳細は割愛しますが、上記で使われている <code>FROM</code> と <code>CMD</code> について書いておきましょう。</p>
+<p><code>FROM</code> はイメージを新しく作るための基となるイメージを指定する命令です。 また、 <code>CMD</code> はイメージを載せたコンテナを動かす時のデフォルトのコマンドを指定する命令です。 つまり、上記の Dockerfile では <code>docker/whalesay:latest</code> をベースとして、 デフォルトで <code>date | cowsay</code> を実行するイメージが作成できます。</p>
+<p>さて、早速イメージを作ってみましょう。Dockerfile を基にしたイメージの作成には <code>docker build [OPTIONS] PATH | URL | -</code> コマンドを使います。 今回は <code>-t</code> オプションを使ってイメージに名前をつけつつイメージを作成します。</p>
+<pre><code>$ docker -t ayasuda/date .
+(略)
+Successfully built 77e9e0e77fd4
+Successfully tagged ayasuda/date:latest</code></pre>
+<p>作成されたイメージを確認するために、 <code>docker images</code> でイメージができたことを確認しつつ、 <code>docker run</code> でイメージを載せたコンテナを起動してみましょう。</p>
+<pre><code>$ docker images
+REPOSITORY        TAG    IMAGE ID     CREATED     SIZE
+hello-world       latest 1815c82652c0 3 weeks ago    1.84kB
+docker/whalesay   latest 6b362a9f73eb 2 years ago    247MB
+ayasuda/whalesay  v2     d37dbfc2a79a 26 seconds ago 260MB
+ayasuda/date      latest 77e9e0e77fd4 26 seconds ago 247MB
+$ docker run ayasuda/date
+ ______________________________
+ &lt; Wed Jul 12 03:44:02 UTC 2017 &gt;
+  ------------------------------
+  \
+   \
+    \
+                   ##        .
+             ## ## ##       ==
+          ## ## ## ##      ===
+     /&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;___/ ===
+~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~
+     \______ o          __/
+      \    \        __/
+        \____\______/</code></pre>
+<p>以上のように、Dockerfile を使うことで簡単に取り扱い可能なイメージを作成し、配布することが可能になります。</p>
+<h2 id="見知らぬossとdockerfile">見知らぬOSSとDockerfile</h2>
+</body>
+</html>

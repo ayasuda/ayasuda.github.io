@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="markdown-のテストページ">Markdown のテストページ</h1>
+<p>このページでは <a href="https://daringfireball.net/projects/markdown/">Markdown</a> がきちんとトランスパイルできるかを検証します。</p>
+<h1 id="typography">Typography</h1>
+<p>ブログには必ず記事があり、記事はメインコンテンツで主役です。記事である以上、文字もまた主役といえるでしょう。 ですので、このサイトではなるべく読みやすく、美しいテキストが表示されるように気をつけたく思います。 この節では、文字組み、フォントのデザイン、段落などについてのサンプルを示します。</p>
+<h2 id="段落">段落</h2>
+<p>今回の Markdown では、１つ以上の連続したテキストを段落として扱います。 段落は空行によって分けることとし、連続した複数の行は１つの段落として扱われます。 すなわち、次に示す例は１つの段落となります。</p>
+<div class="sourceCode"><pre class="sourceCode markdown"><code class="sourceCode markdown">今回の Markdown では、１つ以上の連続したテキストを段落として扱います。
+段落は空行によって分けることとし、連続した複数の行は１つの段落として扱われます。
+すなわち、次に示す例は１つの段落となります。</code></pre></div>
+<p>繰り返しになりますが、段落は空行によって分かれます。</p>
+<p>よって、次に示す例は複数の段落となります。</p>
+<div class="sourceCode"><pre class="sourceCode markdown"><code class="sourceCode markdown">繰り返しになりますが、段落は空行によって分かれます。
+
+よって、次に示す例は複数の段落となります。</code></pre></div>
+<p>改行を入れたとしても、改行は取り除かれ、一つの段落として処理されてしまいます。<br />
+強制的に改行を入れる場合には、行末に2つの半角スペースを入れます。</p>
+<div class="sourceCode"><pre class="sourceCode markdown"><code class="sourceCode markdown">改行を入れたとしても、改行は取り除かれ、一つの段落として処理されてしまいます。  
+強制的に改行を入れる場合には、行末に2つの半角スペースを入れます。</code></pre></div>
+<h2 id="見出し">見出し</h2>
+<p>見出しは下記の記法で <code>&lt;h1&gt;</code> から <code>&lt;h6&gt;</code> までサポートされます。</p>
+<h1 id="h1.-の見出し">h1. の見出し</h1>
+<h2 id="h2.-の見出し">h2. の見出し</h2>
+<h3 id="h3.-の見出し">h3. の見出し</h3>
+<h4 id="h4.-の見出し">h4. の見出し</h4>
+<h5 id="h5.-の見出し">h5. の見出し</h5>
+<h6 id="h6.-の見出し">h6. の見出し</h6>
+<div class="sourceCode"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span class="fu"># h1. の見出し</span>
+<span class="fu">## h2. の見出し</span>
+<span class="fu">### h3. の見出し</span>
+<span class="fu">#### h4. の見出し</span>
+<span class="fu">##### h5. の見出し</span>
+<span class="fu">###### h6. の見出し</span></code></pre></div>
+<p>また、 <code>h1</code>, <code>h2</code> には下記の代替記法を用意します。</p>
+<h1 id="h1.-の見出し-1">h1. の見出し</h1>
+<h2 id="h2.-の見出し-1">h2. の見出し</h2>
+<div class="sourceCode"><pre class="sourceCode markdown"><code class="sourceCode markdown">h1. の見出し
+=====
+
+h2. の見出し
+----</code></pre></div>
+<h2 id="テキストの強調">テキストの強調</h2>
+<p>下記の記法でインラインのテキスト強調が使用できます。</p>
+<p><code>_</code> でテキストを囲むと_強調（アンダーライン）_(<code>&lt;ins&gt;</code>:追加タグ)となります <code>__</code> でテキストを囲むと<strong>強調（アンダーライン）</strong>(<code>&lt;u&gt;</code>:アンダーラインタグ)となります <code>*</code> でテキストを囲むと<em>強調（太字）</em>(<code>&lt;strong&gt;</code>:重要なテキストタグ)となります <code>**</code> でテキストを囲むと<strong>強調（斜体）</strong>(<code>&lt;em&gt;</code>:強調タグ)となります <code>~</code> でテキストを囲むと<sub>強調（太字）</sub>(<code>&lt;s&gt;</code>:訂正タグ)となります <code>~~</code> でテキストを囲むと<del>強調（太字）</del>(<code>&lt;del&gt;</code>:削除タグ)となります <code>\`` でテキストを囲むと</code>コード<code>(</code><code>`)となります</p>
+<div class="sourceCode"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span class="bn">`_`</span> でテキストを囲むと_強調（アンダーライン）_(<span class="bn">`&lt;ins&gt;`</span>:追加タグ)となります
+<span class="bn">`__`</span> でテキストを囲むと__強調（アンダーライン）__(<span class="bn">`&lt;u&gt;`</span>:アンダーラインタグ)となります
+<span class="bn">`*`</span> でテキストを囲むと*強調（太字）*(<span class="bn">`&lt;strong&gt;`</span>:重要なテキストタグ)となります
+<span class="bn">`**`</span> でテキストを囲むと**強調（斜体）**(<span class="bn">`&lt;em&gt;`</span>:強調タグ)となります
+<span class="bn">`~`</span> でテキストを囲むと~強調（太字）~(<span class="bn">`&lt;s&gt;`</span>:訂正タグ)となります
+<span class="bn">`~~`</span> でテキストを囲むと~~強調（太字）~~(<span class="bn">`&lt;del&gt;`</span>:削除タグ)となります
+<span class="bn">`\`` でテキストを囲むと`</span>コード<span class="bn">`(`</span>&lt;code&gt;`)となります</code></pre></div>
+<p>また、記号自身を表示したい場合は、記号の前に <code>\\</code> を置きます。</p>
+<!-- User input, <kdb> -->
+<!-- Sample output, <kdb> -->
+<h2 id="リスト">リスト</h2>
+<ul>
+<li>文頭に <code>*</code> を入れることでリストになります。</li>
+<li><code>&lt;ul&gt;</code> です</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode markdown"><code class="sourceCode markdown">* <span class="fl">文頭に </span><span class="bn">`*`</span><span class="fl"> を入れることでリストになります。</span>
+<span class="fl">* </span><span class="bn">`&lt;ul&gt;`</span><span class="fl"> です</span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>文頭に <code>数字.</code> を入れるとリストになります。</li>
+<li><code>&lt;ol&gt;</code> です</li>
+</ol>
+<!-- User description list -->
+<p>ユーザ定義辞書: - こんな感じ - でどうでしょう？</p>
+<h2 id="引用">引用</h2>
+<blockquote>
+<p>文頭に <code>&gt;</code> を置くことで引用リストになります。 複数行にわたる場合など、そのた諸々、<em>外側の文法</em> を引き継ぎます。</p>
+<p>だから、ここが２段落目になります。</p>
+<blockquote>
+<p>文頭の <code>&gt;</code> を重ねるとネスとされた引用になります。</p>
+</blockquote>
+</blockquote>
+<!-- 引用のソース書きたい。引用の右下とかに ほげほげの言葉  みたいに表示したい-->
+<h2 id="コードブロック">コードブロック</h2>
+<h2 id="水平線">水平線</h2>
+<h2 id="リンク">リンク</h2>
+<h2 id="画像">画像</h2>
+<h2 id="埋め込みコンテンツ">埋め込みコンテンツ</h2>
+</body>
+</html>

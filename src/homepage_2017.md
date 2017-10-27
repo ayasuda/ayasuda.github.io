@@ -45,7 +45,10 @@ posted: '2017-06-06'
 HTML5 になり、文書型宣言は随分と簡単になりました。dtdを指定していた頃が嘘のようです。
 今や `<!DOCTYPE html>` だけで十分です。
 
-ルートである [html](https://developer.mozilla.org/ja/docs/Web/HTML/Element/html) タグや
+次に書くのはルート要素である [html](https://developer.mozilla.org/ja/docs/Web/HTML/Element/html) タグです。
+
+
+
 それに続く [head](https://developer.mozilla.org/ja/docs/Web/HTML/Element/head)
 [body](https://developer.mozilla.org/ja/docs/Web/HTML/Element/body) はいつも通りですが、
 `<meta charset="utf-8" />` は MDN を読むと強く推奨されています。

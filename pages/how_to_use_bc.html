@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="bc-の使い方メモ">bc の使い方メモ</h1>
+<p>コンピュータの発展の結果、ちょっと複雑なことをやる計算機を使うのがやけに難しくなったきらいがありませんか？</p>
+<p>例えば、ちょっと「」みたいな計算を気軽にやりたい時に、どうすれば良いかすぐに思いつくでしょうか？</p>
+<p>そう。よく考えたらコンピュータは計算機なので対応方法がきちんと用意されているのでした・・・</p>
+<h2 id="bc">bc</h2>
+<p>bc は任意制度の計算言語を解釈してくれる便利なやつです。</p>
+<p>例えば、チームの新人歓迎会をやるために、飲み放題付き5500円のコースを16人で予約しつつ 5000円割引クーポンを使い、それを新人以外の15人で割り勘するときの料金を計算させようとすると 次の通りになります。</p>
+<pre><code>$ echo &quot;((5500 * 1.08) * 16 - 5000) / 15&quot; | bc
+60002</code></pre>
+<h2 id="どこまでできるの">どこまでできるの？</h2>
+<p>変数が使えて、関数が定義できます。</p>
+<p>また、そもそも man をすると「There are some similarities in the syntax to the C programming language.」と書かれており、</p>
+<p>本当に C ライクな構文でプログラムを書くことができます。</p>
+<p>ただし、あくまでも計算機。算術式を計算するものなので、例えば文字列の結合みたいなこのはできません(できたとしてもやる必要はないと思います)</p>
+</body>
+</html>

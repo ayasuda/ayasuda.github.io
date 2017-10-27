@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>もう一度、ホームページを作ってみたい</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+a
+<header>
+<h1 class="title">もう一度、ホームページを作ってみたい</h1>
+</header>
+<p>今更感漂うんですが、大人になったのでもう一回「ホームページ」を作ってみたいと思ったんです。</p>
+<h1 id="この記事では何をするのか">この記事では何をするのか？</h1>
+<p>個人ホームページを、無駄にゼロから作って Github Pages で配信するまでをつらつらと書いてみたいと思います。</p>
+<p>とはいえ、生の HTML を１から書き続けるのは辛いもの。個別の記事を markdown で書きつつ、様々なページを増やせるような そんな仕組みを作ってみたいと思います。</p>
+<p>何にせよ、git のリポジトリを用意しましょう。</p>
+<pre><code>$ mkdir ayasuda.github.io
+$ cd ayasuda.github.io
+$ git init
+$ git commit --allow-empty -m &#39;initail commit&#39;</code></pre>
+<p>さて、 index.html を作ってみましょう。</p>
+<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+  <span class="kw">&lt;head&gt;</span>
+    <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;utf-8&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;title&gt;</span>ayasuda.github.io<span class="kw">&lt;/title&gt;</span>
+  <span class="kw">&lt;/head&gt;</span>
+  <span class="kw">&lt;body&gt;</span>
+    <span class="kw">&lt;p&gt;</span>Hello, Homepage.<span class="kw">&lt;/p&gt;</span>
+  <span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre></div>
+<h2 id="デザインを組み始めるための準備">デザインを組み始めるための準備</h2>
+<p>さすがに白黒なページはちょっとあれです。 もちろん、Webページは中身が大事なので、 「オシャレなデザインや、レスポンシブなレイアウト、魔法のようなスクリプト」 （-- <a href="https://justinjackson.ca/words_japan.html">これはウェブページです</a>） がなくても十分ではあります。 しかし、どうせ作るなら、ちょっとくらいはカッコよさげな雰囲気のサイトを作ってみたいものです。</p>
+<p>パーツのデザインを組んでいきましょう。 組みながらデザインをしていきますが、CSS は css-next で書いていきたいので まずはその準備をします。</p>
+<p>まずはパッケージマネージャ yarn を使って node モジュールを初期化し、 postcss, postcss-cssnext, postcss-cli をインストールしましょう</p>
+<pre><code>$ yarn init
+yarn init v0.20.3
+question name (ayasuda.github.io):
+question version (1.0.0):
+question description:
+question entry point (index.js):
+question repository url (git@github.com:ayasuda/ayasuda.github.io.git):
+question author (Atsushi Yasuda &lt;atsushi.yasuda.jp@gmail.com&gt;):
+question license (MIT):
+success Saved package.json
+✨  Done in 14.81s.
+$ yarn add postcss postcss-cssnext postcss-cli</code></pre>
+<p>インストールが終わったら postcss 向けの設定ファイル <code>postcss.config.js</code> を用意します。</p>
+<div class="sourceCode"><pre class="sourceCode js:postcss.config.js"><code class="sourceCode javascript"><span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> <span class="op">{</span>
+  <span class="dt">plugins</span><span class="op">:</span>[
+    <span class="at">require</span>(<span class="st">&#39;postcss-cssnext&#39;</span>)
+  ]
+<span class="op">}</span></code></pre></div>
+<p>ビルド自体はできれば１回で何もかもやりたいのです。 ~webpack が難しくてよくわからないので~ とりあえず、 Makefile を組んでおきます。 今回は、 <code>style</code> ディレクトリ以下に css を放り込んで、行くことにします。</p>
+<div class="sourceCode"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span class="dt">CSS_CC  </span><span class="ch">:=</span><span class="st"> node_modules/.bin/postcss</span>
+<span class="dt">CSS_OPT </span><span class="ch">:=</span><span class="st"> style/style.css -c postcss.config.js</span>
+
+<span class="dt">CSS_OUT    </span><span class="ch">:=</span><span class="st"> publish/assets/style.css</span>
+<span class="dt">CSS_SRCDIR </span><span class="ch">:=</span><span class="st"> style</span>
+<span class="dt">CSS_SRCS   </span><span class="ch">:=</span><span class="st"> </span><span class="ch">$(</span><span class="kw">wildcard</span><span class="st"> </span><span class="ch">$(</span><span class="dt">CSS_SRCDIR</span><span class="ch">)</span><span class="st">/*.css</span><span class="ch">)</span>
+
+<span class="ot">.PHONY:</span><span class="dt"> all</span>
+<span class="dv">all:</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">CSS_OUT</span><span class="ch">)</span>
+
+<span class="dv">$(CSS_OUT):</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">CSS_SRCS</span><span class="ch">)</span>
+&gt;-<span class="ch">$(</span><span class="dt">CSS_CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">CSS_OPT</span><span class="ch">)</span> -o <span class="ch">$(</span><span class="dt">CSS_OUT</span><span class="ch">)</span></code></pre></div>
+<p>試しに動かしてみましょう。<code>publish/asstes</code> ディレクトリを用意した上で、 <code>style/style.css</code> を次のように書いてみます。</p>
+<div class="sourceCode"><pre class="sourceCode css:style/styel.css"><code class="sourceCode css">h1 <span class="kw">{</span> <span class="kw">color:</span> color(<span class="dt">red</span> alpha(<span class="dt">-10%</span>))<span class="kw">;</span> <span class="kw">display:</span> flex <span class="kw">}</span></code></pre></div>
+<p>スタイルを書いたらコンパイルしてみます。</p>
+<pre><code>$ make
+node_modules/.bin/postcss style/style.css -c postcss.config.js -o publish/assets/style.css
+✔ Finished style/style.css (673ms)</code></pre>
+<p>コンパイルができたら、結果を確認してみましょう。</p>
+<div class="sourceCode"><pre class="sourceCode css:publish/assets/style.css"><code class="sourceCode css">h1 <span class="kw">{</span> <span class="kw">color:</span> <span class="dt">rgba(255</span>, <span class="dt">0</span>, <span class="dt">0</span>, <span class="dt">0.9)</span><span class="kw">;</span> <span class="kw">display:</span> -webkit-box<span class="kw">;</span> <span class="kw">display:</span> -ms-flexbox<span class="kw">;</span> <span class="kw">display:</span> flex <span class="kw">}</span></code></pre></div>
+<p>正しく cssnext が動いているのがわかるかと思います。</p>
+<p>さて、早速デザインに入り・・・たいところですが、もう少し準備をしておきたいところです。 デザインに入る前にいつも通りリセットCSSを掛けたいですよね？ んでもって一つの css にまとめておきたいところです。 ですので、 <code>import</code> が効くようにしておきましょう。 post-css を導入済みですので <code>postcss-import</code> を使えば簡単にできます。 yarn でインストールして、postcss 向けの設定ファイルを用意しましょう。</p>
+<pre><code>$ yarn add postcss-import</code></pre>
+<div class="sourceCode"><pre class="sourceCode js:postcss.config.js"><code class="sourceCode javascript"><span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> <span class="op">{</span>
+  <span class="dt">plugins</span><span class="op">:</span>[
+    <span class="at">require</span>(<span class="st">&#39;postcss-import&#39;</span>)<span class="op">,</span>
+    <span class="at">require</span>(<span class="st">&#39;postcss-cssnext&#39;</span>)
+  ]
+<span class="op">}</span></code></pre></div>
+<p>準備ができたら早速試してみましょう。</p>
+<p><code>style/reset.css</code> を用意し、 <code>style/style.css</code> で読み込んでみます。</p>
+<div class="sourceCode"><pre class="sourceCode css:style/reset.css"><code class="sourceCode css">* <span class="kw">{</span>
+  <span class="kw">margin:</span> <span class="dt">0</span><span class="kw">;</span>
+  <span class="kw">padding:</span> <span class="dt">0</span><span class="kw">;</span>
+<span class="kw">}</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode css:style/style.css"><code class="sourceCode css"><span class="dv">@import</span> <span class="st">&quot;reset.css&quot;</span><span class="dv">;</span>
+h1 <span class="kw">{</span> <span class="kw">color:</span> color(<span class="dt">red</span> alpha(<span class="dt">-10%</span>))<span class="kw">;</span> <span class="kw">display:</span> flex <span class="kw">}</span></code></pre></div>
+<p>スタイルシートを修正したら、早速コンパイルし結果を見てみます。</p>
+<pre><code>$ make
+node_modules/.bin/postcss style/style.css -c postcss.config.js -o publish/assets/style.css
+✔ Finished style/style.css (673ms)</code></pre>
+<div class="sourceCode"><pre class="sourceCode css:publish/assets/style.css"><code class="sourceCode css">* <span class="kw">{</span>
+  <span class="kw">margin:</span> <span class="dt">0</span><span class="kw">;</span>
+  <span class="kw">padding:</span> <span class="dt">0</span><span class="kw">;</span>
+<span class="kw">}</span>
+h1 <span class="kw">{</span> <span class="kw">color:</span> color(<span class="dt">red</span> alpha(<span class="dt">-10%</span>))<span class="kw">;</span> <span class="kw">display:</span> flex <span class="kw">}</span></code></pre></div>
+<p>きちんと import されているのがわかるかと思います。</p>
+<p>これで準備は整いました。パーツのデザインを組んでいきましょう。 まず、デザインを組むために、要素を列挙していくためのページ design.html を用意します。 もちろん、スタイルシートとして <code>publish/assets/style.css</code> を読み込ませておきます。</p>
+<div class="sourceCode"><pre class="sourceCode html:design.html"><code class="sourceCode djangotemplate"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+  <span class="kw">&lt;head&gt;</span>
+    <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;utf-8&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;title&gt;</span>ayasuda.github.io<span class="kw">&lt;/title&gt;</span>
+    <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href=</span><span class="st">&quot;publish/assets/style.css&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/head&gt;</span>
+  <span class="kw">&lt;body&gt;</span>
+    <span class="kw">&lt;h1&gt;</span>デザイン用ページ<span class="kw">&lt;/h1&gt;</span>
+    <span class="kw">&lt;p&gt;</span>このページを元にデザインを組んでいこう<span class="kw">&lt;/p&gt;</span>
+  <span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre></div>
+<p>ページができたら、一度ブラウザで確認してみましょう。スタイルが読み込まれているなら、ヘッダが赤くなっているはずです。</p>
+<h2 id="リセットcssを用意する">リセットCSSを用意する</h2>
+<p>さて、早速スタイルを増やしていきたいところですが、リセットCSSが全称セレクタなのはちょっとダサいです。 リセットCSSを組んでいきましょう。</p>
+<p>ところで、なぜリセットCSSが必要なのでしょうか？</p>
+<p>https://ferret-plus.com/4860 https://creive.me/archives/10438/ http://coliss.com/articles/build-websites/operation/css/reset-css-and-normalize-css.html http://nicolasgallagher.com/about-normalize-css/</p>
+<p>アトミックデザイン http://suppon.innovator.jp.net/entry/atomic_design</p>
+<p>-----以下執筆中</p>
+<p>先に index.html を作った方がいい気がする。</p>
+<p>そして、markdown で書かれた記事を置いておくディレクトリ <code>pages</code> と生成した HTML を置いておくディレクトリの <code>publish</code> を用意しましょう。</p>
+<pre><code>$ mkdir src
+$ touch src/.gitkeep
+$ mkdir publish
+$ touch publish/.gitkeep
+$ git add .</code></pre>
+<p>もっとも単純なのは Pandoc でしょう。</p>
+<p>Pandoc を使って markdown を html に変換する環境を用意します。</p>
+<p>フロントエンド開発の環境を作る。</p>
+<p>とりあえず、本文は markdown で書きたい。記事は pages ディレクトリ以下に置く スタイルは post-css で書きたい。スタイルは style ディレクトリ以下に置く スクリプトは es6 で書きたい。</p>
+<p>そんなわけで、まずは環境を作る。</p>
+<p>Docker だ！　もう Docker でいいや！（環境の取り回しのしやすさから）</p>
+</body>
+</html>
