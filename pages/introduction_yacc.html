@@ -50,15 +50,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <body>
 <h1 id="俺のための-yacc-入門">俺のための yacc 入門</h1>
 <p>いつか何もかも忘れる自分に向けて。</p>
-<p>この文書では、<em>yacc って何？　美味しいの？　みたいなプログラマをターゲットに、ステップバイステップで yacc の使い方</em>　について学びます。</p>
+<p>この文書では、<em>yacc って何？　美味しいの？　みたいなプログラマ、そうオレをターゲットに、 ステップバイステップで yacc の使い方</em> について学んでいく。</p>
 <h2 id="yacc">yacc</h2>
 <p>yacc (yet another compiler compiler) は構文解析器を作るためのツールです。</p>
 <h3 id="構文解析器って何よ">構文解析器って何よ？</h3>
-<p>大雑把に言えばプログラミング言語みたいな一定のルールを守った言語のことを「 <a href="https://ja.wikipedia.org/wiki/%E5%BD%A2%E5%BC%8F%E8%A8%80%E8%AA%9E">形式言語</a> 」と呼びます。 そんな形式言語で書かれた文書を元に、構文木を作るツールが構文解析器です。</p>
+<p>大雑把に言えばプログラミング言語みたいな一定のルールを守った言語のことを 「 <a href="https://ja.wikipedia.org/wiki/%E5%BD%A2%E5%BC%8F%E8%A8%80%E8%AA%9E">形式言語</a> 」と呼びます。 そんな形式言語で書かれた文書を元に、構文木を作るツールが構文解析器です。</p>
 <p>一般的に、コンパイラは字句解析器 (lexical analyzer, lexier) が字句解析をし、字句の列を作ります。 次に構文解析器 (parser) が字句の列を元に、構文木を作ります。 そして、最後にその構文木を元に計算を行う奴がいたり、もしくは実行可能なマシン語に変換する奴がいたりします。</p>
 <p>yacc はこの構文解析器を作るためのツールになります。</p>
 <h3 id="準備">準備</h3>
-<p>まずは yacc または、bison をインストールしましょう。 著者の環境である OSX では最初からインストール済み(要検証)です。</p>
+<p>まずは yacc または、bison をインストールしましょう。</p>
 <p>インストールされていれば、下記のコマンドでバージョン番号などが確認できるはずです。</p>
 <pre><code>$ yacc --version
 bison (GNU Bison) 2.3
@@ -67,7 +67,7 @@ Written by Robert Corbett and Richard Stallman.
 Copyright (C) 2006 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</code></pre>
-<p>また、 yacc は定義ファイルを元に C のコードを生成します。 ですので、 C のコンパイラをインストールしておく必要があります。 著者の環境である OSX では最初から clang がインストール済み(要検証)です。</p>
+<p>また、 yacc は定義ファイルを元に C のコードを生成します。 ですので、 C のコンパイラをインストールしておく必要があります。</p>
 <p>インストールされていれば、下記のコマンドでバージョン番号などが確認できるはずです。</p>
 <pre><code>$ cc --version
 Apple LLVM version 8.0.0 (clang-800.0.42.1)

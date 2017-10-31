@@ -19,7 +19,6 @@
 ----
 
 このドキュメント無視して `tig blame` を使うといいよ！
-https://qiita.com/sonots/items/b6852db6638cda233bc8
 
 簡単な使い方
 ----
@@ -153,8 +152,8 @@ dae880d329d (Ted   2015-04-15 16:08:27 +0900  253) end
 
 ここまで、わざわざいろいろ調べて自作しましたが、この手のツールは大抵の場合は誰かが実装しています。
 
-vcs-ann
+[vcs-ann](https://github.com/akr/vcs-ann) は git または svn に対応した blame 結果のブラウジングツールです。便利。
 
-tig blame
+あと、そもそも [tig](https://github.com/jonas/tig) を普段使いしている人であれば、 `tig blame` すれば十分に履歴をたどれます。
 
-こういうの
+やっぱり世界は広いですね。

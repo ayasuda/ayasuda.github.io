@@ -48,15 +48,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <![endif]-->
 </head>
 <body>
-<h1>test</h1>
-<p>1. <a href="../">dot</a></p>
-<p>2. <a href="/">slash</a></p>
 <h1 id="ファイルくらいのスクリプト向け-bundler">１ファイルくらいのスクリプト向け bundler</h1>
-<p>ruby のパッケージ管理ツール <a href="http://bundler.io/">Bundler</a> はとても便利です。 便利ですが、ちょっとした、ちょうど 1 ファイルくらいの軽量スクリプト書くときには、いちいち <code>Gemfile</code> を書いたりするのは面倒です。 そんな時、たいていの場合は bundler を使わず、普通に <code>gem install hogehoge</code> みたいにライブラリをインストールし、 <code>require 'hogehoge'</code> してライブラリを読み込んでいるかと思います。 でも、たまたまこのスクリプトファイルを共有する時とかに、ライブラリのバージョン差異が出て地味に不便なんですよね。</p>
+<p>ruby のパッケージ管理ツールである <a href="http://bundler.io/">Bundler</a> はとても便利で、当たり前のように普段使いをしています。 ところで、ちょっとした、ちょうど 1 ファイルくらいの軽量スクリプト書くときに、いちいち <code>Gemfile</code> を書いたりする人はあまりいないでしょう。 軽量のスクリプトなら普通に <code>gem install hogehoge</code> みたいにライブラリをインストールし、 <code>require 'hogehoge'</code> してライブラリを読み込むのが普通でしょう。 でも、たまたまこのスクリプトファイルを共有する時とかに、ライブラリのバージョン差異が出て <em>地味に</em> 不便なんですよね。</p>
 <p>そんなわけで、 Bundler にはインラインで依存ライブラリを指定する記法が用意されています。</p>
 <p>https://github.com/bundler/bundler-features/issues/47</p>
-<p>です。　</p>
-<p>・・・この issue を読むと、誕生背景やサンプルコード、実装内容に制限事項が網羅されているので解説など不要な気がしますが、 将来の自分のために日本語でまとめておきましょう。 なお、詳しい情報は <a href="https://github.com/bundler/bundler/blob/master/lib/bundler/inline.rb">APIドキュメント</a> に載っていますので、 使いたい方はそちらをご参照ください。</p>
+<p>この issue を読むと、誕生背景やサンプルコード、実装内容に制限事項が網羅されているので解説など不要な気がしますが、 将来の自分のために日本語でまとめておきましょう。 なお、詳しい情報は <a href="https://github.com/bundler/bundler/blob/master/lib/bundler/inline.rb">APIドキュメント</a> に載っていますので、 使いたい方はそちらをご参照ください。</p>
 <div class="sourceCode"><pre class="sourceCode rb"><code class="sourceCode ruby"><span class="kw">#!/usr/bin/env ruby</span>
 
 require <span class="st">&#39;bundler/inline&#39;</span>
@@ -73,6 +69,7 @@ puts array.to_s</code></pre></div>
 <p>このファイルを実行する環境で gem がインストール済みであれば、 <code>gemfile</code> メソッドのブロック内で定義した ライブラリを自動的に require までしてくれます。</p>
 <p>また、第一引数に <code>true</code> を設定することで、未インストールの時に自動的にインストールまでしてくれます。</p>
 <h2 id="使いみち">使いみち</h2>
-<p>サンプルコードを gist に貼ったりするときのお供にどうぞ！</p>
+<p>サンプルコードを gist に貼ったりするときのお供にするのが一番の使い道かと思います。</p>
+<p>あとは、どっかの github ページとかで、issue の報告とかするときに使うと便利じゃないかなと覆います。</p>
 </body>
 </html>

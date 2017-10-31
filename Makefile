@@ -13,7 +13,8 @@ PANDOCFLAGS = -f markdown -t html --template=$(TEMPLATE)
 
 all: $(INDEX)
 
-$(INDEX): $(PAGEDIR)
+$(INDEX): $(PAGEDIR) conf/index.html.erb
+	ruby ./conf/make_index.rb > index.html
 
 $(PAGEDIR): $(PAGES)
 	$(MKDIR_P) $(PAGEDIR)
