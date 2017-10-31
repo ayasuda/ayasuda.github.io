@@ -1,3 +1,9 @@
+---
+title: '１ファイルくらいのスクリプト向け bundler'
+posted: '2017-08-06'
+description: 'aaaaaahogehofefugafuga'
+---
+
 １ファイルくらいのスクリプト向け bundler
 ====
 

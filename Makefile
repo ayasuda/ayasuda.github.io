@@ -27,8 +27,13 @@ $(PAGES): %.html: %.md
 
 .PHONY: clean
 clean:
+	rm $(PAGES)
+
+.PHONY: clean_all
+clean_all:
 	rm -r $(PAGEDIR)
 	rm $(PAGES)
+
 
 MKDIR_P = mkdir -p
 CP = cp

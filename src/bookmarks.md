@@ -1,3 +1,6 @@
+---
+title: 'これはタイトルです'
+---
 
 * [Lex and YACC primer/HOWTO](http://archive.linux.or.jp/JF/JFdocs/Lex-YACC-HOWTO.html)
 * [Bison 1.28 - Table of Contents](http://guppy.eng.kagawa-u.ac.jp/2009/ProgLang/bison-1.2.8/bison-ja_toc.html)

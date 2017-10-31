@@ -12,7 +12,11 @@
       <h1>ayasuda.github.io</h1>
       <ul>
         <% pages.each do |page| %>
-          <li><a href="/<%= page %>"><%= page %></a></li>
+          <li>
+            <%= page.to_date %>
+            <a href="<%= page.path %>"><%= page.title %></a>
+            <p><%= page.description %></p>
+          </li>
         <% end %>
       </ul>
     </header>
