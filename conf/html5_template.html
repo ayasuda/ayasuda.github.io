@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html$if(lang)$ lang="$lang$"$endif$$if(dir)$ dir="$dir$"$endif$>
+<html lang="ja" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-$for(author-meta)$
-  <meta name="author" content="$author-meta$">
-$endfor$
-$if(date-meta)$
-  <meta name="dcterms.date" content="$date-meta$">
+  <meta name="author" content="Atsushi Yasuda">
+$if(description)$
+  <meta name="description" content="$description$">
 $endif$
 $if(keywords)$
   <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$">
@@ -26,42 +24,30 @@ $endif$
 $for(css)$
   <link rel="stylesheet" href="$css$">
 $endfor$
-$if(math)$
-  $math$
-$endif$
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
-$for(header-includes)$
-  $header-includes$
-$endfor$
 </head>
 <body>
-$for(include-before)$
-$include-before$
-$endfor$
-$if(title)$
 <header>
-<h1 class="title">$title$</h1>
-$if(subtitle)$
-<h1 class="subtitle">$subtitle$</h1>
-$endif$
-$for(author)$
-<h2 class="author">$author$</h2>
-$endfor$
-$if(date)$
-<h3 class="date">$date$</h3>
+  <h1><a href="/">ayasuda.github.io</a></h1>
+$if(title)$
+  <h2>$title$</h2>
+  <h3>$date$</h3>
 $endif$
 </header>
-$endif$
+<article>
 $if(toc)$
 <nav id="$idprefix$TOC">
 $toc$
 </nav>
 $endif$
 $body$
-$for(include-after)$
-$include-after$
-$endfor$
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
 </body>
 </html>

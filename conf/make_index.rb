@@ -18,11 +18,11 @@ class Page
   end
 
   def to_date
-    Date.parse(metadata["posted"])
+    Date.parse(metadata["date"])
   end
 
   def publish?
-    metadata.key?("posted")
+    metadata.key?("date")
   end
 
   def description

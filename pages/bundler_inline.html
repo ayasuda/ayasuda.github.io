@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="description" content="bundler を使って簡単なスクリプトでも依存関係を定義できる、インライン記法についてメモをまとめておきました">
+  <meta name="keywords" content="bundler">
   <title>１ファイルくらいのスクリプト向け bundler</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -49,9 +52,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </head>
 <body>
 <header>
-<h1 class="title">１ファイルくらいのスクリプト向け bundler</h1>
+  <h1><a href="/">ayasuda.github.io</a></h1>
+  <h2>１ファイルくらいのスクリプト向け bundler</h2>
+  <h3>2017-10-20</h3>
 </header>
-<h1 id="ファイルくらいのスクリプト向け-bundler">１ファイルくらいのスクリプト向け bundler</h1>
+<article>
+<h1 id="簡単な-ruby-のスクリプトでもライブラリのバージョン管理をしたい">簡単な ruby のスクリプトでも、ライブラリのバージョン管理をしたい！</h1>
 <p>ruby のパッケージ管理ツールである <a href="http://bundler.io/">Bundler</a> はとても便利で、当たり前のように普段使いをしています。 ところで、ちょっとした、ちょうど 1 ファイルくらいの軽量スクリプト書くときに、いちいち <code>Gemfile</code> を書いたりする人はあまりいないでしょう。 軽量のスクリプトなら普通に <code>gem install hogehoge</code> みたいにライブラリをインストールし、 <code>require 'hogehoge'</code> してライブラリを読み込むのが普通でしょう。 でも、たまたまこのスクリプトファイルを共有する時とかに、ライブラリのバージョン差異が出て <em>地味に</em> 不便なんですよね。</p>
 <p>そんなわけで、 Bundler にはインラインで依存ライブラリを指定する記法が用意されています。</p>
 <p>https://github.com/bundler/bundler-features/issues/47</p>
@@ -73,6 +79,13 @@ puts array.to_s</code></pre></div>
 <p>また、第一引数に <code>true</code> を設定することで、未インストールの時に自動的にインストールまでしてくれます。</p>
 <h2 id="使いみち">使いみち</h2>
 <p>サンプルコードを gist に貼ったりするときのお供にするのが一番の使い道かと思います。</p>
-<p>あとは、どっかの github ページとかで、issue の報告とかするときに使うと便利じゃないかなと覆います。</p>
+<p>あとは、どっかの github ページとかで、issue の報告とかするときに使うと便利じゃないかなと思います。</p>
+<p>特に、issue の報告などでは依存しているライブラリの細かなバージョンを報告すると喜ばれます。 ですので、１ファイル内で細かなバージョン番号を指定できるインライン記法が好んで使われるわけです。</p>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
 </body>
 </html>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
   <title>これはタイトルです</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -49,8 +50,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </head>
 <body>
 <header>
-<h1 class="title">これはタイトルです</h1>
+  <h1><a href="/">ayasuda.github.io</a></h1>
+  <h2>これはタイトルです</h2>
+  <h3></h3>
 </header>
+<article>
 <h1 id="yard-のアーキテクチャ">YARD のアーキテクチャ</h1>
 <p>YARD は主に３つのコンポーネントに分けられています。</p>
 <ul>
@@ -129,5 +133,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <span class="kw">end</span>
 <span class="kw">end</span></code></pre></div>
 <p>もう少し詳しくパースを行うところを見ていきましょう。 普通の ruby プログラムのファイルが指定されている時、パーサクラスは <a href="http://www.rubydoc.info/gems/yard/YARD/Parser/Ruby/RubyParser">YARD::Parser::Ruby::RubyParser</a> が使われます。 このパーサの内部では <a href="https://docs.ruby-lang.org/ja/latest/class/Ripper.html">Ripper</a> が使われており、ParseTree などと似た様な S式ライブラリと同じ様な構文木を生成します。 構文木の各ノードは <a href="http://www.rubydoc.info/gems/yard/YARD/Parser/Ruby/AstNode">YARD::Parser::Ruby::AstNode</a> のサブクラスで構成されています。</p>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
 </body>
 </html>
