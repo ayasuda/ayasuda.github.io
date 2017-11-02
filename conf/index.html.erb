@@ -2,14 +2,21 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <% if with_localhost %>
+    <base href="http://localhost:3000/">
+    <% else %>
     <base href="https://ayasuda.github.io/">
+    <% end %>
     <title>ayasuda.github.io</title>
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
     <nav>
     </nav>
     <header>
-      <h1>ayasuda.github.io</h1>
+      <h1><a href="/">ayasuda.github.io</a></h1>
+    </header>
+    <article>
       <ul>
         <% pages.each do |page| %>
           <li>
@@ -19,6 +26,6 @@
           </li>
         <% end %>
       </ul>
-    </header>
+    </article>
   </body>
 </html>

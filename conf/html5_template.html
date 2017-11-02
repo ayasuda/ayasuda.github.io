@@ -2,6 +2,11 @@
 <html lang="ja" dir="ltr">
 <head>
   <meta charset="utf-8">
+$if(localhost)$
+  <base href="http://localhost:3000/">
+$else$
+  <base href="https://ayasuda.github.io/">
+$endif$
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Atsushi Yasuda">
@@ -21,9 +26,7 @@ $if(highlighting-css)$
 $highlighting-css$
   </style>
 $endif$
-$for(css)$
-  <link rel="stylesheet" href="$css$">
-$endfor$
+  <link rel="stylesheet" href="/css/style.css">
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->

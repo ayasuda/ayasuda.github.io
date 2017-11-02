@@ -4,6 +4,8 @@ require 'erb'
 require 'pathname'
 require 'yaml'
 
+ARGV
+
 class Page
   def initialize(name)
     @pathname = Pathname.new name
@@ -36,6 +38,8 @@ class Page
     @metadata = YAML.load(File.read(@pathname))
   end
 end
+
+with_localhost = (ARGV.size == 0)
 
 pages = Dir.glob("src/*.md").map{|name| Page.new(name) }
 pages.select!(&:publish?)

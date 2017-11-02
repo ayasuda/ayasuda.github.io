@@ -14,7 +14,11 @@ PANDOCFLAGS = -f markdown -t html --template=$(TEMPLATE)
 all: $(INDEX)
 
 $(INDEX): $(PAGEDIR) conf/index.html.erb
+ifdef LOCAL
 	ruby ./conf/make_index.rb > index.html
+else
+	ruby ./conf/make_index.rb publish > index.html
+endif
 
 $(PAGEDIR): $(PAGES)
 	$(MKDIR_P) $(PAGEDIR)
@@ -23,7 +27,11 @@ $(PAGEDIR): $(PAGES)
 $(PAGES): $(TEMPLATE)
 
 $(PAGES): %.html: %.md
+ifdef LOCAL
+	$(PANDOC) $(PANDOCFLAGS) -V localhost -o $@ $<
+else
 	$(PANDOC) $(PANDOCFLAGS) -o $@ $<
+endif
 
 .PHONY: clean
 clean:
