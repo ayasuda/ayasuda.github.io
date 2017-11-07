@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="keywords" content="rails, docker">
+  <title>2017年末の Rails プロジェクトは、多分これが一番楽だと思います</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+  <h1><a href="/">ayasuda.github.io</a></h1>
+  <h2>2017年末の Rails プロジェクトは、多分これが一番楽だと思います</h2>
+  <h3></h3>
+</header>
+<article>
+<h1 id="やっぱり-docker-で動かしたいそしてセットアップは-.binsetup-で終わらせたい">やっぱり Docker で動かしたい。そしてセットアップは <code>./bin/setup</code> で終わらせたい</h1>
+<p>2017年もくれるわけですから、やっぱり環境は Docker でやりたいものです。 何しろ、取り回しが楽ですし。</p>
+<p>とはいえ、<code>docker-compose</code> や <code>bundle exec</code> を間違えずに打ち込むのは <em>面倒</em> です。</p>
+<pre><code>$ docker-compose run --rm rails bundle exec rails generate model user name:string</code></pre>
+<p>こんなコマンド、覚えられませんよ。</p>
+<p>さて、そんなわけで Rails には <code>bin</code> ディレクトリがあるわけですし、この中のファイルを書き換えればよいでしょう。</p>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
+</body>
+</html>
