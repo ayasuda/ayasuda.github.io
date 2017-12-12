@@ -9,41 +9,59 @@
   <title>これはタイトルです</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color: initial; }
+}
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.bn { color: #40a070; } /* BaseN */
+code span.fl { color: #40a070; } /* Float */
+code span.ch { color: #4070a0; } /* Char */
+code span.st { color: #4070a0; } /* String */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.ot { color: #007020; } /* Other */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.fu { color: #06287e; } /* Function */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #880000; } /* Constant */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #19177c; } /* Variable */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.op { color: #666666; } /* Operator */
+code span.bu { } /* BuiltIn */
+code span.ex { } /* Extension */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.at { color: #7d9029; } /* Attribute */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="/css/style.css">
   <!--[if lt IE 9]>
@@ -62,29 +80,29 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>さて、あの頃から随分と知識が身についた気がするわけなのですが、果たして本当に技術力は上がったのでしょうか？</p>
 <p>復習も兼ねて、たまにはホームページを１から作ってみると、いったい何が出来上がるのか試してみようと思った次第です。</p>
 <h2 id="大枠のマークアップ">大枠のマークアップ</h2>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
-<span class="kw">&lt;html&gt;</span>
-  <span class="kw">&lt;head&gt;</span>
-    <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;utf-8&quot;</span> <span class="kw">/&gt;</span>
-    <span class="kw">&lt;base</span><span class="ot"> href=</span><span class="st">&quot;https://ayasuda.github.io/&quot;</span><span class="kw">&gt;</span>
-    <span class="kw">&lt;title&gt;</span>ayasuda.github.io<span class="kw">&lt;/title&gt;</span>
-  <span class="kw">&lt;/head&gt;</span>
-  <span class="kw">&lt;body&gt;</span>
-    <span class="kw">&lt;nav&gt;</span>
-    <span class="kw">&lt;/nav&gt;</span>
-    <span class="kw">&lt;header&gt;</span>
-      <span class="kw">&lt;h1&gt;</span>ayasuda.github.io<span class="kw">&lt;/h1&gt;</span>
-    <span class="kw">&lt;/header&gt;</span>
-    <span class="kw">&lt;aside&gt;</span>
-    <span class="kw">&lt;/aside&gt;</span>
-    <span class="kw">&lt;article&gt;</span>
-      <span class="kw">&lt;h1&gt;</span>ここに記事のタイトルとか<span class="kw">&lt;/h1&gt;</span>
-    <span class="kw">&lt;/article&gt;</span>
-    <span class="kw">&lt;footer&gt;</span>
-      コピーライトとか
-    <span class="kw">&lt;/footer&gt;</span>
-  <span class="kw">&lt;/body&gt;</span>
-<span class="kw">&lt;/html&gt;</span></code></pre></div>
+<pre class="sourceCode html" id="cb1"><code class="sourceCode html"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">&lt;html&gt;</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="kw">&lt;head&gt;</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">    <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;utf-8&quot;</span> <span class="kw">/&gt;</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">    <span class="kw">&lt;base</span><span class="ot"> href=</span><span class="st">&quot;https://ayasuda.github.io/&quot;</span><span class="kw">&gt;</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">    <span class="kw">&lt;title&gt;</span>ayasuda.github.io<span class="kw">&lt;/title&gt;</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">  <span class="kw">&lt;/head&gt;</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">  <span class="kw">&lt;body&gt;</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">    <span class="kw">&lt;nav&gt;</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">    <span class="kw">&lt;/nav&gt;</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">    <span class="kw">&lt;header&gt;</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">      <span class="kw">&lt;h1&gt;</span>ayasuda.github.io<span class="kw">&lt;/h1&gt;</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">    <span class="kw">&lt;/header&gt;</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">    <span class="kw">&lt;aside&gt;</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">    <span class="kw">&lt;/aside&gt;</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">    <span class="kw">&lt;article&gt;</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">      <span class="kw">&lt;h1&gt;</span>ここに記事のタイトルとか<span class="kw">&lt;/h1&gt;</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">    <span class="kw">&lt;/article&gt;</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">    <span class="kw">&lt;footer&gt;</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">      コピーライトとか</a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">    <span class="kw">&lt;/footer&gt;</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">  <span class="kw">&lt;/body&gt;</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="kw">&lt;/html&gt;</span></a></code></pre>
 <p>久しぶりの白紙から作る html です。まずは文書型宣言から書いてきましょう。</p>
 <p>HTML5 になり、文書型宣言は随分と簡単になりました。dtdを指定していた頃が嘘のようです。 今や <code>&lt;!DOCTYPE html&gt;</code> だけで十分です。</p>
 <p>次に書くのはルート要素である <a href="https://developer.mozilla.org/ja/docs/Web/HTML/Element/html">html</a> タグです。</p>
@@ -97,34 +115,34 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>その他にも、主要なナビゲーションを示す <a href="https://developer.mozilla.org/ja/docs/Web/HTML/Element/nav">nav</a> や、メインコンテンツとの関連が希薄なセクションである <a href="https://developer.mozilla.org/ja/docs/Web/HTML/Element/aside">aside</a> （サイドバーやコラムに用いることが想定されています）なども追加されました。</p>
 <p>これらのセクションそれぞれにヘッダやフッタを示す <a href="https://developer.mozilla.org/ja/docs/Web/HTML/Element/header">header</a> や <a href="https://developer.mozilla.org/ja/docs/Web/HTML/Element/footer">footer</a> も使えるようになりましたので、様々なものが、よりスッキリと書けるようになりました。</p>
 <p>例えば、ブログの個別記事ページなどでは次のように書くことができます。</p>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;body&gt;</span>
-  <span class="kw">&lt;header&gt;</span>
-    <span class="kw">&lt;h1&gt;</span>Hogeのブログ<span class="kw">&lt;/h1&gt;</span>
-  <span class="kw">&lt;/header&gt;</span>
-  <span class="kw">&lt;nav&gt;</span>
-    ブログ全体のナビゲーション
-  <span class="kw">&lt;/nav&gt;</span>
-  <span class="kw">&lt;aside&gt;</span>
-    サイドバーや広告枠など
-  <span class="kw">&lt;/aside&gt;</span>
-  <span class="kw">&lt;article&gt;</span>
-    <span class="kw">&lt;header&gt;</span>
-      個別記事のヘッダ
-      <span class="kw">&lt;h1&gt;</span>個別記事のタイトル<span class="kw">&lt;/h1&gt;</span>
-      <span class="kw">&lt;span&gt;</span>投稿日時とか<span class="kw">&lt;/span&gt;</span>
-    <span class="kw">&lt;/header&gt;</span>
-    <span class="kw">&lt;section&gt;</span>
-      記事の本文
-      ...
-    <span class="kw">&lt;/section&gt;</span>
-    <span class="kw">&lt;footer&gt;</span>
-      個別記事のフッタ。パーマリンクなど
-    <span class="kw">&lt;/footer&gt;</span>
-  <span class="kw">&lt;/article&gt;</span>
-  <span class="kw">&lt;footer&gt;</span>
-    ブログ全体のフッター、コピーライトなど
-  <span class="kw">&lt;/footer&gt;</span>
-<span class="kw">&lt;/body&gt;</span></code></pre></div>
+<pre class="sourceCode html" id="cb2"><code class="sourceCode html"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">&lt;body&gt;</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw">&lt;header&gt;</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="kw">&lt;h1&gt;</span>Hogeのブログ<span class="kw">&lt;/h1&gt;</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="kw">&lt;/header&gt;</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="kw">&lt;nav&gt;</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">    ブログ全体のナビゲーション</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">  <span class="kw">&lt;/nav&gt;</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">  <span class="kw">&lt;aside&gt;</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">    サイドバーや広告枠など</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">  <span class="kw">&lt;/aside&gt;</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">  <span class="kw">&lt;article&gt;</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">    <span class="kw">&lt;header&gt;</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">      個別記事のヘッダ</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">      <span class="kw">&lt;h1&gt;</span>個別記事のタイトル<span class="kw">&lt;/h1&gt;</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">      <span class="kw">&lt;span&gt;</span>投稿日時とか<span class="kw">&lt;/span&gt;</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">    <span class="kw">&lt;/header&gt;</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">    <span class="kw">&lt;section&gt;</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">      記事の本文</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">      ...</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">    <span class="kw">&lt;/section&gt;</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">    <span class="kw">&lt;footer&gt;</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">      個別記事のフッタ。パーマリンクなど</a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">    <span class="kw">&lt;/footer&gt;</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">  <span class="kw">&lt;/article&gt;</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">  <span class="kw">&lt;footer&gt;</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">    ブログ全体のフッター、コピーライトなど</a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">  <span class="kw">&lt;/footer&gt;</span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="kw">&lt;/body&gt;</span></a></code></pre>
 <h2 id="コンテンツスタイルスクリプト">コンテンツ・スタイル・スクリプト</h2>
 <p>大枠はできました。 ブラウザに表示して、白と黒の画面を眺めながら、 どうやってコンテンツを作っていくか考えましょう。</p>
 <p>全てのコンテンツで生 html を書くのは常軌を逸しています。 また、どうせならコンテンツは markdown で書いていきたいものです。</p>
@@ -142,12 +160,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>postcss-cli, postcss-cssnext 使えば cc っぽくいける</p>
 <pre><code>$ yarn init
 $ yarn add postcss-cli postcss-cssnext</code></pre>
-<div class="sourceCode"><pre class="sourceCode javascript:postcss.config.js"><code class="sourceCode javascript"><span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> <span class="op">{</span>
-  <span class="dt">plugins</span><span class="op">:</span> [
-    <span class="at">require</span>(<span class="st">&#39;postcss-import&#39;</span>)<span class="op">,</span>
-    <span class="at">require</span>(<span class="st">&#39;postcss-cssnext&#39;</span>)
-  ]
-<span class="op">}</span></code></pre></div>
+<pre class="sourceCode javascript:postcss.config.js" id="cb5"><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="dt">plugins</span><span class="op">:</span> [</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    <span class="at">require</span>(<span class="st">&#39;postcss-import&#39;</span>)<span class="op">,</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">    <span class="at">require</span>(<span class="st">&#39;postcss-cssnext&#39;</span>)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  ]</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="op">}</span></a></code></pre>
 <p>css は全体で一つの css を使うのか？　それとも個別 css を使うのか？ とりあえず一つの css を使う。</p>
 <h2 id="スタイル">スタイル</h2>
 <p>reset.css</p>

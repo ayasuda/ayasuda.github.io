@@ -47,7 +47,7 @@ ruby 2.2.7p470 (2017-03-28 revision 58194) [x86_64-linux]</code></pre>
 <pre><code>$ docker run [OPTIONS] IMAGE [COMMAND] [ARGS...]</code></pre>
 <p>OPTIONS は <code>docker run</code> に渡すオプションです。 先ほど、 redmine イメージを載せたコンテナを起動した際に <code>-p, --publish</code> オプションを 使い、ホストマシンとコンテナとのポートをマッピングしました。 他にも、ホストマシンの指定ディレクトリとコンテナ内の指定ディレクトリとを紐付ける <code>-v, --volume</code> オプションや コンテナの起動をバックグラウンドで行う <code>-d, --detach</code> オプションなどがあります。</p>
 <p>IMAGE はコンテナに載せて起動する docker イメージです。イメージについては次の項でもう少し詳しく説明します。</p>
-<p>COMMAND [ARGS...] はイメージを載せたコンテナ上で実行したいコマンドです。 先ほどは <code>ruby --version</code> を指定したので、コンテナ上で <code>ruby --version</code> が実行されました。 docker イメージにはコンテナ実行時にデフォルトで実行するコマンドが用意されているものも多くあり、 <code>redmine</code> イメージもその一つなので、特にコマンドを指定しない場合はコンテナ内部で <code>rails server</code> が実行されていました。 デフォルトのコマンドが用意されているイメージでは、 COMMAND [ARGS...] を指定することで コンテナ上ではデフォルトのコマンドではなく、指定したコマンドが実行されます。 デフォルトのコマンドが用意されていないイメージでは、 COMMAND [ARGS...] を指定しないとすぐにコンテナが終了します。</p>
+<p>COMMAND [ARGS…] はイメージを載せたコンテナ上で実行したいコマンドです。 先ほどは <code>ruby --version</code> を指定したので、コンテナ上で <code>ruby --version</code> が実行されました。 docker イメージにはコンテナ実行時にデフォルトで実行するコマンドが用意されているものも多くあり、 <code>redmine</code> イメージもその一つなので、特にコマンドを指定しない場合はコンテナ内部で <code>rails server</code> が実行されていました。 デフォルトのコマンドが用意されているイメージでは、 COMMAND [ARGS…] を指定することで コンテナ上ではデフォルトのコマンドではなく、指定したコマンドが実行されます。 デフォルトのコマンドが用意されていないイメージでは、 COMMAND [ARGS…] を指定しないとすぐにコンテナが終了します。</p>
 <h2 id="イメージとは何か">イメージとは何か？</h2>
 <p>イメージとはコンテナの元です。</p>
 <p>イメージについて理解を深めるために、 世界中の人々が作成したイメージが集まる <a href="https://hub.docker.com/">Docker Hub</a> へアクセスし、 <a href="https://hub.docker.com/r/docker/whalesay/">docker/whalesay</a> へ移動します。</p>
@@ -87,7 +87,7 @@ ruby 1.9.3p484 (2013-11-22 revision 43786) [x86_64-linux]</code></pre>
 <p>新しいイメージは docker hub などにあげることで、他のホストでも利用することができるようになります。 こうすることで <strong>他のホストでも同じ環境でアプリケーションを実行する</strong> ことができるようになります。</p>
 <h2 id="dockerfile">Dockerfile</h2>
 <p><code>docker commit</code> コマンドを使うこと新しいイメージを作ることができるのはお分かりいただけたかと思います。 しかし、この方法には幾つかのデメリットがあります。</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>操作が煩わしい。ミスをした時などに気軽に修正しづらい。</li>
 <li>公開されているイメージが、具体的にどのように作られたのかの検証性に欠ける</li>
 </ol>

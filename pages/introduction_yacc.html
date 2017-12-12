@@ -9,41 +9,59 @@
   <title>これはタイトルです</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color: initial; }
+}
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.bn { color: #40a070; } /* BaseN */
+code span.fl { color: #40a070; } /* Float */
+code span.ch { color: #4070a0; } /* Char */
+code span.st { color: #4070a0; } /* String */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.ot { color: #007020; } /* Other */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.fu { color: #06287e; } /* Function */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #880000; } /* Constant */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #19177c; } /* Variable */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.op { color: #666666; } /* Operator */
+code span.bu { } /* BuiltIn */
+code span.ex { } /* Extension */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.at { color: #7d9029; } /* Attribute */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="/css/style.css">
   <!--[if lt IE 9]>
@@ -99,39 +117,39 @@ This program built for i386-apple-darwin11.3.0</code></pre>
 <p>まずは作業用のディレクトリを作り、そこに移動しましょう。</p>
 <pre><code>$ mkdir minimal
 $ cd minimal</code></pre>
-<p>早速、&quot;Hello, World.&quot; と表示されるだけのプログラムを書いてみましょう。 構文解析器の定義ファイルである minimal.y を次のように書きます。</p>
-<div class="sourceCode"><pre class="sourceCode yacc:minimal.y"><code class="sourceCode yacc"><span class="bn">%{</span>
-<span class="ot">#include</span> &lt;stdio.h&gt;
-int yyerror(const char *s);
-int yylex(void);
-<span class="kw">%</span>}
-
-<span class="bn">%%</span>
-
-<span class="st">PROGRAM </span>: ;
-
-<span class="bn">%%</span>
-
-<span class="dt">int</span> main()
-{
-  yyparse();
-  printf(<span class="st">&quot;</span>Hello, World.\n&quot;);
-  return 0;
-}
-int yyerror(const char *s) { return 0; }
-int yylex(void) { return 0; }</code></pre></div>
-<p>書けたら早速動かしてみましょう。まずは yacc を用いて C のコードを生成します。 この時、何も指定しなければ <code>y.tab.c</code> というファイルが生成されるはずです。 次に、この C のコードをコンパイルして実行可能にします。 コンパイルができたら、動かしてみて、 &quot;Hello,World.&quot; と表示されるのを確認しましょう。</p>
+<p>早速、“Hello, World.” と表示されるだけのプログラムを書いてみましょう。 構文解析器の定義ファイルである minimal.y を次のように書きます。</p>
+<pre class="sourceCode yacc:minimal.y" id="cb6"><code class="sourceCode yacc"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="bn">%{</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="dt">int</span> yyerror(<span class="at">const</span> <span class="dt">char</span> *s);</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="dt">int</span> yylex(<span class="dt">void</span>);</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="bn">%}</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="bn">%%</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="st">PROGRAM </span>: ;</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="bn">%%</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="dt">int</span> main()</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">{</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">  yyparse();</a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">  printf(<span class="st">&quot;Hello, World.</span><span class="sc">\n</span><span class="st">&quot;</span>);</a>
+<a class="sourceLine" id="cb6-17" data-line-number="17">  <span class="cf">return</span> <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb6-18" data-line-number="18">}</a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="dt">int</span> yyerror(<span class="at">const</span> <span class="dt">char</span> *s) { <span class="cf">return</span> <span class="dv">0</span>; }</a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="dt">int</span> yylex(<span class="dt">void</span>) { <span class="cf">return</span> <span class="dv">0</span>; }</a></code></pre>
+<p>書けたら早速動かしてみましょう。まずは yacc を用いて C のコードを生成します。 この時、何も指定しなければ <code>y.tab.c</code> というファイルが生成されるはずです。 次に、この C のコードをコンパイルして実行可能にします。 コンパイルができたら、動かしてみて、 “Hello,World.” と表示されるのを確認しましょう。</p>
 <pre><code>$ yacc minimal.y
 $ cc y.tab.c
 $ ./a.out
 Hello, World.</code></pre>
 <h3 id="定義ファイルの構造">定義ファイルの構造</h3>
 <p>yacc で用いる定義ファイルは宣言部、定義部、プログラム部の 3 部で構成され、それぞれ <code>%%</code> で区切られます。</p>
-<div class="sourceCode"><pre class="sourceCode yacc"><code class="sourceCode yacc"><span class="co">/* 宣言部 */</span>
-<span class="bn">%%</span>
-<span class="co">/* 定義部 */</span>
-<span class="bn">%%</span>
-<span class="co">/*</span> プログラム部 */</code></pre></div>
+<pre class="sourceCode yacc" id="cb8"><code class="sourceCode yacc"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">/* 宣言部 */</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="bn">%%</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">/* 定義部 */</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="bn">%%</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">/* プログラム部 */</span></a></code></pre>
 <p>このうち、宣言部及びプログラム部は省略が可能です。</p>
 <p>宣言部では使用する字句の宣言や全体で使う C の対局変数定義、関数の宣言などを行います。 定義部には構文解析で用いる、構文規則(文法の定義)を、そしてプログラム部では C の関数実装などを行います。</p>
 <p>先ほど作った <code>minimal.y</code> を見ていきましょう。</p>
@@ -144,12 +162,12 @@ Hello, World.</code></pre>
 <pre><code>date : year &#39;/&#39; month &#39;/&#39; day ;</code></pre>
 <p>この構文規則では、次のような書式を「日付」として扱うと定義しています。</p>
 <blockquote>
-<p>「日付」は、まず「年」があり、次に '/' があり、次に「月」があり、次に '/' があり、最後に「日」が書かれている物である</p>
+<p>「日付」は、まず「年」があり、次に ‘/’ があり、次に「月」があり、次に ‘/’ があり、最後に「日」が書かれている物である</p>
 </blockquote>
-<p>このような構文規則を定義することで、例えば &quot;2017/10/21&quot; のような文字列が「日付」として処理されるようになります。</p>
+<p>このような構文規則を定義することで、例えば “2017/10/21” のような文字列が「日付」として処理されるようになります。</p>
 <p>ところで、上記のような定義を見ると、<code>year</code> とか、 <code>month</code> とかも構文規則が必要になることに気づくかと思います。 その通りで、どんどんどんどん構文規則を定義していくと、最後は「文字」とか、「記号」とかのレベルまで分解可能です。 逆に言えば、「文字」とか「記号」とかは特に定義をする必要がありません。このように、構文規則の右側にのみ現れる記号を 「終端記号」といい、構文規則として定義される記号を「非終端記号」と呼びます。 「日付」の例で言えば、 <code>year</code> や <code>day</code> は非終端記号であり、別に構文規則の定義がされます。 一方、 <code>'/'</code> はスラッシュ記号そのものであり、定義はされません。つまり終端記号です。</p>
 <h3 id="構文規則の選択">構文規則の選択</h3>
-<p>さて、世の中には同じ記号を複数の構文規則で定義したい場合があります。 例えば、 &quot;2017/10/21&quot; も &quot;2017-10-21&quot; も「日付」として扱いたい場合などです。</p>
+<p>さて、世の中には同じ記号を複数の構文規則で定義したい場合があります。 例えば、 “2017/10/21” も “2017-10-21” も「日付」として扱いたい場合などです。</p>
 <p>この場合、yaccの構文規則では、次のように並べて書くことができます。</p>
 <pre><code>date : year &#39;/&#39; month &#39;/&#39; day ;
 date : year &#39;-&#39; month &#39;-&#39; day ;</code></pre>
@@ -158,7 +176,7 @@ date : year &#39;-&#39; month &#39;-&#39; day ;</code></pre>
      | year &#39;-&#39; month &#39;-&#39; day
      ;</code></pre>
 <h3 id="再帰的な定義">再帰的な定義</h3>
-<p>再帰的に構文規則を定義することで柔軟な文法を定義することができるのも特徴です。 例えば &quot;1,2&quot; も &quot;1,2,3&quot; も「リスト」として扱いたいみたいな場合は、次のように定義します。 (item は [0-9]+ とする)</p>
+<p>再帰的に構文規則を定義することで柔軟な文法を定義することができるのも特徴です。 例えば “1,2” も “1,2,3” も「リスト」として扱いたいみたいな場合は、次のように定義します。 (item は [0-9]+ とする)</p>
 <pre><code>list : item
      | item list
      ;</code></pre>
@@ -191,7 +209,7 @@ C : &#39;.&#39;
            { $$ = $2 }</code></pre>
 <p>この定義は次のようになります。</p>
 <blockquote>
-<p>「式」は '()' でくくっても、「式」</p>
+<p>「式」は ‘()’ でくくっても、「式」</p>
 </blockquote>
 <h3 id="字句解析の定義">字句解析の定義</h3>
 <p>最初の方にも書きましたが、一般的なコンパイラでは字句解析器が字句解析をし、 それによって得られた字句の集合を元に構文解析器が構文解析をします。 そして、yacc は構文解析器を作るツールです。</p>
@@ -208,36 +226,36 @@ $ lex minimal.l
 $ ls
 minimal.l lex.yy.c</code></pre>
 <p>また、定義ファイルの構成も似ており、宣言部、定義部、プログラム部の 3 部で構成され、それぞれ <code>%%</code> で区切られます。</p>
-<div class="sourceCode"><pre class="sourceCode yacc"><code class="sourceCode yacc"><span class="co">/* 宣言部 */</span>
-<span class="bn">%%</span>
-<span class="co">/* 定義部 */</span>
-<span class="bn">%%</span>
-<span class="co">/*</span> プログラム部 */</code></pre></div>
+<pre class="sourceCode yacc" id="cb20"><code class="sourceCode yacc"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co">/* 宣言部 */</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="bn">%%</span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="co">/* 定義部 */</span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="bn">%%</span></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="co">/* プログラム部 */</span></a></code></pre>
 <p>lex で定義するのは字句解析器向けのルールになるので、定義部は yacc で用いる定義ファイルと異なります。 lex で定義する字句解析ルールの書き方は簡単で、まずマッチさせるための正規表現を書き、次にアクションを書くだけです。 アクションは C のプログラムコードで書き、1文ならそのまま、2文以上なら <code>{}</code> で囲んで書きます。</p>
 <p>サンプルとして、単語数を数える字句解析器のコードを見ながら説明しましょう。</p>
-<div class="sourceCode"><pre class="sourceCode lex:mywc.l"><code class="sourceCode lex"><span class="kw">%option noyywrap</span>
-<span class="bn">%{</span>
-  <span class="dt">int</span> num_lines = <span class="dv">0</span>, num_words = <span class="dv">0</span>, num_chars = <span class="dv">0</span>;
-<span class="bn">%}</span>
-<span class="bn">%%</span>
-
-<span class="st">\n</span> { ++num_lines; }
-<span class="st">[a-zA-Z0-9]*</span> { ++num_words; }
-<span class="st">.</span> { ++num_chars; }
-
-<span class="bn">%%</span>
-
-<span class="dt">int</span> main(<span class="dt">void</span>) {
-  yylex();
-  printf(<span class="st">&quot;</span># of lines = <span class="kw">%d, # of words = %d # of chars = %d\n&quot;, num_lines, num_words, num_chars);</span>
-}</code></pre></div>
+<pre class="sourceCode lex:mywc.l" id="cb21"><code class="sourceCode lex"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">%option noyywrap</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="bn">%{</span></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">  <span class="dt">int</span> num_lines = <span class="dv">0</span>, num_words = <span class="dv">0</span>, num_chars = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="bn">%}</span></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="bn">%%</span></a>
+<a class="sourceLine" id="cb21-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="st">\n</span> { ++num_lines; }</a>
+<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="st">[a-zA-Z0-9]*</span> { ++num_words; }</a>
+<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="st">.</span> { ++num_chars; }</a>
+<a class="sourceLine" id="cb21-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb21-11" data-line-number="11"><span class="bn">%%</span></a>
+<a class="sourceLine" id="cb21-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb21-13" data-line-number="13"><span class="dt">int</span> main(<span class="dt">void</span>) {</a>
+<a class="sourceLine" id="cb21-14" data-line-number="14">  yylex();</a>
+<a class="sourceLine" id="cb21-15" data-line-number="15">  printf(<span class="st">&quot;# of lines = </span><span class="sc">%d</span><span class="st">, # of words = </span><span class="sc">%d</span><span class="st"> # of chars = </span><span class="sc">%d\n</span><span class="st">&quot;</span>, num_lines, num_words, num_chars);</a>
+<a class="sourceLine" id="cb21-16" data-line-number="16">}</a></code></pre>
 <p>この定義ファイルを元に字句解析器を作り、動かしてみると(精度はイマイチですが)きちんと動くのがわかるかと思います。</p>
 <pre><code>$ lex mywc.l
 $ cc lex.yy.c
 $ cat mywc.l | ./a.out
 # of lines = 17, # of words = 42 # of chars = 133</code></pre>
 <p>さて、この lex を使って yacc 向けの <code>int yylex(void);</code> 関数を実装するわけですが、 この時、上記に示した lex 単体で動くプログラム、 <code>mywc.l</code> と次の3点を変える必要があります。</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>lex 向けのオプション noyywrap を消す (要調査)</li>
 <li>lex のアクションで字句名を返すようにする</li>
 <li>lex と yacc で同じ字句名を使えるように、 lex 側で y.tab.h (yacc の生成するヘッダ) を読み込む</li>
@@ -247,12 +265,12 @@ $ cat mywc.l | ./a.out
 <pre><code>$ mkdir datefinder
 $ cd datefinder</code></pre>
 <p>次に、字句解析器の定義を作っていきます。 字句解析器は、与えられた文字列を、字句ごとにバラバラにするのが目的です。 今回は、与えられた文字列を、「年」「月」「日」「それ以外」に分解していきましょう。</p>
-<p>なお、簡単にするために「月」は英語の省略形 (例えば 'Jan') のみを認めることにします。</p>
-<div class="sourceCode"><pre class="sourceCode lex:datefinder.l"><code class="sourceCode lex"><span class="bn">%%</span>
-
-
-
-<span class="bn">%%</span></code></pre></div>
+<p>なお、簡単にするために「月」は英語の省略形 (例えば ‘Jan’) のみを認めることにします。</p>
+<pre class="sourceCode lex:datefinder.l" id="cb24"><code class="sourceCode lex"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="bn">%%</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="bn">%%</span></a></code></pre>
 <h2 id="もう少しマシな解析器---加算器">もう少しマシな解析器 - 加算器</h2>
 <p>yacc の詳細を探りながら、次の話に進みましょう。</p>
 <h3 id="加算減算器の実装">加算・減算器の実装</h3>

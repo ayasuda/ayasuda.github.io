@@ -11,41 +11,59 @@
   <title>rails new するとできる bin ディレクトリまとめ</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color: initial; }
+}
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.bn { color: #40a070; } /* BaseN */
+code span.fl { color: #40a070; } /* Float */
+code span.ch { color: #4070a0; } /* Char */
+code span.st { color: #4070a0; } /* String */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.ot { color: #007020; } /* Other */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.fu { color: #06287e; } /* Function */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #880000; } /* Constant */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #19177c; } /* Variable */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.op { color: #666666; } /* Operator */
+code span.bu { } /* BuiltIn */
+code span.ex { } /* Extension */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.at { color: #7d9029; } /* Attribute */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="/css/style.css">
   <!--[if lt IE 9]>
@@ -101,44 +119,44 @@ $ bin/setup
 # other steps...</code></pre>
 <p>実際のところは、デフォルトで最小限のセットアップ構成が書かれているだけです。</p>
 <p>短いので以下にファイルを転載します。ご覧の通り、本当に最小限のスクリプトです。 このスクリプトをメンテナンスすることで、プロジェクトに新しいメンバーがアサインされた際などの手間が省けます。</p>
-<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">#!/usr/bin/env ruby</span>
-require <span class="st">&#39;pathname&#39;</span>
-require <span class="st">&#39;fileutils&#39;</span>
-include <span class="dt">FileUtils</span>
-
-<span class="co"># アプリケーションのルートパス</span>
-<span class="dt">APP_ROOT</span> = <span class="dt">Pathname</span>.new <span class="dt">File</span>.expand_path(<span class="st">&#39;../../&#39;</span>, <span class="dv">__FILE__</span>)
-
-<span class="kw">def</span> system!(*args)
-  system(*args) || abort(<span class="st">&quot;\n== Command </span><span class="ot">#{</span>args<span class="ot">}</span><span class="st"> failed ==&quot;</span>)
-<span class="kw">end</span>
-
-chdir <span class="dt">APP_ROOT</span> <span class="kw">do</span>
-  <span class="co"># このスクリプトはアプリケーションのセットアップの第一ステップとなります。</span>
-  <span class="co"># ですので、必要なステップをこのファイルに追加していってください</span>
-
-  puts <span class="st">&#39;== Installing dependencies ==&#39;</span>
-  system! <span class="st">&#39;gem install bundler --conservative&#39;</span>
-  system(<span class="st">&#39;bundle check&#39;</span>) || system!(<span class="st">&#39;bundle install&#39;</span>)
-
-  <span class="co"># JavaScript の依存ライブラリを yarn を使ってインストールします</span>
-  <span class="co"># system(&#39;bin/yarn&#39;)</span>
-
-
-  <span class="co"># puts &quot;\n== Copying sample files ==&quot;</span>
-  <span class="co"># unless File.exist?(&#39;config/database.yml&#39;)</span>
-  <span class="co">#   cp &#39;config/database.yml.sample&#39;, &#39;config/database.yml&#39;</span>
-  <span class="co"># end</span>
-
-  puts <span class="st">&quot;\n== Preparing database ==&quot;</span>
-  system! <span class="st">&#39;bin/rails db:setup&#39;</span>
-
-  puts <span class="st">&quot;\n== Removing old logs and tempfiles ==&quot;</span>
-  system! <span class="st">&#39;bin/rails log:clear tmp:clear&#39;</span>
-
-  puts <span class="st">&quot;\n== Restarting application server ==&quot;</span>
-  system! <span class="st">&#39;bin/rails restart&#39;</span>
-<span class="kw">end</span></code></pre></div>
+<pre class="sourceCode ruby" id="cb4"><code class="sourceCode ruby"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">#!/usr/bin/env ruby</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">require <span class="st">&#39;pathname&#39;</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">require <span class="st">&#39;fileutils&#39;</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">include <span class="dt">FileUtils</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co"># アプリケーションのルートパス</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="dt">APP_ROOT</span> = <span class="dt">Pathname</span>.new <span class="dt">File</span>.expand_path(<span class="st">&#39;../../&#39;</span>, <span class="dv">__FILE__</span>)</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="kw">def</span> system!(*args)</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">  system(*args) || abort(<span class="st">&quot;\n== Command </span><span class="ot">#{</span>args<span class="ot">}</span><span class="st"> failed ==&quot;</span>)</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="kw">end</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">chdir <span class="dt">APP_ROOT</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">  <span class="co"># このスクリプトはアプリケーションのセットアップの第一ステップとなります。</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">  <span class="co"># ですので、必要なステップをこのファイルに追加していってください</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">  puts <span class="st">&#39;== Installing dependencies ==&#39;</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18">  system! <span class="st">&#39;gem install bundler --conservative&#39;</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19">  system(<span class="st">&#39;bundle check&#39;</span>) || system!(<span class="st">&#39;bundle install&#39;</span>)</a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21">  <span class="co"># JavaScript の依存ライブラリを yarn を使ってインストールします</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22">  <span class="co"># system(&#39;bin/yarn&#39;)</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25">  <span class="co"># puts &quot;\n== Copying sample files ==&quot;</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26">  <span class="co"># unless File.exist?(&#39;config/database.yml&#39;)</span></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27">  <span class="co">#   cp &#39;config/database.yml.sample&#39;, &#39;config/database.yml&#39;</span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28">  <span class="co"># end</span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb4-30" data-line-number="30">  puts <span class="st">&quot;\n== Preparing database ==&quot;</span></a>
+<a class="sourceLine" id="cb4-31" data-line-number="31">  system! <span class="st">&#39;bin/rails db:setup&#39;</span></a>
+<a class="sourceLine" id="cb4-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb4-33" data-line-number="33">  puts <span class="st">&quot;\n== Removing old logs and tempfiles ==&quot;</span></a>
+<a class="sourceLine" id="cb4-34" data-line-number="34">  system! <span class="st">&#39;bin/rails log:clear tmp:clear&#39;</span></a>
+<a class="sourceLine" id="cb4-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb4-36" data-line-number="36">  puts <span class="st">&quot;\n== Restarting application server ==&quot;</span></a>
+<a class="sourceLine" id="cb4-37" data-line-number="37">  system! <span class="st">&#39;bin/rails restart&#39;</span></a>
+<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="kw">end</span></a></code></pre>
 <h2 id="update">update</h2>
 <p>Rails が用意する、「アプリケーションを更新するスクリプト」です。</p>
 <p><a href="https://github.com/rails/rails/pull/20972">プルリクエスト</a> を見れば意図は明白ですが、 ある Rails プロジェクトを更新、例えば <code>git pull origin</code> した後などに、変更されたすべてを更新させるスクリプトです。</p>
