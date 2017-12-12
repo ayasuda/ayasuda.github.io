@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="description" content="初めて Maven に触れる人向けに、５分でわかる Maven の流れをまとめておきました">
+  <meta name="keywords" content="Java, Maven">
+  <title>俺のための Maven 入門</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+  <h1><a href="/">ayasuda.github.io</a></h1>
+  <h2>俺のための Maven 入門</h2>
+  <h3>2017-12-12</h3>
+</header>
+<article>
+<p>なにもかもを忘れっぽい自分のために、 <a href="https://maven.apache.org">Apache Maven</a> の入門記事をまとめておこうと思う。</p>
+<p><em>毎度のことだけど、正しい情報は公式サイト読もうね</em></p>
+<h1 id="apache-maven">Apache Maven</h1>
+<p>Apache Maven はプロジェクトマネジメントツールで、Project Object Model (POM) というモデルをコンセプトとしている。 Maven を使うことで、プロジェクトのビルドやドキュメンテーションなど様々なことを行うことができる。</p>
+<p>インストール方法とかは <em>公式サイト読もうね</em></p>
+<h2 id="使い方">使い方</h2>
+<p>コマンドとオプションは下記の通り。</p>
+<pre class="shell"><code>$ mvn [options] [&lt;goal(s)&gt;] [&lt;phase(s)&gt;]</code></pre>
+<p>細かいオプションは <code>mvn -h</code> しよう。</p>
+<p>さて、 Maven life cycle phase に基づいた Maven project を構成しているなら、典型的には下記のコマンドでパッケージを作成できる。</p>
+<pre><code>$ mvn package</code></pre>
+<p>ビルトインのライフサイクルと各フェイズは次の順になっている。</p>
+<ul>
+<li>clean - pre-clean, clean, post-clean</li>
+<li>default - validate, initialize, generate-sources, process-sources, generate-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy</li>
+<li>site - pre-site, site, post-site, site-deploy</li>
+</ul>
+<h2 id="これはなに">これはなに？</h2>
+<p>Maven は Jakarta Turbine project のビルドプロセスを簡単にするために開発されました Ant の後継ツールで、Java ベースのプロジェクトを運用しやすくするために作られている。 Maven のゴールは開発者が短時間に開発状態などを理解しやすくさせることだ。つまり、下記の５点をゴールとしている。</p>
+<ul>
+<li>ビルドプロセスを簡単にできること</li>
+<li>一定のビルドシステムを提供すること</li>
+<li>高水準のプロジェクト情報を提供すること</li>
+<li>開発のベストプラクティスやガイドラインを提供すること</li>
+<li>新しい機能へ簡単に移行できること</li>
+</ul>
+<p>まあ噛み砕いて言えば、「プロジェクトにアサインされた時、最初に使えば何となくわかるツール」みたいなものだ。</p>
+<p>これだけ見ればとりあえず動かしたり、テストしたり、ドキュメントを生成できたりできるようになる、そんなはずのツールだ。</p>
+<h2 id="主な使い方">主な使い方</h2>
+<p>さあ、Maven に慣れるために、早速使い始めてみよう。</p>
+<p>まずは Maven プロジェクトを作ってみよう。 <a href="http://maven.apache.org/archetype/maven-archetype-plugin/generate-mojo.html">archetype:generate</a> で、 一般的な Maven プロジェクトを開始できる。</p>
+<p>このコマンドでは「アーキタイプ」を用いてプロジェクトを作成する。 アーキタイプとは、例えば “シンプルなJavaプロジェクト” や “GUIプロジェクト”, “サーバサイドアプリ” などのことだ。</p>
+<p>早速、実行してみよう。</p>
+<pre><code>$ mavn archetype:generate</code></pre>
+<p>さて、このコマンドに特にオプションを指定しない場合、自動的にウィザードが立ち上がって、それに答えることで設定が行われていく。</p>
+<p>そんなわけで、下記に示すように、いきなり「アーキタイプ」の選択肢が <em>2012個ほど</em> 提示される。</p>
+<pre><code>2011: remote -&gt; us.fatehi:schemacrawler-archetype-plugin-dbconnector (-)
+2012: remote -&gt; us.fatehi:schemacrawler-archetype-plugin-lint (-)
+Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): 1095:</code></pre>
+<p>大抵のなにが何だかわからないが、とりあえず今回はデフォルトの 1095 を使うこととする。 ちなみに 1095 は <em>An archetype which contains a sample Maven project.</em> とのことで、サンプルプロジェクトらしい。</p>
+<p>デフォルトのままで良いのでそのまま Enter キーを押すと、次にバージョンが聞かれる</p>
+<pre><code>Choose org.apache.maven.archetypes:maven-archetype-quickstart version:
+1: 1.0-alpha-1
+2: 1.0-alpha-2
+3: 1.0-alpha-3
+4: 1.0-alpha-4
+5: 1.0
+6: 1.1
+Choose a number: 6:</code></pre>
+<p>これもそのままで良いので Enter キーを押す。 すると、次に groupId が聞かれる。 groupId はプロジェクトを一意に識別する名前だ。 例えば、example.com というグループで alice というプロジェクトを行なっているなら <code>com.example.alice</code> を入れる。 groupId の次は artifactId だ。これはプロジェクトの成果物を表す名前で、JAR や WAR, EAR ファイルの名前に使われる。 その次は現在のバージョン入力が求められる。これはデフォルトのままで良い。 そして package 名が求められる。ここも基本的にはデフォルトのままでよい。</p>
+<pre><code>Define value for property &#39;groupId&#39;: com.example.alice
+Define value for property &#39;artifactId&#39;: hello
+Define value for property &#39;version&#39; 1.0-SNAPSHOT: :
+Define value for property &#39;package&#39; com.example.alice: :</code></pre>
+<p>ここまで入力すると、最後に確認が表示される。OKなら <code>Y</code> を入力する。</p>
+<pre><code>Confirm properties configuration:
+groupId: com.example.alice
+artifactId: hello
+version: 1.0-SNAPSHOT
+package: com.example.alice
+ Y: :</code></pre>
+<p>ここまでの入力が終わったら自動的にプロジェクトが作られる。</p>
+<pre><code>% tree
+.
+└── hello
+    ├── pom.xml
+    └── src
+        ├── main
+        │   └── java
+        │       └── com
+        │           └── example
+        │               └── alice
+        │                   └── App.java
+        └── test
+            └── java
+                └── com
+                    └── example
+                        └── alice
+                            └── AppTest.java
+
+12 directories, 3 files</code></pre>
+<p>さて、プロジェクトディレクトリに移動して、コンパイルをしてみよう。 デフォルトで、上の方に示した goal, phase が全て定義済みとなっているが、よく使うのはこの辺りのコマンドだ。</p>
+<div class="line-block"><code>mvn compile</code> | Java のコードをコンパイルして target ディレクトリに配置する |
+<code>mvn test</code> | 単体テストを実行する |
+<code>mvn package</code> | パッケージを生成して target ディレクトリに配置する |
+<code>mvn install</code> | 作成されたパッケージをローカルリポジトリにインストールする。これにより、ローカル内の他のプロジェクトから参照可能になる。 |
+<code>mvn deploy</code> | 作成されたパッケージをリモートリポジトリに配置する。これにより、登録されたリモートリポジトリへのアクセス権がある他の開発者が参照可能になる。 |
+<code>mvn clean</code> | compile, test, package, などで生成された成果物を削除する |
+<code>mvn javadoc:javadoc</code> | Javadoc を生成する |</div>
+<p>早速、パッケージを作成し、実行してみよう。上にも示した通り、パッケージの作成は <code>mvn package</code> から行う。</p>
+<pre><code>$ cd hello
+$ mvn package</code></pre>
+<p>こんな風に、作成に成功した風なメッセージが出れば OK だ。</p>
+<pre><code>[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.977 s
+[INFO] Finished at: 2017-12-12T17:36:01+09:00
+[INFO] Final Memory: 18M/307M
+[INFO] ------------------------------------------------------------------------</code></pre>
+<p>作成できたパッケージは、 <code>java</code> コマンドから実行できる。<code>-cp</code> オプションで、classpath をパッケージから読み込み、 今回作成したアプリのメインクラスである <code>com.example.alice.App</code> を指定してやれば実行結果が見られるはずだ。</p>
+<pre><code>$ java -cp target/hello-1.0-SNAPSHOT.jar com.example.alice.App
+Hello, World.</code></pre>
+<p>どうだろう。これで何となく Maven の世界観が分かったと思う。</p>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
+</body>
+</html>
