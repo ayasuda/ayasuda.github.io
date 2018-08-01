@@ -2,10 +2,4 @@
 
 今更ホームページを作ってみるテスト
 
-## Todo
-
-* fotter にこれつけたい
-- [ ] about me ページ
-- [ ] RSS
-- [ ] Donete(patreon)
-- [ ] Twitter
+`rake` で一通り全部コンパイルできる、はず

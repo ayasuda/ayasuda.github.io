@@ -1,6 +1,6 @@
 ---
 title: 'ぼくのための Gradle 入門'
-date: '2018-01-23'
+date: '2018-08-01'
 description: 'Gradle に入門しつつ、とりあえず Hello,World. と Java プログラムを書くまで'
 keywords:
   - Java
