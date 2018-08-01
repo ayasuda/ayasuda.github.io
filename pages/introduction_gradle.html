@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="description" content="Gradle に入門しつつ、とりあえず Hello,World. と Java プログラムを書くまで">
+  <meta name="keywords" content="Java, Gradle">
+  <title>ぼくのための Gradle 入門</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color: initial; }
+}
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.bn { color: #40a070; } /* BaseN */
+code span.fl { color: #40a070; } /* Float */
+code span.ch { color: #4070a0; } /* Char */
+code span.st { color: #4070a0; } /* String */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.ot { color: #007020; } /* Other */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.fu { color: #06287e; } /* Function */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #880000; } /* Constant */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #19177c; } /* Variable */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.op { color: #666666; } /* Operator */
+code span.bu { } /* BuiltIn */
+code span.ex { } /* Extension */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.at { color: #7d9029; } /* Attribute */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+  <h1><a href="/">ayasuda.github.io</a></h1>
+  <h2>ぼくのための Gradle 入門</h2>
+  <h3>2018-01-23</h3>
+</header>
+<article>
+<p>TODO: TODO でラベルした場所一覧</p>
+<p>Ruby な会社から Java な会社に転職したぼく。その前に立ちはだかるのは３つのビルドツールだった。 Java で一番新しいビルドツールは Gradle と聞いたぼくは、早速 Gradle の使い方について調べるのでした。</p>
+<h1 id="what-is-gradle">What is Gradle</h1>
+<p>とりあえず Java で Hello,World できるようなプログラムを考えましょう。 何も使用せずに生でソースコード (例えば <code>HellWorld.java</code>) を書き、 変更するたびに、コンパイル (<code>javac HelloWorld.java</code>) し、そして実行 (<code>java HelloWorld.class</code>) しても良いのですが、作業が煩雑です。 特に、プログラムが大きくなったあと、ライブラリを持ってきたり、ライブラリとリンクしたりするあたりや、コンパイルオプションが増え始めた後は面倒です。</p>
+<p>そこで登場するのがビルドツールで、Java の世界では長らく <a href="https://ant.apache.org">Ant</a> が使われてきました。 ところがどっこいビルドスクリプトの肥大化や複雑化が大変になることが多く、管理コストが悩みのタネになりがちでした。（当たり前だけど使わないよりかははるかにマシではある） そこで出てきたのが <a href="https://maven.apache.org">Maven</a> で、ビルドライフサイクルというよくある手順の形式化や依存関係の自動解決などが提供されとても流行しました。 しかし、暗黙の設定の多さや規約から外れようとした時の手間という弱点が薄々認知されれるようになったある日、 <a href="https://gradle.org/">Gradle</a> が登場したのです。</p>
+<p>Gradle では Maven の良さを取り入れつつ、柔軟性を高めるためにスクリプトの記述言語に Groovy が採用されました。</p>
+<h1 id="gradle-ですぐにビルド実行ができる-helloworld-を表示する-java-アプリを作ろう">Gradle ですぐにビルド・実行ができる、 Hello,World を表示する java アプリを作ろう</h1>
+<p>さて、 <em>Gradleの便利さ</em> を試すために、素の Java と Gradle を使った場合とでどのように違うのか、実際にプログラムを書きながら見ていきましょう。 先ずは、何はともあれ “Hello,World.” を表示するプログラムを書いていきます。</p>
+<p>もちろん、単純なプログラムであれば Gradle を使った方が煩雑です。</p>
+<p>ですが、この後に述べていく通り、複数ファイルで構成されるプログラムや、外部ライブラリを使うプログラムなら Gradle を使うメリットがはっきりわかるはずです。</p>
+<h2 id="素の-java-で書くとどうなる">素の Java で書くとどうなる？</h2>
+<p>さて、素の Java プログラムで Hello,World. を表示するプログラムを書いてみましょう。ひとまず、ディレクトリを用意し、 git リポジトリを用意します。</p>
+<pre class="console"><code>$ mkdir vanilla_java
+$ cd vanilla_java
+$ git init
+$ git commit --allow-emtpy -m &#39;Initial commit&#39;</code></pre>
+<p>そして、アプリケーションコードを作ってみましょう。とりあえず、 Application.java という名前にします。</p>
+<pre class="sourceCode java:application.java" id="cb2"><code class="sourceCode java"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">public</span> <span class="kw">class</span> Application {</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hello, World.&quot;</span>);</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  }</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">}</a></code></pre>
+<p>こいつをコンパイルして、クラスファイルを作り、実行してみましょう。うまくいけば、 Hello,World. と表示されるはずです。</p>
+<pre class="console"><code>$ javac Application.java
+$ ls
+Application.class Application.java
+$ java Application
+Hello, World.</code></pre>
+<p>毎回正確なコマンドを打つのは面倒ですよね？　ですので、実行可能な jar ファイルを生成しておきましょう。</p>
+<p>まず、マニフェストファイルを作ります。このファイルの中には、どのクラスを最初に実行するかを記しておきます。</p>
+<pre class="text:manifest.txt"><code>Manifest-Version: 1.0
+Main-Class: Application</code></pre>
+<p>次に下記のコマンドでファイルをまとめます</p>
+<pre><code>$ jar cvfm app.jar Manifest.txt Application.class</code></pre>
+<p>これで <code>app.jar</code> というファイルができたはずです。この jar ファイルを java コマンドから実行すると、次のようにきちんと実行できるはずです。</p>
+<pre><code>$ java -jar app.jar
+Hello, World.</code></pre>
+<p>ここまでのコードは TODO にあります。</p>
+<h2 id="gradle-を使った-helloworld-プロジェクト">Gradle を使った Hello,World プロジェクト</h2>
+<p>さて、上記と同じことを Gradle を使ってやっていきます。 まずは作業用ディレクトリを用意し、Gradle のビルドファイル、ついでに git リポジトリを用意しておきましょう。</p>
+<pre class="console"><code>$ mkdir with_gradle
+$ cd with_gradle
+$ git init
+$ gradle init</code></pre>
+<p>Gradle のウリとしてプラグイン機構があり java アプリであれば <a href="https://docs.gradle.org/current/userguide/java_plugin.html">Gradle Java Plugin</a> を組み込むことで、 いろんなタスクやその他諸々が自動で設定されます。(ただし規約に従う必要がある) そんなわけで <code>gradle init</code> で生成された <code>build.gradle</code> に次の１行を足します。</p>
+<pre class="groovy:build.gradle"><code>apply plugin: &#39;java&#39;</code></pre>
+<p>Gradle Java Plugin は、デフォルトで <code>src/main/java</code> に java のソースが置かれているものとしてコンパイルタスクなどが組まれています。 ですので、今回作るアプリの Main クラスを <code>src/main/java/パッケージ名/</code> 以下に置くことにしましょう。 ひとまず、パッケージ名を with_gradle として以下のようにディレクトリとファイルを作ります。</p>
+<pre class="console"><code>$ mkdir -p src/main/java/with_gradle
+$ vim src/main/java/with_gradle/Application.java</code></pre>
+<p>今回は “Hello,World.” と表示するだけのプログラムなので、 内容は以下のとおりです。</p>
+<pre class="sourceCode java:src/main/java/with_gradle/application.java" id="cb10"><code class="sourceCode java"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">package</span><span class="im"> with_gradle;</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw">public</span> <span class="kw">class</span> Application {</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hello, World&quot;</span>);</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">  }</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">}</a></code></pre>
+<p>プログラムを書いたら早速ビルドして…</p>
+<pre class="console"><code>$ ./gradlew build</code></pre>
+<p>そして、実行してみましょう。 ビルドをすることで <code>Application.class</code> が <code>build/classes/jaav/main</code> 以下にできたはずです。 ですので、 <code>-classpath</code> オプションを指定して実行します。</p>
+<pre class="console"><code>$ java -classpath ./build/classes/java/main with_gradle.Application
+Hello, World</code></pre>
+<p>しかし、毎回クラスパスを指定するのは面倒です。ですので、簡単に実行できるように jar ファイルを作りましょう。 実行可能な jar ファイルを作るためにはマニフェストが必要でした。 gradle を使う場合、方法は次の３通りです。</p>
+<ol type="1">
+<li>自分でマニフェストファイルを書いて、実行可能な jar ができるようにする</li>
+<li>Gradle Java Plugin の manifest file プロパティを指定して、実行可能な java ができるようにする</li>
+<li>Gradle Applicatoin Plugin を使う</li>
+</ol>
+<p>自分でマニフェストファイルを書く方法についてはよくわからなかったので、ここでは 2, 3 についてみて行きましょう。</p>
+<p>Gradle Java Plugin の jar オブジェクトには manifest プロパティがあり、そこで値を設定することで、 jar タスクにてパッケージする際の <code>MANIFEST.MF</code> の内容を設定できます。 今回は、 <code>Main-Class</code> を <code>with_gradle.Application</code> にしたいので、 <code>build.gradle</code> を下記のように書き換えます。</p>
+<pre class="buidl.gradle"><code>apply plugin: &#39;java&#39;
+
+jar {
+  manifest {
+    attributes(&#39;Main-Class&#39;: &#39;with_gradle.Application&#39;)
+  }
+}</code></pre>
+<p>書き換えたら早速ビルドしてみましょう。</p>
+<pre class="console"><code>$ ./gradlew build</code></pre>
+<p>これにより、正しく Main-Class が設定されたマニフェストファイルを含んだ jar ファイルが <code>build/libs/</code> 以下にできたはずです。 と、いうわけで実行してみましょう。</p>
+<pre class="console"><code>$ java -jar build/libs/with_jar.jar
+Hello, World.</code></pre>
+<p>なお、 jar ファイルの名前は <code>jar.baseName</code> で変更可能です。</p>
+<pre class="buidl.gradle"><code>apply plugin: &#39;java&#39;
+
+jar {
+  baseName = &#39;app&#39;
+  manifest {
+    attributes(&#39;Main-Class&#39;: &#39;what_is_context.Hello&#39;)
+  }
+}</code></pre>
+<p>単に実行をしたいだけならば <a href="https://docs.gradle.org/current/userguide/application_plugin.html">Application Plugin</a> を使うのが最も簡単です。 このプラグインを読み込んで、 <code>mainClassName</code> 属性を設定することで、アプリケーションを実行する <code>run</code> タスクが使えるようになります。</p>
+<pre class="buidl.gradle"><code>apply plugin: &#39;java&#39;
+apply plugin: &#39;application&#39;
+mainClassName = &#39;what_is_context.Hello&#39;</code></pre>
+<p>上記の様にファイルを変更すれば、下記の様に <code>run</code> タスクを実行するだけです。</p>
+<pre class="console"><code>$ ./gradlew run
+Hello, World</code></pre>
+<p>ここまでのソースコードは TODO で確認できます。</p>
+<h1 id="つのファイルに別れた-java-アプリ">2 つのファイルに別れた Java アプリ</h1>
+<p>ここまでの話では、 <em>Gradle を使うメリットなんて感じられない</em> と思います。煩雑になっただけにしか見えないかと思います。 ですが、実際のプログラミングでは1ファイルで済むことはあまりありませんし、外部のライブラリを使わないこともあまりありません。 次に、バニラと Gradle を使った場合とで複数ファイルのプログラミングはどのように違うのかをみていきたいと思います。</p>
+<h2 id="素の-java-で書くと">素の Java で書くと？</h2>
+<p>まず、 Hello, World. の文字列を別のクラスから取得するようにしましょう。特に、<sub>面倒臭く</sub> それっぽくするために、ディレクトリを切ってその下にクラスを置くようにしてみましょう。</p>
+<pre class="sourceCode java:generators/greetingmessagegenerator.java" id="cb19"><code class="sourceCode java"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">package</span><span class="im"> generators;</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="kw">public</span> <span class="kw">class</span> GreetingMessageGenerator {</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span>() {</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">    <span class="kw">return</span> <span class="st">&quot;Hello, World.&quot;</span>;</a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">  }</a>
+<a class="sourceLine" id="cb19-7" data-line-number="7">}</a></code></pre>
+<pre class="sourceCode java:application.java" id="cb20"><code class="sourceCode java"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">import</span><span class="im"> generators.GreetingMessageGenerator;</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw">public</span> <span class="kw">class</span> Application {</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">    <span class="bu">String</span> message = <span class="kw">new</span> <span class="fu">GreetingMessageGenerator</span>().<span class="fu">generate</span>();</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(message);</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">  }</a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">}</a></code></pre>
+<p>この２つのクラスをそれぞれコンパイルしてみましょう。</p>
+<pre class="console"><code>$ javac Application.java generators/GreetingMessageGenerator.java
+$ java Application</code></pre>
+<p>そしてパッケージ化します</p>
+<pre class="console"><code>$ jar cvfm app.jar Application.class generators/GreetingMessageGenerator.class
+$ java -jar app.jar</code></pre>
+<p>ここまでなら先ほどまでとそこまで変わらないから大丈夫ですよね？？</p>
+<p>さて、次にメッセージを書き換えてみましょう。</p>
+<pre class="sourceCode java:generators/greetingmessagegenerator.java" id="cb23"><code class="sourceCode java"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">package</span><span class="im"> generators;</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="kw">public</span> <span class="kw">class</span> GreetingMessageGenerator {</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span>() {</a>
+<a class="sourceLine" id="cb23-5" data-line-number="5">    <span class="kw">return</span> <span class="st">&quot;Hello, Java.&quot;</span>;</a>
+<a class="sourceLine" id="cb23-6" data-line-number="6">  }</a>
+<a class="sourceLine" id="cb23-7" data-line-number="7">}</a></code></pre>
+<p>書き換えたのは GreetingMessageGenerator.java だけなので、コンパイルし直すのはそのファイルだけです。</p>
+<pre class="console"><code>$ javac generators/GreetingMessageGenerator.java
+$ java Application
+Hello, World.</code></pre>
+<p>パッケージの中のクラスファイルも更新する必要があります。</p>
+<pre class="console"><code>$ jar -uf app.jar generators/GreetingMessageGenerator.class
+$ java -jar app.jar
+Hello, World.</code></pre>
+<p>複数ファイルのプログラムでは、ファイルを更新するごとにこの処理が必要になります。 もちろん、毎回全てのファイルをコンパイルし直しやパッケージの作り直しをしてもかまいませんが、プログラムのサイズが大きくなればなるほど時間がかかるようになってしまいます。</p>
+<h2 id="gradle-を使った場合">Gradle を使った場合</h2>
+<p>Gradle を使ったプロジェクトも同様にしましょう。ディレクトリは全て <code>src/main/java/with_gradle</code> 以下に作りましょう。</p>
+<pre class="sourceCode java:src/main/java/with_gradle/generators/greetingmessagegenerator.java" id="cb26"><code class="sourceCode java"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">package</span><span class="im"> generators;</span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="kw">public</span> <span class="kw">class</span> GreetingMessageGenerator {</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4">  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span>() {</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5">    <span class="kw">return</span> <span class="st">&quot;Hello, World.&quot;</span>;</a>
+<a class="sourceLine" id="cb26-6" data-line-number="6">  }</a>
+<a class="sourceLine" id="cb26-7" data-line-number="7">}</a></code></pre>
+<pre class="sourceCode java:src/main/java/with_gradle/application.java" id="cb27"><code class="sourceCode java"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">import</span><span class="im"> generators.GreetingMessageGenerator;</span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="kw">public</span> <span class="kw">class</span> Application {</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</a>
+<a class="sourceLine" id="cb27-5" data-line-number="5">    <span class="bu">String</span> message = <span class="kw">new</span> <span class="fu">GreetingMessageGenerator</span>().<span class="fu">generate</span>();</a>
+<a class="sourceLine" id="cb27-6" data-line-number="6">    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(message);</a>
+<a class="sourceLine" id="cb27-7" data-line-number="7">  }</a>
+<a class="sourceLine" id="cb27-8" data-line-number="8">}</a></code></pre>
+<p>さて、ビルドや実行手順はファイルが１つだろうが複数だろうが、変わりません。</p>
+<pre class="console"><code>$ ./gradlew build
+$ java -jar build/libs/app.jar
+Hello, World.
+$ ./gradlew run
+Hello, World.</code></pre>
+<p>また、更新されていないプログラムは無駄にコンパイルされないなど、便利な機能がいっぱいです！</p>
+<h1 id="外部のライブラリを使う-java-アプリ">外部のライブラリを使う Java アプリ</h1>
+<p>よくある処理はライブラリにまとめられていることがほとんどです。例えば、yaml のパースをするなら <a href="https://bitbucket.org/asomov/snakeyaml/wiki/Documentation">SnakeYAML</a> などがあります。 次に、素の Java と Gradle を使った場合とでライブラリを用いたプログラムの比較をしてみましょう。</p>
+<h2 id="素の-java-で書くと-1">素の Java で書くと？</h2>
+<p>まず、素の java プログラムを書くのであれば、ライブラリをダウンロードしてくる必要があります。 ひとまず SnakeYAML の最新版は <a href="https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.21/snakeyaml-1.21.jar" class="uri">https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.21/snakeyaml-1.21.jar</a> にあります。</p>
+<pre class="console"><code>$ cd path/to/vanilla_java
+$ wget https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.21/snakeyaml-1.21.jar</code></pre>
+<p>さて、このライブラリファイルですが、基本的には git 管理しません。 なぜ管理しないかは色々あるのですが、簡単にいうと</p>
+<ul>
+<li>外部ライブラリのバージョン管理は外部ライブラリ側でやるので自前でバージョン管理する必要はない</li>
+<li>git リポジトリが肥大化するので避けたい</li>
+</ul>
+<p>みたいな理由です。</p>
+<p>さて、早速このライブラリを使ったクラスを作成し、 Application.java からそれを使うように修正してみましょう。</p>
+<pre class="sourceCode java:src/main/java/with_gradle/generators/yamlmessagegenerator.java" id="cb30"><code class="sourceCode java"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">package</span><span class="im"> generators;</span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">import</span><span class="im"> org.yaml.snakeyaml.Yaml;</span></a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="kw">public</span> <span class="kw">class</span> YamlMessageGenerator {</a>
+<a class="sourceLine" id="cb30-5" data-line-number="5">  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span>() {</a>
+<a class="sourceLine" id="cb30-6" data-line-number="6">    <span class="bu">String</span> document = <span class="st">&quot;message: Hello, YAML&quot;</span>;</a>
+<a class="sourceLine" id="cb30-7" data-line-number="7">    Yaml yaml = <span class="kw">new</span> <span class="fu">Yaml</span>();</a>
+<a class="sourceLine" id="cb30-8" data-line-number="8">    Message message = (Message) yaml.<span class="fu">loadAs</span>(document, Message.<span class="fu">class</span>);</a>
+<a class="sourceLine" id="cb30-9" data-line-number="9">    <span class="kw">return</span> message;</a>
+<a class="sourceLine" id="cb30-10" data-line-number="10">  }</a>
+<a class="sourceLine" id="cb30-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb30-12" data-line-number="12">  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">class</span> Message {</a>
+<a class="sourceLine" id="cb30-13" data-line-number="13">    <span class="bu">String</span> message;</a>
+<a class="sourceLine" id="cb30-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb30-15" data-line-number="15">    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getMessage</span>() {</a>
+<a class="sourceLine" id="cb30-16" data-line-number="16">      <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">message</span>;</a>
+<a class="sourceLine" id="cb30-17" data-line-number="17">    }</a>
+<a class="sourceLine" id="cb30-18" data-line-number="18">    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setMessage</span>(<span class="bu">String</span> message) {</a>
+<a class="sourceLine" id="cb30-19" data-line-number="19">      <span class="kw">this</span>.<span class="fu">message</span> = message;</a>
+<a class="sourceLine" id="cb30-20" data-line-number="20">    }</a>
+<a class="sourceLine" id="cb30-21" data-line-number="21">  }</a>
+<a class="sourceLine" id="cb30-22" data-line-number="22">}</a></code></pre>
+<pre class="sourceCode java:application.java" id="cb31"><code class="sourceCode java"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">import</span><span class="im"> generators.YamlMessageGenerator;</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="kw">public</span> <span class="kw">class</span> Application {</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4">  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</a>
+<a class="sourceLine" id="cb31-5" data-line-number="5">    <span class="bu">String</span> message = <span class="kw">new</span> <span class="fu">YamlMessageGenerator</span>().<span class="fu">generate</span>();</a>
+<a class="sourceLine" id="cb31-6" data-line-number="6">    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(message);</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7">  }</a>
+<a class="sourceLine" id="cb31-8" data-line-number="8">}</a></code></pre>
+<p>このプログラムをコンパイル・実行するときには、クラスパスにカレントディレクトリとライブラリとを指定する必要があります。</p>
+<pre class="console"><code>$ javac -classpath .:snakeyaml-1.21.jar Application.java
+$ java -classpath .:snakeyaml-1.21.jar Application</code></pre>
+<p>また、jar ファイルにまとめるときには Class-Path をマニフェストに設定する必要があります。</p>
+<pre class="manifest.txt"><code>Manifest-Version: 1.0
+Main-Class: Application
+Class-Path: snakeyaml-1.21.jar</code></pre>
+<p>jar にまとめた後、app.jar と snakeyaml-1.21.jar とが同じディレクトリにあるときに実行可能です。</p>
+<pre class="console"><code>$ jar cvfm app.jar Manifest.text Application.class generators/*.class
+$ java -jar app.jar</code></pre>
+<p>もちろん、使用するライブラリが増えれば増えるほど、クラスパスへの追加が増えていきますし、使用するライブラリのバージョン管理も大変です。</p>
+<h2 id="gradle-を使った場合-1">Gradle を使った場合</h2>
+<p>Gradle を使っていれば、もう少し話は簡単になります。</p>
+<p>先ずはソースコードを用意しましょう。</p>
+<pre class="sourceCode java:gererators/yamlmessagegenerator.java" id="cb35"><code class="sourceCode java"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">package</span><span class="im"> with_gradle.generators;</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw">import</span><span class="im"> org.yaml.snakeyaml.Yaml;</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="kw">public</span> <span class="kw">class</span> YamlMessageGenerator {</a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span>() {</a>
+<a class="sourceLine" id="cb35-6" data-line-number="6">    <span class="bu">String</span> document = <span class="st">&quot;message: Hello, YAML&quot;</span>;</a>
+<a class="sourceLine" id="cb35-7" data-line-number="7">    Yaml yaml = <span class="kw">new</span> <span class="fu">Yaml</span>();</a>
+<a class="sourceLine" id="cb35-8" data-line-number="8">    Message message = (Message) yaml.<span class="fu">loadAs</span>(document, Message.<span class="fu">class</span>);</a>
+<a class="sourceLine" id="cb35-9" data-line-number="9">    <span class="kw">return</span> message;</a>
+<a class="sourceLine" id="cb35-10" data-line-number="10">  }</a>
+<a class="sourceLine" id="cb35-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb35-12" data-line-number="12">  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">class</span> Message {</a>
+<a class="sourceLine" id="cb35-13" data-line-number="13">    <span class="bu">String</span> message;</a>
+<a class="sourceLine" id="cb35-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb35-15" data-line-number="15">    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getMessage</span>() {</a>
+<a class="sourceLine" id="cb35-16" data-line-number="16">      <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">message</span>;</a>
+<a class="sourceLine" id="cb35-17" data-line-number="17">    }</a>
+<a class="sourceLine" id="cb35-18" data-line-number="18">    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setMessage</span>(<span class="bu">String</span> message) {</a>
+<a class="sourceLine" id="cb35-19" data-line-number="19">      <span class="kw">this</span>.<span class="fu">message</span> = message;</a>
+<a class="sourceLine" id="cb35-20" data-line-number="20">    }</a>
+<a class="sourceLine" id="cb35-21" data-line-number="21">  }</a>
+<a class="sourceLine" id="cb35-22" data-line-number="22">}</a></code></pre>
+<pre class="sourceCode java:src/main/java/with_gradle/application.java" id="cb36"><code class="sourceCode java"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">import</span><span class="im"> with_gradle.generators.YamlMessageGenerator;</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="kw">public</span> <span class="kw">class</span> Application {</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4">  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</a>
+<a class="sourceLine" id="cb36-5" data-line-number="5">    <span class="bu">String</span> message = <span class="kw">new</span> <span class="fu">YamlMessageGenerator</span>().<span class="fu">generate</span>();</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6">    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(message);</a>
+<a class="sourceLine" id="cb36-7" data-line-number="7">  }</a>
+<a class="sourceLine" id="cb36-8" data-line-number="8">}</a></code></pre>
+<p>次に、Gradle のビルドファイルに、外部ライブラリへの依存関係を記します。</p>
+<p>ついでに、Fat-Jar (依存するライブラリなども全て含めた jar ファイル) を作るための <a href="http://imperceptiblethoughts.com/shadow/">Shadow Plugin</a> も導入します。</p>
+<pre class="groovy:build.gradle"><code>// Gradle でのビルド中に Shadow プラグインを使う
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath &#39;com.github.jengelman.gradle.plugins:shadow:2.0.4&#39;
+  }
+}
+apply plugin: &#39;java&#39;
+apply plugin: &#39;application&#39;
+apply plugin: &#39;com.github.johnrengelman.shadow&#39;
+mainClassName = &#39;with_gradle.Application&#39;
+
+jar {
+  manifest {
+    baseName = &#39;app&#39;
+    attributes(&#39;Main-Class&#39;: mainClassName)
+  }
+}
+
+// ライブラリを Maven リポジトリから取得する
+repositories {
+  mavenCentral()
+}
+
+// 依存関係として snakeyaml の 1.21 を追加する
+dependencies {
+  compile group: &#39;org.yaml&#39;, name: &#39;snakeyaml&#39;, version: &#39;1.21&#39;
+}</code></pre>
+<p>さて準備ができたら早速ビルドしてみます。</p>
+<pre><code>$ ./gradlew build
+$ java -jar build/libs/with_gradle-all.jar # fat-jar になっているので、直接実行できます
+Hello, YAML
+$ ./gradlew run
+Hello, YAML</code></pre>
+<p>この後は、使用するライブラリが増えてもビルドスクリプトに追加するだけで済みますし、また、使用するライブラリのバージョンも明記されており、管理が簡単です。</p>
+<h1 id="まとめ">まとめ</h1>
+<p>ここまで Gradle を使った場合と使わないで手作業でやった場合とで Java プログラムの書き方を比較して見ましたがいかがでしょうか？ みなさんも、ぜひ Gradle を使って見てください。</p>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
+</body>
+</html>

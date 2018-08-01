@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <title>これはタイトルです</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color: initial; }
+}
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.bn { color: #40a070; } /* BaseN */
+code span.fl { color: #40a070; } /* Float */
+code span.ch { color: #4070a0; } /* Char */
+code span.st { color: #4070a0; } /* String */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.ot { color: #007020; } /* Other */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.fu { color: #06287e; } /* Function */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #880000; } /* Constant */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #19177c; } /* Variable */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.op { color: #666666; } /* Operator */
+code span.bu { } /* BuiltIn */
+code span.ex { } /* Extension */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.at { color: #7d9029; } /* Attribute */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+  <h1><a href="/">ayasuda.github.io</a></h1>
+  <h2>これはタイトルです</h2>
+  <h3></h3>
+</header>
+<article>
+<p>Spring の Context を理解したいだけの１日だった。</p>
+<p>いきなり Spring Boot から触り始めたゆとり世代の私は、 Context とかよくわからずにプログラムを書いているのでした。 一体なにが <em>Auto-configuration</em> されているかもよくわかっていなかった今日この頃、自分のために改めて Context とはなんなのかを再学習するのです。</p>
+<h1 id="結論">結論</h1>
+<p><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/ApplicationContext.html">JavaDoc</a> に書いてある通りやった！ 単なる設定なんや！</p>
+<p>・・・まぁ、とはいえ Spring のコア機能は含んでいるわけですね。具体的には次の５機能をサポートしているのです。</p>
+<ol type="1">
+<li>Bean ファクトリ。いわゆる DI するためのあれ。Autowired とか動くのは大体これのおかげ。</li>
+<li>ファイルとか読むための <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/io/ResourceLoader.html">Resource Loader</a></li>
+<li>アプリケーション全体でイベントリスナを登録して管理できる <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/ApplicationEventPublisher.html">ApplicationEventPublisher</a></li>
+<li>I18n 対応するための <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/MessageSource.html">MessageSource</a></li>
+<li>Context の親子関係作れるようにするあれこれ</li>
+</ol>
+<p>この文章では、一番大事な 1 の依存性注入あたりについて、実験しながら示していきます。</p>
+<h1 id="gradle-ですぐにビルド実行ができる-helloworld-を表示する-java-アプリを作ろう">0. Gradle ですぐにビルド・実行ができる、 Hello,World を表示する java アプリを作ろう</h1>
+<p>これから、 Java アプリを組みながら Spring がどういう動きをするのか観察をしていきます。 そのため、コードを組んだらすぐに動きが見られるように、 とりあえず Java で Hello,World できるようにビルドスクリプトを組んでおきましょう。</p>
+<p>もちろん、ソースコード (例えば <code>HellWorld.java</code>) を変更するたびに、コンパイル (<code>javac HelloWorld.java</code>) し、そして実行 (<code>java HelloWorld.class</code>) しても良いのですが、作業が煩雑です。 特に、ライブラリを持ってきたり、ライブラリとリンクしたりするあたりが面倒です。 そこでビルドツール <a href="https://gradle.org/">Gradle</a> を使い、気軽にプログラムを実行できるようにしておきます。 (Gradle のインストールは割愛)</p>
+<p>まずは作業用ディレクトリを用意し、Gradle のビルドファイル、ついでに git リポジトリを用意しておきましょう。</p>
+<pre class="console"><code>$ mkdir what-is-context
+$ cd what-is-context
+$ git init
+$ gradle init</code></pre>
+<p>Gradle のウリとしてプラグイン機構があり java アプリであれば <a href="https://docs.gradle.org/current/userguide/java_plugin.html">Gradle Java Plugin</a> を組み込むことで、 いろんなタスクやその他諸々が自動で設定されます。 そんなわけで <code>gradle init</code> で生成された <code>build.gradle</code> に次の１行を足します。</p>
+<pre class="groovy:build.gradle"><code>apply plugin: &#39;java&#39;</code></pre>
+<p>Gradle Java Plugin は、デフォルトで <code>src/main/java</code> に java のソースが置かれているものとしてコンパイルタスクなどが組まれています。 ですので、今回作るアプリの Main クラスを <code>src/main/java/パッケージ名/</code> 以下に置くことにしましょう。 ひとまず、パッケージ名を what_is_context として以下のようにディレクトリとファイルを作ります。</p>
+<pre class="console"><code>$ mkdir -p src/main/java/what_is_context
+$ vim src/main/java/what_is_context/Hello.java</code></pre>
+<p>今回は “Hello,World.” と表示するだけのプログラムなので、 内容は以下のとおりです。</p>
+<pre class="sourceCode java:src/main/java/what-is-context/hello.java" id="cb4"><code class="sourceCode java"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">package</span><span class="im"> what_is_context;</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">public</span> <span class="kw">class</span> Hello {</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hello, World&quot;</span>);</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  }</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">}</a></code></pre>
+<p>プログラムを書いたら早速ビルドして…</p>
+<pre class="console"><code>$ ./gradlew build</code></pre>
+<p>そして、実行してみましょう。 ビルドをすることで <code>Hello.class</code> が <code>build/classes/jaav/main</code> 以下にできたはずです。 ですので、 <code>-classpath</code> オプションを指定して実行します。</p>
+<pre class="console"><code>$ java -classpath ./build/classes/java/main what_is_context.Hello
+Hello, World</code></pre>
+<p>しかし、毎回クラスパスを指定するのは面倒です。ですので、簡単に実行できるようにしましょう。 方法は次の３通りです。</p>
+<ol type="1">
+<li>自分でマニフェストファイルを書いて、実行可能な jar ができるようにする</li>
+<li>Gradle Java Plugin の manifest file プロパティを指定して、実行可能な java ができるようにする</li>
+<li>Gradle Applicatoin Plugin を使う</li>
+</ol>
+<p>自分でマニフェストファイルを書く方法についてはよくわからなかったので、ここでは 2, 3 についてみて行きましょう。</p>
+<p>Gradle Java Plugin の jar オブジェクトには manifest プロパティがあり、そこで値を設定することで、 jar タスクにてパッケージする際の <code>MANIFEST.MF</code> の内容を設定できます。 今回は、 <code>Main-Class</code> を <code>what_is_context.Hello</code> にしたいので、 <code>build.gradle</code> を下記のように書き換えます。</p>
+<pre class="buidl.gradle"><code>apply plugin: &#39;java&#39;
+
+jar {
+  manifest {
+    attributes(&#39;Main-Class&#39;: &#39;what_is_context.Hello&#39;)
+  }
+}</code></pre>
+<p>書き換えたら早速ビルドしてみましょう。</p>
+<pre class="console"><code>$ ./gradlew build</code></pre>
+<p>これにより、正しく Main-Class が設定されたマニフェストファイルを含んだ jar ファイルが <code>build/libs/</code> 以下にできたはずです。 と、いうわけで実行してみましょう。</p>
+<pre class="console"><code>$ java -jar build/libs/what_is_context.jar
+Hello, World.</code></pre>
+<p>なお、 jar ファイルの名前は <code>jar.baseName</code> で変更可能です。</p>
+<pre class="buidl.gradle"><code>apply plugin: &#39;java&#39;
+
+jar {
+  baseName = &#39;wic&#39;
+  manifest {
+    attributes(&#39;Main-Class&#39;: &#39;what_is_context.Hello&#39;)
+  }
+}</code></pre>
+<p>単に実行をしたいだけならば <a href="https://docs.gradle.org/current/userguide/application_plugin.html">Application Plugin</a> を使うのが最も簡単です。 このプラグインを読み込んで、 <code>mainClassName</code> 属性を設定することで、アプリケーションを実行する <code>run</code> タスクが使えるようになります。</p>
+<pre class="buidl.gradle"><code>apply plugin: &#39;java&#39;
+apply plugin: &#39;application&#39;
+mainClassName = &#39;what_is_context.Hello&#39;</code></pre>
+<p>上記の様にファイルを変更すれば、下記の様に <code>run</code> タスクを実行するだけです。</p>
+<pre class="console"><code>$ ./gradlew run
+Hello, World</code></pre>
+<p>ここまでのソースコードは TODO で確認できます。</p>
+<h1 id="spring-を読み込んでみる">Spring を読み込んでみる</h1>
+<p>早速 Spring を組み込んでみましょう。ビルドスクリプトに依存ライブラリとして Spring を組み込んでみます。</p>
+<pre class="buidl.gradle"><code>apply plugin: &#39;java&#39;
+apply plugin: &#39;application&#39;
+
+repositories {
+  mavenCentral()
+}
+
+mainClassName = &#39;what_is_context.Hello&#39;
+
+jar {
+  manifest {
+    attributes(&#39;Main-Class&#39;: &#39;what_is_context.Hello&#39;)
+  }
+}
+
+dependencies {
+  compile &#39;org.springframework:spring-context:5.0.6.RELEASE&#39;
+}</code></pre>
+<p>まずはContainerにBeanを登録して、Main内からBeanを取ってくる。の実装例として、interface Greeter, MockGreeter と ColoredGreeter を用意して、</p>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
+</body>
+</html>

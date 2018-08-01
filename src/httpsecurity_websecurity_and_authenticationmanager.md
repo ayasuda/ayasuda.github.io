@@ -1,3 +1,6 @@
+---
+title: '１ファイルくらいのスクリプト向け bundler'
+---
 Spring Security の HttpSecurity と WebSecurity って何が違うんだってばよ？（そして AuthenticationManagerBuilder とは一体）
 =====
 
