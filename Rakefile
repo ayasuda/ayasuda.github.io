@@ -14,13 +14,15 @@ PAGES = SRCS.gsub(/^src\//, 'pages/').ext('.html')
 INDEX = "index.html"
 INDEX_BASE = "src/index.html.erb"
 
+LOCALHOST = ENV['LOCAL'] || false
+
 task default: :all
 
 directory PAGE_DIR
 task all: [PAGE_DIR, INDEX]
 
 task INDEX => [:page_all, PANDOCTEMPLATE, INDEX_BASE].flatten do
-  with_localhost = false
+  with_localhost = LOCALHOST
   pages = Dir.glob("src/*.md").map{|name| Page.new(name) }
   pages.select!(&:publish?)
   pages.sort!{|a, b| b.to_date <=> a.to_date }
@@ -35,7 +37,15 @@ task :clean do
 end
 
 rule %r{^#{PAGE_DIR}/.+\.html} => "%{^#{PAGE_DIR},src}X.md" do |t|
-  sh "#{PANDOC} #{PANDOCFLAGS} -o #{t.name} #{t.source}"
+  if LOCALHOST
+    sh "#{PANDOC} #{PANDOCFLAGS} -V localhost=1 -o #{t.name} #{t.source}"
+  else
+    sh "#{PANDOC} #{PANDOCFLAGS} -o #{t.name} #{t.source}"
+  end
+end
+
+task :run do
+  sh "ruby -run -e httpd . -p 3000"
 end
 
 class Page
