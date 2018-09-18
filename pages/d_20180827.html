@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="keywords" content="diary">
+  <title>kakitsuke 開発日誌</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+  <h1><a href="/">ayasuda.github.io</a></h1>
+  <h2>kakitsuke 開発日誌</h2>
+  <h3></h3>
+</header>
+<article>
+<p>ふと思い立ち、僕の考えた最高のノートツールをちゃんと開発してみようと思う。 設計的にはマイクロサービスアーキテクチャを用い、後々様々なサービスと連携できるように作ってみたい。</p>
+<p>機能としてはログインでき、ノートを追加でき、可視性を設定でき、何かの課金ができる。そんなサービスを作ってみたい。</p>
+<h1 id="最初の一歩">最初の一歩</h1>
+<p>せっかくなので、最初から運用を見据えたプロジェクトにしたい。 最初の一歩は、開発運用からだろう。</p>
+<p>そんなわけで git リポジトリを用意し、<a href="https://github.com/github/scripts-to-rule-them-all">Script To Rule Them All</a> に則ったスクリプトを用意する。</p>
+<ul>
+<li>script/bootstrap: プロジェクトに必要な依存関係を満たすために色々する。具体的には必要なツールやサブジュールなどのインストール/アップデートをする。</li>
+<li>script/setup: プロジェクトの初期化をする。最初に clone した後またはしばらく開発した後初期化したくなった時に使う。</li>
+<li>script/update: プロジェクトを更新する。データベースの定義変更や、設定ファイルの変更などを行う。</li>
+<li>script/serevr: アプリケーションを起動する。</li>
+<li>script/test: アプリケーションのテストスイート（含む静的解析）を実行する。</li>
+<li>script/cibuild: アプリケーションのテストスイートを実行する（ための CI 用環境セットアップを含む）</li>
+<li>script/console: アプリケーションのコンソールを開く</li>
+</ul>
+<p>この構成を整えることにより、後から入って来た人や自分自身が新しい環境で、 clone 直後に1回だけ <code>script/setup</code> を実行し、毎日 pull するごとに <code>script/update</code> し、 開発中は <code>script/server</code> で開発し、push 前に <code>script/test</code> する流れが定型化できるはずだ。</p>
+<h1 id="scriptbootstrap">script/bootstrap</h1>
+<p><code>script/bootstrap</code> は必要なツールなどをインストールするためのスクリプトです。</p>
+<p>ツールどこでどう使うか？ 結局 docker なので、docker がインストールされてりゃいいのでは？</p>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
+</body>
+</html>

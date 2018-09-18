@@ -1,3 +1,6 @@
+---
+title: '俺のための Spring 入門かつ再整理'
+---
 俺のための Spring 入門かつ再整理
 
 Spring というフレームワーク
@@ -19,8 +22,10 @@ Java のフレームワークだよ！
 
 ## Spring Boot で雰囲気に触れてみよう！
 
-Spring Boot は独立した (複数モジュールで構成されてない) 、プロダクションレベルの Spring アプリケーション開発をすぐに始められるようにしたものです。
-Spring Boot が提供する各種 starter パッケージを利用すれば、簡単に Web アプリケーションが作れます。（が、詳細は割愛）
+Spring Boot は、プロダクションレベルの Spring アプリケーション開発をすぐに始められるようにしたものです。
+Spring は広範囲な部分をサポートする反面、どのプロジェクトやライブラリを組み合わせれば良いかがわかりにくくなってしまっています。
+そこで登場したのが Spring Boot です。Spring Boot を使うと様々な設定が自動で行われます。
+例えば、ログ設定や DI (Dependency Injection) で使う Bean の定義などが自動で行われるので、ほんのすこしの設定をするだけで動くアプリケーションが作成できます。
 
 早速試してみましょう。
 まず、[Spring Initializr](https://start.spring.io/) にアクセスし、Generate `Gradle Project` with `Java` and Spring Boot `2.0.4` と設定し、
@@ -53,9 +58,21 @@ $ ./gradlew bootRun
 今度は Web サーバが立ち上がったかと思いますので、ブラウザで http://localhost:8080 にアクセスし、ページを開いてみましょう。
 見事、 *エラーページが* 表示されたかと思います（よく見ると、 404 Not Found 的なエラーが表示されているかと思います）。
 
-コードをざっと読むと、驚くほど *何も書かれていない* ことがわかるかと思います。
+唯一のコードである `src/main/java/com/example/demo/DemoAppplication.java` をざっと読むと、驚くほど *何も書かれていない* ことがわかるかと思います。
+
+### コマンドラインアプリ実行コンポーネントと HelloWorld コンポーネント
 
 さて、ここからリクエストハンドラやコンポーネントなどを追加していくことでアプリケーションを作るわけですが……
+
+今回は簡単に、コマンドラインアプリとしてアプリケーションを実行するコンポーネントと、ログとして HelloWorld を表示するコンポーネントを追加してみましょう。
+
+先ずは Hello,World とコマンドラインに表示するだけのコンポーネントを `src/main/java/com/example/demo/Runner.java
+
+先ずはコマンドラインアプリとしてアプリケーションを実行できるようにするコンポーネントを `src/main/java/com/example/demo/Runner.java` に追加します。
+
+```java:src/main/java/com/example/demo/Runner.java
+
+```
 
 本文書では、先に Spring の基礎部分を解説していきたいと思います。
 

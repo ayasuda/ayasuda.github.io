@@ -1,6 +1,8 @@
 ---
 title: 'これはタイトルです'
+description: ''
 ---
+
 Spring の Context を理解したいだけの１日だった。
 
 いきなり Spring Boot から触り始めたゆとり世代の私は、 Context とかよくわからずにプログラムを書いているのでした。

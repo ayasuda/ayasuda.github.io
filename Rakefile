@@ -3,20 +3,26 @@ require 'erb'
 require 'pathname'
 require 'yaml'
 
-PAGE_DIR = "pages"
 
 PANDOC = "pandoc"
 PANDOCTEMPLATE="src/html5_template.html"
 PANDOCFLAGS = "-f markdown -t html --template=#{PANDOCTEMPLATE}"
 
-SRCS = FileList["src/*.md"]
+SRCS = FileList["src/**/*.md"]
+
+PAGE_DIR = "pages"
 PAGES = SRCS.gsub(/^src\//, 'pages/').ext('.html')
+
 INDEX = "index.html"
 INDEX_BASE = "src/index.html.erb"
 
 LOCALHOST = ENV['LOCAL'] || false
 
 task default: :all
+
+task :test do
+  p PAGES
+end
 
 directory PAGE_DIR
 task all: [PAGE_DIR, INDEX]
@@ -32,8 +38,8 @@ end
 task page_all: PAGES
 
 task :clean do
-  rm INDEX
   rm_rf PAGE_DIR
+  rm INDEX
 end
 
 rule %r{^#{PAGE_DIR}/.+\.html} => "%{^#{PAGE_DIR},src}X.md" do |t|
