@@ -86,7 +86,7 @@ $ java -jar app.jar
 Hello, World.
 ```
 
-ここまでのコードは TODO にあります。
+ここまでのコードは [ayasuda/sandox/vannila_java](https://github.com/ayasuda/sandbox/tree/master/vanilla_java) にあります。
 
 ## Gradle を使った Hello,World プロジェクト
 
@@ -503,6 +503,8 @@ Hello, YAML
 ```
 
 この後は、使用するライブラリが増えてもビルドスクリプトに追加するだけで済みますし、また、使用するライブラリのバージョンも明記されており、管理が簡単です。
+
+ここまでのコードは [ayasuda/sandox/vannila_java](https://github.com/ayasuda/sandbox/tree/master/with_gradle) にあります。
 
 # まとめ
 
