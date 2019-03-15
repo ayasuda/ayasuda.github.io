@@ -2,6 +2,7 @@ require 'date'
 require 'erb'
 require 'pathname'
 require 'yaml'
+require 'awesome_print'
 
 
 PANDOC = "pandoc"
@@ -43,10 +44,12 @@ task :clean do
 end
 
 rule %r{^#{PAGE_DIR}/.+\.html} => "%{^#{PAGE_DIR},src}X.md" do |t|
-  if LOCALHOST
-    sh "#{PANDOC} #{PANDOCFLAGS} -V localhost=1 -o #{t.name} #{t.source}"
-  else
-    sh "#{PANDOC} #{PANDOCFLAGS} -o #{t.name} #{t.source}"
+  if Page.new(t.source).publish?
+    if LOCALHOST
+      sh "#{PANDOC} #{PANDOCFLAGS} -V localhost=1 -o #{t.name} #{t.source}"
+    else
+      sh "#{PANDOC} #{PANDOCFLAGS} -o #{t.name} #{t.source}"
+    end
   end
 end
 
