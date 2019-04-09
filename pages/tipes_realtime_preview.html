@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="description" content="リアリタイムでプレビューをコマンドライン上だけで完結させるために、簡単なスクリプトを組んでみました。">
+  <meta name="keywords" content="PlantUML, fswatch, filesystem, preveiw, edit, tips">
+  <title>PlantUML をリアルタイムでプレビューしたい - それ、fswatch でできるよ。</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+  <h1><a href="/">ayasuda.github.io</a></h1>
+  <h2>PlantUML をリアルタイムでプレビューしたい - それ、fswatch でできるよ。</h2>
+  <h3>2019-04-08</h3>
+</header>
+<article>
+<p>Markdown や PlantUML をリアルタイムで確認したいと誰でも思うものです。 いくつか方法はありますが、MacOS でリアルタイムプレビューを行う一つの方法について簡単にメモして行きましょう。</p>
+<h1 id="ファイルの変更検知に-fswatch-を使う">ファイルの変更検知に fswatch を使う</h1>
+<p>リアルタイムにプレビューしたいなら、まずはファイルの変更を検知する必要があります。 Linux なら <code>inotify</code> をつかますが、MacOS にはありません。 そこで、<a href="https://github.com/emcrisostomo/fswatch">fswatch</a> を使います。</p>
+<p>fswatch もファイルやディレクトリの変更を感知するためのツールで、Apple OSX, BSD, Solaris, Linux, Microsoft Windows のそれぞれに対応しています。</p>
+<p>MacOS なら <a href="https://brew.sh/index_ja">Homebrew</a> 経由でインストール可能です。</p>
+<pre><code>$ brew install fswatch</code></pre>
+<h2 id="fswatch-を用いた検知の方法">fswatch を用いた検知の方法</h2>
+<p>まずはファイルやディレクトリの変更を検知してみましょう。</p>
+<p><code>fswatch</code> に <code>-o, --one-per-batch</code> をつけて監視対象を指定すと、監視対象が変更されるたびにイベントが表示されます。</p>
+<p>ターミナルを２つ用意し、片方で <code>fswatch</code> を起動します。</p>
+<pre><code>$ cd /path/to/your/sandbox
+$ touch target_file
+$ fswatch -o target_file</code></pre>
+<p>もう片方で target_file を変更してみます。</p>
+<pre><code>$ cd /path/to/your/sandbox
+$ date &gt; target_file
+$ date &gt;&gt; target_file</code></pre>
+<p><code>fswatch</code> でファイルの変更を検知できたのがわかりましたでしょうか？</p>
+<p>このモードでは、 <code>fswatch</code> は１行ごとに数字を出力しているはずです。 この数字は、具体的には検知したファイルイベントの個数なのですが、今回は単一のファイルを変更しただけですから <code>1</code> だけが記録されているはずです。 例えば、ディレクトリを監視対象にした上で、一気に複数のファイルを変更・削除したりすれば、数値も変化します。</p>
+<p>ファイの変更ごとに数字が出力されるので、 <code>xargs</code> やビルトインの <code>while</code> で処理をかけるのは簡単です。</p>
+<p>例えば、 <code>while</code> なら、下記のように read を使い、イベント数を <code>num</code> にセットした上でその他のコマンドを使えます。 サンプルでは単純に echo をしています。</p>
+<pre><code>$ fswatch -o target_file | while read num; do echo &quot;file changed with $num&quot;; done</code></pre>
+<p>単一のファイルを監視するだけなら、これで十分です。</p>
+<p><code>fswatch</code> のメインモードは、具体的な変更イベントを検知することですが、今回の目的のためにはここまでで十分なので割愛します。 詳しくは、公式ドキュメントの <a href="http://emcrisostomo.github.io/fswatch/doc/1.14.0/fswatch.html/Tutorial-Introduction-to-fswatch.html">Tutorial Introduction to fswatch</a> 3.2 以降をお読みください。 3.1 までの内容は上記に記した通りです。</p>
+<h1 id="plantuml-でテキストを画像に変換する">PlantUML でテキストを画像に変換する</h1>
+<p>これはそんなに説明がいらないので簡単に書いて行きましょう。</p>
+<p>PlantUML をコンパイルして画像を生成するためのコマンドは、<a href="https://formulae.brew.sh/formula/plantuml">plantuml - Homebrew Formulae</a> の通り、Homebrew でインストールできます。</p>
+<pre><code>$ brew install plantuml</code></pre>
+<p>このコマンドを用いれば、plantuml が記載されたテキストファイルを基に画像が生成できます。 試してみましょう。 まず、手元にサンプルとなるシーケンス図を用意しましょう。ファイル名はなんでも良いのです。 今回は <code>sample.plantuml</code> とします。</p>
+<pre><code>$ cd /path/to/working
+$ vim sample.plantuml</code></pre>
+<pre class="plantuml"><code>@startuml
+たかしくん -&gt; ひろしくん: これはペンですか？
+ひろしくん --&gt; たかしくん: いいえ、それは鉛筆です。
+@enduml</code></pre>
+<p>コンパイルすると、入力ファイル名を基とした画像ファイルが生成されます。</p>
+<pre><code>$ plantuml sample.plantuml
+$ open sample.png</code></pre>
+<h1 id="二つを組み合わせて簡単なレビュー機能を実現する">二つを組み合わせて、簡単なレビュー機能を実現する</h1>
+<p>MacOS の <code>open</code> はとても良くできており、ファイルのパスが同じなら、変に多数のウィンドウが開くことがありません。 また、 <code>-g</code> オプションを使えばアプリケーションをフォアグラウンドに持ってこずに起動できます。 ですので、例えば、 <code>sample.plantuml</code> を監視し、変更されたら <code>sample.png</code> を更新したいならこんな感じになるでしょう。</p>
+<pre><code>$ fswatch -o sample.plantuml | while read num \
+do \
+  plantuml sample.plantuml \
+  open -g -a Preview sample.png \
+done</code></pre>
+<p>ちょっと、PlantUML が起動するたびにフォーカスが PlantUML に取られちゃう気もしますが、十分にそれっぽく動かせると思います。</p>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
+</body>
+</html>
