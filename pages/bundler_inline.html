@@ -71,12 +71,14 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
   <![endif]-->
 </head>
 <body>
-<header>
+<header class="site">
   <h1><a href="/">ayasuda.github.io</a></h1>
-  <h2>１ファイルくらいのスクリプト向け bundler</h2>
-  <h3>2017-10-20</h3>
 </header>
 <article>
+  <header class="content">
+    <h1>１ファイルくらいのスクリプト向け bundler</h1>
+    <p>2017-10-20</p>
+  </header>
 <h1 id="簡単な-ruby-のスクリプトでもライブラリのバージョン管理をしたい">簡単な ruby のスクリプトでも、ライブラリのバージョン管理をしたい！</h1>
 <p>ruby のパッケージ管理ツールである <a href="http://bundler.io/">Bundler</a> はとても便利で、当たり前のように普段使いをしています。 ところで、ちょっとした、ちょうど 1 ファイルくらいの軽量スクリプト書くときに、いちいち <code>Gemfile</code> を書いたりする人はあまりいないでしょう。 軽量のスクリプトなら普通に <code>gem install hogehoge</code> みたいにライブラリをインストールし、 <code>require 'hogehoge'</code> してライブラリを読み込むのが普通でしょう。 でも、たまたまこのスクリプトファイルを共有する時とかに、ライブラリのバージョン差異が出て <em>地味に</em> 不便なんですよね。</p>
 <p>そんなわけで、 Bundler にはインラインで依存ライブラリを指定する記法が用意されています。</p>

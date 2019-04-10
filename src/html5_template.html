@@ -32,18 +32,20 @@ $endif$
   <![endif]-->
 </head>
 <body>
-<header>
+<header class="site">
   <h1><a href="/">ayasuda.github.io</a></h1>
-$if(title)$
-  <h2>$title$</h2>
-  <h3>$date$</h3>
-$endif$
 </header>
 <article>
+$if(title)$
+  <header class="content">
+    <h1>$title$</h1>
+    <p>$date$</p>
+  </header>
+$endif$
 $if(toc)$
-<nav id="$idprefix$TOC">
-$toc$
-</nav>
+  <nav id="$idprefix$TOC">
+  $toc$
+  </nav>
 $endif$
 $body$
 </article>

@@ -16,12 +16,14 @@
   <![endif]-->
 </head>
 <body>
-<header>
+<header class="site">
   <h1><a href="/">ayasuda.github.io</a></h1>
-  <h2>PlantUML をリアルタイムでプレビューしたい - それ、fswatch でできるよ。</h2>
-  <h3>2019-04-08</h3>
 </header>
 <article>
+  <header class="content">
+    <h1>PlantUML をリアルタイムでプレビューしたい - それ、fswatch でできるよ。</h1>
+    <p>2019-04-08</p>
+  </header>
 <p>Markdown や PlantUML をリアルタイムで確認したいと誰でも思うものです。 いくつか方法はありますが、MacOS でリアルタイムプレビューを行う一つの方法について簡単にメモして行きましょう。</p>
 <h1 id="ファイルの変更検知に-fswatch-を使う">ファイルの変更検知に fswatch を使う</h1>
 <p>リアルタイムにプレビューしたいなら、まずはファイルの変更を検知する必要があります。 Linux なら <code>inotify</code> をつかますが、MacOS にはありません。 そこで、<a href="https://github.com/emcrisostomo/fswatch">fswatch</a> を使います。</p>

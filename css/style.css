@@ -1,9 +1,128 @@
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+  margin:0;
+  padding:0;
+  border:0;
+  outline:0;
+  font-size:100%;
+  vertical-align:baseline;
+  background:transparent;
+}
+
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section {
+  display:block;
+}
+
 body {
   background-color: #eee;
   color: #111;
   font-family: Helvetica, arial, sans-serif;
   font-size: 14px;
   line-height: 1.6;
-  padding-top: 10px;
-  padding-bottom: 10px;
+}
+
+body > header {
+  background-color: #f8b862; /* 萱草色 */
+
+  max-width: 59.38rem;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1.25rem;
+}
+
+body > header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+body > header h1 a {
+  color: #fff;
+  text-decoration: none;
+}
+
+article {
+  background-color: #fcfcfc;
+  color: #111;
+  display: block;
+
+  max-width: 59.38rem;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1.25rem;
+}
+
+article h1 {
+  font-size: 1.6em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+article h2 {
+  font-size: 1.4em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+article h3 {
+  font-size: 1.3em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+article h4 {
+  font-size: 1.2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+article h5 {
+  font-size: 1.1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+article h6 {
+  font-size: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+article header h1 {
+  color: #f8b862; /* 萱草色 */
+}
+
+article h1 {
+  margin-top: 30px;
+  display: inline-block;
+}
+
+article p {
+  margin-left: 1em;
+}
+
+article ul {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 2em;
+}
+
+article pre {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 2em;
+}
+
+body > footer {
+  text-align: center;
+  color: #666;
+  font-size: 0.875rem;
+  margin: 2.5rem 0;
 }
