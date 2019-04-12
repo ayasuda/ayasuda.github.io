@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="description" content="godoc コマンドを使ってドキュメントを読む方法についてまとめてみました">
+  <meta name="keywords" content="golang, godoc, documentation, tool">
+  <title>go doc の使い方・コメントを書いて、ちゃんと読む</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color: initial; }
+}
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.bn { color: #40a070; } /* BaseN */
+code span.fl { color: #40a070; } /* Float */
+code span.ch { color: #4070a0; } /* Char */
+code span.st { color: #4070a0; } /* String */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.ot { color: #007020; } /* Other */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.fu { color: #06287e; } /* Function */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #880000; } /* Constant */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #19177c; } /* Variable */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.op { color: #666666; } /* Operator */
+code span.bu { } /* BuiltIn */
+code span.ex { } /* Extension */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.at { color: #7d9029; } /* Attribute */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header class="site">
+  <h1><a href="/">ayasuda.github.io</a></h1>
+</header>
+<article>
+  <header class="content">
+    <h1>go doc の使い方・コメントを書いて、ちゃんと読む</h1>
+    <p>2019-04-12</p>
+  </header>
+<p>Go 言語ではソースコード中にコメントを書くことで自動的に API ドキュメントを生成する方法が最初からサポートされています。</p>
+<p><a href="https://blog.golang.org/godoc-documenting-go-code">Godoc: documenting Go code</a> でも、</p>
+<blockquote>
+<p>The Go project takes documentation seriously.</p>
+</blockquote>
+<p>と書かれているほど、しっかりと練られた文書化ツールが揃っています。</p>
+<p>とはいえ、良い書き方や読み方がわからないと、書く気が起きませんよね？ そんなわけで、本文書では文書生成用のドキュメントの書き方と、それぞれのドキュメントの読み方について記していきます。</p>
+<h1 id="godoc-の動きの確認">godoc の動きの確認</h1>
+<p>まず、サンプルコードを用意しましょう。</p>
+<pre><code>$ mkdir -p $GOPATH/src/path/to/your/library
+$ cd $GOPATH/src/path/to/youre/library
+$ vim sample.go</code></pre>
+<pre class="sourceCode go:sample.go" id="cb2"><code class="sourceCode go"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">package</span> sample</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">import</span> <span class="st">&quot;fmt&quot;</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">func</span> Foo(s <span class="dt">string</span>) <span class="dt">string</span> {</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">    <span class="kw">return</span> <span class="st">&quot;Foo &quot;</span> + s + <span class="st">&quot; ooF&quot;</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">}</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="kw">func</span> PrintFoo(s <span class="dt">string</span>) {</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">    fmt.Println(Foo(s))</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">}</a></code></pre>
+<p><em>この段階で、すでに <code>godoc</code> コマンドからドキュメントを参照可能です</em></p>
+<p>まずはブラウザから見てみましょう。<code>-http</code> オプションで、ドキュメントをみるための web サーバが起動できます。</p>
+<pre><code>$ godoc -http=:8080</code></pre>
+<p>コマンドを実行したら <code>http://localhost:8080</code> にアクセスしてみましょう。まるで公式サイトのような Web ページが見られると思います。</p>
+<p><img src="/img/introduction_go_doc/1.png" /></p>
+<p>ヘッダの「Packages」リンクから、標準ライブラリおよび、<em>GOPATH に持ってきている全てのパッケージのドキュメント</em> が確認できます。 もちろん、たった今作った <code>sample.Foo</code> のドキュメントもあります！</p>
+<p><img src="/img/introduction_go_doc/2.png" /></p>
+<p>なお、この時の URL は <code>http://localhost:600/pkg/path/to/your/library/</code> になります。わかりやすいですね！</p>
+<p><img src="/img/introduction_go_doc/3.png" /></p>
+<h1 id="簡単なコメントを書く">簡単なコメントを書く</h1>
+<p>Godoc で読むためのコメントはとてもシンプルで、<code>godoc</code> がなくても読みたくなるようなコメントが書けるように意識して書くのが良いでしょう。Go Blog でも以下のように言及されています。</p>
+<blockquote>
+<p>Godoc comments are just good comments, the sort you would want to read even if godoc didn’t exist.</p>
+</blockquote>
+<p>コメントは <code>type</code>, <code>variable</code>, <code>constant</code>, <code>function</code>, <code>package</code> に書くことができます。また、コメントには一つルールがあり、その要素名で始める必要があります。</p>
+<pre class="sourceCode go:sample.go" id="cb4"><code class="sourceCode go"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">// sample パッケージはコメントの書き方と読み方の例を提供します。</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">package</span> sample</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">import</span> <span class="st">&quot;fmt&quot;</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">// Bar はとある変数です</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw">var</span> Bar = <span class="st">&quot;some variable&quot;</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">// Baz はとある定数です</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="kw">const</span> Baz = <span class="st">&quot;some constant&quot;</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">// Qux はとある構造体です</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="kw">type</span> Qux <span class="kw">struct</span> {</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">    <span class="co">// A には適当な文字列をどうぞ</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">    A <span class="dt">string</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">    <span class="co">// A にも適当な文字列をどうぞ</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">    B <span class="dt">string</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18">}</a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">// Foo はとりあえず前後に変な文字をくっけます</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="kw">func</span> Foo(s <span class="dt">string</span>) <span class="dt">string</span> {</a>
+<a class="sourceLine" id="cb4-22" data-line-number="22">    <span class="kw">return</span> <span class="st">&quot;Foo &quot;</span> + s + <span class="st">&quot; ooF&quot;</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23">}</a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">// PrintFoo はとりあえず前後に変な文字をくっけます</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="kw">func</span> PrintFoo(s <span class="dt">string</span>) {</a>
+<a class="sourceLine" id="cb4-27" data-line-number="27">    fmt.Println(Foo(s))</a>
+<a class="sourceLine" id="cb4-28" data-line-number="28">}</a></code></pre>
+<p>こいつをブラウザで表示すると下記のようにいい感じに表示されます。</p>
+<p><img src="/img/introduction_go_doc/4.png" /></p>
+<h1 id="ブラウザ以外からドキュメントを読む">ブラウザ以外からドキュメントを読む</h1>
+<p><code>godoc</code> のヘルプを見ればすぐにわかりますが、<code>godoc package [name]</code> でそのパッケージおよび各種項目のドキュメントがコマンドラインから読めます。</p>
+<pre><code>$ godoc fmt Println
+func Println(a ...interface{}) (n int, err error)
+    Println formats using the default formats for its operands and writes to
+    standard output. Spaces are always added between operands and a newline
+    is appended. It returns the number of bytes written and any write error
+    encountered.</code></pre>
+<p>自作のライブラリ含めたサードパーティのライブラリのドキュメントを読む場合は、パッケージをフルパスで書きましょう。先に作ったサンプルの場合なら次のようになります。</p>
+<pre><code>godoc path/to/your/library PrintFoo
+func PrintFoo(s string)
+    PrintFoo はとりあえず前後に変な文字をくっけます</code></pre>
+<blockquote>
+<p><em>Q: パッケージ名の <code>sample</code> はどこに行ったのでしょうか？</em></p>
+<p>Answer: 僕がライブラリの作り方ミスって、sample が消失しただけだよ！ golang のライブラリの作り方はこの文書の範疇じゃないから仕方ないね！ (具体的には、パッケージ名とディレクトリ名は通常一致させるべき)</p>
+</blockquote>
+<h1 id="もっと詳しくドキュメントを書く">もっと詳しくドキュメントを書く</h1>
+<p>ここまでで日常使いには十分ですが、さらに詳しく、いろいろ書きたい人向けの機能にもふれておきましょう。</p>
+<h2 id="パッケージドキュメントを盛り盛りにする">パッケージドキュメントを盛り盛りにする</h2>
+<p>専門知識が必要なパッケージを作りたいときなどに、プログラム本体のコメントとしてドキュメントを書くとちょっと長くなるケースがあると思います。 そういう時はパッケージドキュメント専用のファイルを作ることができます。</p>
+<p>具体的には、 <code>doc.go</code> というファイルを用意し、そこにパッケージのドキュメントを記述します。</p>
+<p><a href="https://golang.org/pkg/encoding/gob/">gob パッケージ</a> では、この機能が使われており、ドキュメントは <a href="https://golang.org/src/encoding/gob/doc.go">src/encoding/gob/doc.go</a> に書かれています。</p>
+<h2 id="notes-オプションで追加項目をリストアップする"><code>-notes</code> オプションで追加項目をリストアップする</h2>
+<p>基本的にコード中や指定箇所以外のコメントは無視されますが、<code>godoc</code> のノート機能を使うと、より多くのメタ情報を知るせます。</p>
+<p>デフォルトでは <code>BUG(who)</code> が定義されているので、例えば、下記のようなコメントを書くと、godoc で見たときにひとまとまりに表示されます。</p>
+<pre class="sourceCode go" id="cb7"><code class="sourceCode go"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">// Foo はとりあえず前後に変な文字をくっけます</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">//</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">// </span><span class="al">BUG</span><span class="co">(ayasuda) ごめん、なんかバグある気がする</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">func</span> Foo(s <span class="dt">string</span>) <span class="dt">string</span> {</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">    <span class="kw">return</span> <span class="st">&quot;Foo &quot;</span> + s + <span class="st">&quot; ooF&quot;</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">}</a></code></pre>
+<p>ブラウザで見ると下記のようになります。</p>
+<p><img src="/img/introduction_go_doc/5.png" /></p>
+<p>繰り返しになりますが、デフォルトでは <code>BUG</code> が定義されているので、コメント中で <code>BUG(who)</code> を記述可能です。<code>-notes</code> オプションでこの定義は自由に増やせます。</p>
+<h2 id="簡単なフォーマット">簡単なフォーマット</h2>
+<p>コメントを書く際に、以下のルールに従うとことで HTML 化した際のフォーマットを変更することができます。</p>
+<ul>
+<li>連続した行は一つの段落と見なされます
+<ul>
+<li>段落を区切りたい場合は空白行を間に入れる必要があります</li>
+</ul></li>
+<li>英大文字で始まり、直前が句読点ではない単一行の段落は見出しになります</li>
+<li>字下げすると整形済みテキストになります</li>
+<li>URL はリンクになります</li>
+</ul>
+<p>そんなわけで、例えば、下記のようなコメントを書くと</p>
+<pre class="sourceCode go" id="cb8"><code class="sourceCode go"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">/*</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">ここはパッケージコメントの最初になるから見出しではないよー</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">Hで始まり単一行かつ句読点なしかつ前が見出しではないのでこれは見出し</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">段落段落</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">段落段落</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">段落段落</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">次の段落</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">次の段落</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">    整形済みテキスt</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">次のやつはリンクになるはず。</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">https://golang.org/</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">*/</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="kw">package</span> sample</a></code></pre>
+<p>以下のようにHTML化されます。</p>
+<p><img src="/img/introduction_go_doc/6.png" /></p>
+<p>これ以上にいろいろ装飾したい場合は、 最悪、ソースが <a href="https://github.com/golang/tools/tree/master/godoc">ここ</a> にあるので・・・</p>
+<h2 id="example-をつけるには">Example をつけるには</h2>
+<p>公式ドキュメントのいくつかの関数では、 Example が付いてます。 これは <a href="https://blog.golang.org/examples">Testable Examples</a> を利用して作られています。</p>
+<p>上記の <code>sample</code> パッケージに対して Testable Example を作るなら、まずは <code>/path/to/your/library/example_test.go</code> を用意します。 パッケージ名は <code>sample_test</code> としてください。</p>
+<p>中には次のルールでサンプルがかけます。</p>
+<pre class="sourceCode go" id="cb9"><code class="sourceCode go"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">func</span> ExampleFoo()     <span class="co">// Foo 関数のサンプルコードになります</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">func</span> ExampleBar_Qux() <span class="co">// Bar 構造体の Qux 関数のサンプルコードになります</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">func</span> Example()        <span class="co">// パッケージ全体のサンプルコードになります</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw">func</span> ExampleFoo_foo   <span class="co">// Foo 関数のサンプルコード(fooの場合)</span></a></code></pre>
+<p>また、テストコード中に <code>Output:</code> から始まるコメントを記載することで、標準出力に書き込まれた値をチェックすることができます。</p>
+<p>そんなわけで、こんなコードを書きます。</p>
+<pre class="sourceCode go:/path/to/your/library/example_test.go" id="cb10"><code class="sourceCode go"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">package</span> sample_test</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw">import</span> (</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">    <span class="st">&quot;fmt&quot;</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="st">&quot;path/to/your/library&quot;</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="kw">func</span> ExampleFoo() {</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9">    fmt.Println(sample.Foo(<span class="st">&quot;foo&quot;</span>))</a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">    <span class="co">// Output: Foo foo ooF</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">}</a></code></pre>
+<p>テストはいつも通り、<code>go test</code> コマンドから実行可能です。</p>
+<pre><code>$ go test
+PASS
+ok  path/to/your/library  0.004s</code></pre>
+<p>後は、ドキュメントを生成すると、Example が記載されているはずです。</p>
+<p><img src="/img/introduction_go_doc/7.png" /></p>
+<h1 id="参照">参照</h1>
+<ul>
+<li><a href="https://blog.golang.org/godoc-documenting-go-code">Godoc: documenting Go code - The Go Blog</a></li>
+<li><a href="https://godoc.org/golang.org/x/tools/cmd/godoc">godoc - GoDoc</a></li>
+<li><a href="https://blog.golang.org/examples">Testable Examples in Go - The Go Blog</a></li>
+</ul>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
+</body>
+</html>

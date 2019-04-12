@@ -77,7 +77,7 @@ class Page
   def publish?
     return false unless metadata.key?("date")
     d = Date.parse(metadata["date"])
-    (d < Date.today)
+    (d <= Date.today)
   end
 
   def description
