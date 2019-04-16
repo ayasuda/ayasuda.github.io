@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="description" content="サーバプログラムやAPI呼び出しなどをする際によく見かけることになる context パッケージ。このパッケージが何を解決たかったのかと、使用法についてまとめてみます。">
+  <meta name="keywords" content="Go, Context, How to">
+  <title>Go 言語 context パッケージ誕生の背景と使用方法</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color: initial; }
+}
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.bn { color: #40a070; } /* BaseN */
+code span.fl { color: #40a070; } /* Float */
+code span.ch { color: #4070a0; } /* Char */
+code span.st { color: #4070a0; } /* String */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.ot { color: #007020; } /* Other */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.fu { color: #06287e; } /* Function */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #880000; } /* Constant */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #19177c; } /* Variable */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.op { color: #666666; } /* Operator */
+code span.bu { } /* BuiltIn */
+code span.ex { } /* Extension */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.at { color: #7d9029; } /* Attribute */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-138223597-1');
+  </script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header class="site">
+  <h1><a href="/">ayasuda.github.io</a></h1>
+</header>
+<article>
+  <header class="content">
+    <h1>Go 言語 context パッケージ誕生の背景と使用方法</h1>
+    <p>2019-04-15</p>
+  </header>
+<p>Go 言語を使って何を書くかといえば、なんだかんだでサーバプログラムを書くことが多いかと思います。</p>
+<p>大抵の場合、ハンドラは goroutine で動かすことになります。また、ハンドラの中で goroutine 動かすケースも多々あります。 さて、例えばハンドラ内で外部 API を呼び出したり、マイクロサービスな関連サーバへリクエストをかけたりする際に、 それぞれのリクエストで AccessToken やタイムアウトの規定時間など、共通の値を用いるケースは多々あるかと思います。 また、 goroutine で平行で動かしているリクエストがある時、１つが失敗したら残りのリクエストも全部失敗させたいときなどもあり得るでしょう。</p>
+<p><code>context</code> パッケージはそのような、リクエスト毎のデータを取り扱うために作られました。</p>
+<p>この文書は <code>context</code> パッケージの使い方とやりたかったことを より初心者向けに、バカバカしく、何もかも忘却した２ヶ月後の私自身でもわかるように <code>context</code> の使い方を説明した記事です。</p>
+<h1 id="準備編-http-サーバとハンドラを書いてみよう">準備編: HTTP サーバとハンドラを書いてみよう。</h1>
+<p>Go を使うと速くて軽い http サーバが簡単に書けるので、ナウでヤングなマイクロサービスを やりたいときとかに気軽にサーバプログラムを書いたりします。</p>
+<h2 id="一番簡単な-http-サーバとhttpサーバの動作検証方法">一番簡単な HTTP サーバと、HTTPサーバの動作検証方法</h2>
+<p>というわけで、 “簡単なサーバ” を書いて実行してみましょう。まずは <code>main.go</code> を用意します。</p>
+<pre class="sourceCode go" id="cb1"><code class="sourceCode go"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">package</span> main</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">import</span> (</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">    <span class="st">&quot;fmt&quot;</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">    <span class="st">&quot;net/http&quot;</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">func</span> main() {</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">    http.HandleFunc(<span class="st">&quot;/&quot;</span>, <span class="kw">func</span>(w http.ResponseWriter, r *http.Request) {</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">        fmt.Fprintf(w, <span class="st">&quot;Hello, World.&quot;</span>)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">    })</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">    http.ListenAndServe(<span class="st">&quot;:3000&quot;</span>, <span class="ot">nil</span>)</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">}</a></code></pre>
+<p>で、コンパイルして実行します。</p>
+<pre class="console"><code>$ go run main.go</code></pre>
+<p>実行できたらアクセスしてみましょう。</p>
+<pre class="console"><code>$ curl http://localhost:3000/
+Hello, World.</code></pre>
+<p>ほらね。簡単に http サーバが書けたでしょう？</p>
+<p>この記事では、このプログラムをベースとして様々な改造をしていきます。 その際、毎回 <code>curl</code> で動作検証をするのは面倒です。 ですので、<code>go run main.go</code> で HTTP レスポンス自体を検証できるように、 <a href="https://golang.org/pkg/net/http/httptest/">httptest</a> を使ってリクエスト・レスポンスの検証をしやすくしておきます。</p>
+<pre class="sourceCode go:main.go" id="cb4"><code class="sourceCode go"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">package</span> main</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">import</span> (</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="st">&quot;fmt&quot;</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">    <span class="st">&quot;io/ioutil&quot;</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">    <span class="st">&quot;net/http&quot;</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">    <span class="st">&quot;net/http/httptest&quot;</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">    fmt.Fprintf(w, <span class="st">&quot;Hello, World.&quot;</span>)</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">}</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="kw">func</span> main() {</a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">    server := httptest.NewServer(http.HandlerFunc(handleRoot))</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">    <span class="kw">defer</span> server.Close()</a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18">    res, _ := http.Get(server.URL)</a>
+<a class="sourceLine" id="cb4-19" data-line-number="19">    body, _ := ioutil.ReadAll(res.Body)</a>
+<a class="sourceLine" id="cb4-20" data-line-number="20">    fmt.Printf(<span class="st">&quot;Response: %s</span><span class="ch">\n</span><span class="st">&quot;</span>, body)</a>
+<a class="sourceLine" id="cb4-21" data-line-number="21">}</a></code></pre>
+<p>こうしておけば、以下のコマンドですぐに実行できますし…</p>
+<pre><code>$ go run main.go
+Response: Hello, World.</code></pre>
+<p>手元に Go 言語の開発環境がなくても、Go Playground から <a href="https://play.golang.org/p/JIkiuHrBDc3">実行可能</a> です。</p>
+<h2 id="外部-api-呼び出しなどの非同期処理がある場合">外部 API 呼び出しなどの非同期処理がある場合</h2>
+<p>さて、Go 言語の特徴の一つとして非同期処理を比較的簡単に書けるというものがあります。 ですので、例えばハンドラ内で外部APIを呼び出したりする場合には、 goroutine を使った非同期かがよく行われます。</p>
+<p>具体的なイメージとしては、例えば、下記みたいに ntp 使って時刻を表示するサーバとか</p>
+<pre class="sourceCode go:main.go" id="cb6"><code class="sourceCode go"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">import</span> <span class="st">&quot;github.com/beevik/ntp&quot;</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">    time, _ := ntp.Time(<span class="st">&quot;ntp.nict.jp&quot;</span>)</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">    fmt.Fprintln(w, time)</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">}</a></code></pre>
+<p>後は、なんか重めな処理を goroutine 使ってバックエンドに流したりするすサーバとかもあるわけです。</p>
+<pre class="sourceCode go:main.go" id="cb7"><code class="sourceCode go"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">func</span> request(w io.Writer, text <span class="dt">string</span>, count <span class="dt">int</span>) {</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">    <span class="kw">for</span> i := <span class="dv">0</span>; i &lt; count; i++ {</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">        time.Sleep(<span class="dv">500</span> * time.Millisecond)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">        fmt.Fprintln(w, text)</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">    }</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">    <span class="kw">go</span> request(w, <span class="st">&quot;foo&quot;</span>, <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">    <span class="kw">go</span> request(w, <span class="st">&quot;bar&quot;</span>, <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">    request(w, <span class="st">&quot;baz&quot;</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">    <span class="kw">go</span> request(w, <span class="st">&quot;qux&quot;</span>, <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb7-13" data-line-number="13">}</a></code></pre>
+<p>他にも、MySQL などのデータベースの読み書きや、それをラップした DAO, ORM などの処理。 ファイルの読み書きなどディスクIOが発生する何かなどは気軽に goroutine 化して行くことが数多くあるでしょう。</p>
+<p>直接 goroutine 化しないとしても、ライブラリ内などでは積極的にされているかもしれません。 このようなとき、上記のような素直すぎるプログラムを書いたとき、真っ先に困るのが <em>タイムアウト処理の実装</em> でしょう。</p>
+<p>何をどう困るのかを実感するために、サンプルコードとして、ランダムで 0 - 2000 ミリ秒で String を返す <code>request</code> メソッドと、それを呼び出すハンドラを用意します。</p>
+<pre class="sourceCode go:main.go" id="cb8"><code class="sourceCode go"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">// request は 0-2000ミリ秒ランダムで待機した上で、`kind` を返す</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">func</span> request(kind <span class="dt">string</span>) <span class="dt">string</span> {</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">    time.Sleep(time.Duration(rand.Intn(<span class="dv">2000</span>)) * time.Millisecond)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">    <span class="kw">return</span> fmt.Sprintf(<span class="st">&quot;%s, &quot;</span>, kind)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">// handleRoot は　HTTP リクエストのハンドラで、foo, bar, baz, qux をランダムに返す</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">    c := <span class="bu">make</span>(<span class="kw">chan</span> <span class="dt">string</span>)</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;foo&quot;</span>) }()</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;bar&quot;</span>) }()</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;baz&quot;</span>) }()</a>
+<a class="sourceLine" id="cb8-13" data-line-number="13">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;qux&quot;</span>) }()</a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15">    <span class="kw">for</span> i := <span class="dv">0</span>; i &lt; <span class="dv">4</span>; i++ {</a>
+<a class="sourceLine" id="cb8-16" data-line-number="16">        res := &lt;-c</a>
+<a class="sourceLine" id="cb8-17" data-line-number="17">        fmt.Fprint(w, res)</a>
+<a class="sourceLine" id="cb8-18" data-line-number="18">    }</a>
+<a class="sourceLine" id="cb8-19" data-line-number="19">}</a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="kw">func</span> main() {</a>
+<a class="sourceLine" id="cb8-22" data-line-number="22">    server := httptest.NewServer(http.HandlerFunc(handleRoot))</a>
+<a class="sourceLine" id="cb8-23" data-line-number="23">    <span class="kw">defer</span> server.Close()</a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25">    rand.Seed(time.Now().UnixNano())</a>
+<a class="sourceLine" id="cb8-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb8-27" data-line-number="27">  <span class="co">// 一応、所要時間も記録しておく</span></a>
+<a class="sourceLine" id="cb8-28" data-line-number="28">    start := time.Now()</a>
+<a class="sourceLine" id="cb8-29" data-line-number="29">    res, _ := http.Get(server.URL)</a>
+<a class="sourceLine" id="cb8-30" data-line-number="30">    elapsed := time.Since(start)</a>
+<a class="sourceLine" id="cb8-31" data-line-number="31">    body, _ := ioutil.ReadAll(res.Body)</a>
+<a class="sourceLine" id="cb8-32" data-line-number="32">    fmt.Printf(<span class="st">&quot;Response: %s (%s)</span><span class="ch">\n</span><span class="st">&quot;</span>, body, elapsed)</a>
+<a class="sourceLine" id="cb8-33" data-line-number="33">  <span class="co">// main が即終了しないようにしておく</span></a>
+<a class="sourceLine" id="cb8-34" data-line-number="34">  time.Sleep(<span class="dv">2000</span> * time.Millisecond)</a>
+<a class="sourceLine" id="cb8-35" data-line-number="35">}</a></code></pre>
+<p><code>console $ go run main.go Response: bar, baz, foo, qux, (1.860987136s)</code></p>
+<h2 id="タイムアウト処理を実装しようとして失敗してみる">タイムアウト処理を実装しようとして、失敗してみる</h2>
+<p>シンプルにタイムアウトを実装するなら、<code>c</code> 以外にもう一つタイムアウト用のチャンネルを用意し、 どちらかが返ってきたら <code>handleRoot</code> を打ち切るように実装すれば ok なはずです。 より、処理を簡単にするため、下のコードではさらに <code>all</code> チャンネルと 4 つのリクエストを待つ goroutine を用意していきます。</p>
+<ol type="1">
+<li>タイムアウトして、 “timeout” を返す</li>
+<li>4 つの <code>request</code> を全て処理しきった結果を返す</li>
+</ol>
+<p>のどちらかの挙動となるはずです。</p>
+<pre class="sourceCode go:main.go" id="cb9"><code class="sourceCode go"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">    c := <span class="bu">make</span>(<span class="kw">chan</span> <span class="dt">string</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;foo&quot;</span>) }()</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;bar&quot;</span>) }()</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;baz&quot;</span>) }()</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;qux&quot;</span>) }()</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">  <span class="co">// 全てのレスポンスを待機するチャンネルを作る</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">    all := <span class="bu">make</span>(<span class="kw">chan</span> <span class="dt">string</span>)</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">    <span class="kw">go</span> <span class="kw">func</span>() {</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">        <span class="kw">var</span> res <span class="dt">string</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12">        <span class="kw">for</span> i := <span class="dv">0</span>; i &lt; <span class="dv">4</span>; i++ {</a>
+<a class="sourceLine" id="cb9-13" data-line-number="13">            res += &lt;-c</a>
+<a class="sourceLine" id="cb9-14" data-line-number="14">        }</a>
+<a class="sourceLine" id="cb9-15" data-line-number="15">        all &lt;- res</a>
+<a class="sourceLine" id="cb9-16" data-line-number="16">    }()</a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18">  <span class="co">// タイムアウトを1500ミリ秒後に設定する</span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19">    timeout := time.After(<span class="dv">1500</span> * time.Millisecond)</a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb9-21" data-line-number="21">    <span class="kw">select</span> {</a>
+<a class="sourceLine" id="cb9-22" data-line-number="22">    <span class="kw">case</span> response := &lt;-all:</a>
+<a class="sourceLine" id="cb9-23" data-line-number="23">        fmt.Fprint(w, response)</a>
+<a class="sourceLine" id="cb9-24" data-line-number="24">    <span class="kw">case</span> &lt;-timeout:</a>
+<a class="sourceLine" id="cb9-25" data-line-number="25">        fmt.Fprint(w, <span class="st">&quot;timeout&quot;</span>)</a>
+<a class="sourceLine" id="cb9-26" data-line-number="26">    }</a>
+<a class="sourceLine" id="cb9-27" data-line-number="27">    <span class="kw">return</span></a>
+<a class="sourceLine" id="cb9-28" data-line-number="28">}</a>
+<a class="sourceLine" id="cb9-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">// request, main は略</span></a></code></pre>
+<p>さて、これでタイムアウトができた。 ・・・と、思うでしょう？</p>
+<p>例えば、タイムアウト時間を 100 ミリ秒とかに設定すると、期待通りに動かないことがすぐにわかるはずです。</p>
+<pre class="sourceCode go" id="cb10"><code class="sourceCode go"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">    c := <span class="bu">make</span>(<span class="kw">chan</span> <span class="dt">string</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;foo&quot;</span>) }()</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;bar&quot;</span>) }()</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;baz&quot;</span>) }()</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;qux&quot;</span>) }()</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">    all := <span class="bu">make</span>(<span class="kw">chan</span> <span class="dt">string</span>)</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9">    <span class="kw">go</span> <span class="kw">func</span>() {</a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">        <span class="kw">var</span> res <span class="dt">string</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">        <span class="kw">for</span> i := <span class="dv">0</span>; i &lt; <span class="dv">4</span>; i++ {</a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">            res += &lt;-c</a>
+<a class="sourceLine" id="cb10-13" data-line-number="13">            fmt.Printf(<span class="st">&quot;all: %s</span><span class="ch">\n</span><span class="st">&quot;</span>, res)</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14">        }</a>
+<a class="sourceLine" id="cb10-15" data-line-number="15">        all &lt;- res</a>
+<a class="sourceLine" id="cb10-16" data-line-number="16">    }()</a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18">    timeout := time.After(<span class="dv">100</span> * time.Millisecond)</a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb10-20" data-line-number="20">    <span class="kw">select</span> {</a>
+<a class="sourceLine" id="cb10-21" data-line-number="21">    <span class="kw">case</span> response := &lt;-all:</a>
+<a class="sourceLine" id="cb10-22" data-line-number="22">        fmt.Fprint(w, response)</a>
+<a class="sourceLine" id="cb10-23" data-line-number="23">    <span class="kw">case</span> &lt;-timeout:</a>
+<a class="sourceLine" id="cb10-24" data-line-number="24">        fmt.Fprint(w, <span class="st">&quot;timeout&quot;</span>)</a>
+<a class="sourceLine" id="cb10-25" data-line-number="25">    }</a>
+<a class="sourceLine" id="cb10-26" data-line-number="26">    <span class="kw">return</span></a>
+<a class="sourceLine" id="cb10-27" data-line-number="27">}</a>
+<a class="sourceLine" id="cb10-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb10-29" data-line-number="29"><span class="co">// request, main は略</span></a></code></pre>
+<pre><code>$ go run main.go
+Response: timeout (103.853504ms)
+all: bar,
+all: bar, foo,
+all: bar, foo, qux,</code></pre>
+<p>見ての通り、タイムアウトしたにも関わらず、<code>all</code> チャンネルを使う goroutine や、 <code>request</code> メソッドを呼び出す goroutine は生きていたままになっていることがわかるかと思います。</p>
+<p>この問題は、 <em>リクエスト全体を通して、処理が完了しているかを示すフラグやチャンネル</em> があればなんとかなりそうです。</p>
+<h2 id="リクエスト毎の変数的な何かまたは-context-が何を解決するか">リクエスト毎の変数的な何か。または context が何を解決するか。</h2>
+<p>上記に出てきたような <em>リクエスト全体を通して、処理が完了しているかを示すフラグやチャンネル</em> 、 リクエスト毎に区切られた認証情報や処理の経過時間みたいな変数、リクエストを中止させる共通のインターフェースなどを用意したのが <a href="https://golang.org/pkg/context/">context</a> パッケージです。</p>
+<ul>
+<li>golang でも気軽に <code>CurrentUserId()</code> 的メソッドで現在アクセス中のユーザIDが欲しい</li>
+<li>とりあえずエラーを発生させて全ての処理を中止させたい</li>
+</ul>
+<p>みたいな要求に気軽に応えられるようになります。</p>
+<p>使い方はシンプルで、context を作って、下部のメソッドに渡して行くだけです！　簡単！ （ただし、下部のメソッドは goroutine を作る際に、<code>ctx.Done()</code> で処理が終了していないかチェックかけてね！）</p>
+<pre><code>func handleRoot(w http.ResponseWriter, r *http.Request) {
+    ctx, cancel := context.WithTimeout(context.Background(), 2000*time.Millisecond)
+    defer cancel()
+
+    c := make(chan string)
+    go func() { c &lt;- request(&quot;foo&quot;) }()
+    go func() { c &lt;- request(&quot;bar&quot;) }()
+    go func() { c &lt;- request(&quot;baz&quot;) }()
+    go func() { c &lt;- request(&quot;qux&quot;) }()
+
+    all := make(chan string)
+    go func() {
+        var res string
+        for i := 0; i &lt; 4; i++ {
+            select {
+            case r := &lt;-c:
+                res += r
+                fmt.Printf(&quot;all: %s\n&quot;, res)
+            case &lt;-ctx.Done(): // リクエスト全体が完了しているなら、この goroutine を中止する。
+                return
+            }
+        }
+        all &lt;- res
+    }()
+
+    select {
+    case response := &lt;-all:
+        fmt.Fprint(w, response)
+    case &lt;-ctx.Done():
+        fmt.Fprint(w, &quot;timeout&quot;)
+    }
+    return
+}
+
+// request, main は略</code></pre>
+<h1 id="context-パッケージはこう使うんだよ">Context パッケージはこう使うんだよ</h1>
+<p>さて、ここまでで context が生まれた背景を説明していきました。</p>
+<p>context を使うことで、リクエストを処理する全体で、タイムアウトやキャンセルなどの処理や、リクエスト全体をまたがる変数を取り扱うことができるようになります。</p>
+<p>ここからは具体的な使い方を見ていきましょう。</p>
+<h2 id="context-型"><code>Context</code> 型</h2>
+<p><a href="https://blog.golang.org/context">Go Concurrency Patterns: Context - The Go Blog</a> にも記載がありますが、Context のコアな構造は次の通りです。</p>
+<pre class="sourceCode go" id="cb13"><code class="sourceCode go"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co">// Context はキャンセルフラグやリクエスト毎の変数、リクエストのデッドラインなどを</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">// API 境界をまたいでアクセスするために使います。各メソッドは複数の goroutine から</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">// 同時にアクセス可能です。</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="kw">type</span> Context <span class="kw">interface</span> {</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">  <span class="co">// Context がキャンセルされたりタイムアウトしたりした時に close されるチャンネルを返す</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">  Done() &lt;-<span class="kw">chan</span> <span class="kw">struct</span>{}</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">  <span class="co">// なんでこのコンテキストが中止されたのかを示す error オブジェクト。Done チャンネルが</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">  <span class="co">// close した後にセットされる</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10">  Err() <span class="dt">error</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12">  <span class="co">// Deadline はこのコンテキストがキャンセルされる予定の time.Time を返す</span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13">  Deadline() (deadline time.Time, ok <span class="dt">bool</span>)</a>
+<a class="sourceLine" id="cb13-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb13-15" data-line-number="15">  <span class="co">// このコンテキストに関連づけられた変数</span></a>
+<a class="sourceLine" id="cb13-16" data-line-number="16">  Value(key <span class="kw">interface</span>{}) <span class="kw">interface</span>{}</a>
+<a class="sourceLine" id="cb13-17" data-line-number="17">}</a></code></pre>
+<p><code>Done</code> 関数はこのリクエスト全体が完了またはキャンセルされた時にシグナルが渡されるチャンネルを返します。 このチャンネルが閉じるか、シグナルが来た場合は、リクエスト全体が終了したため、各 goroutine は直ちに終了する必要があります。 また、 <code>Err</code> 関数は、このリクエスト然たがキャンセルまたはエラーで終了した場合、そのエラーを返します。</p>
+<h2 id="子-goroutine-をキャンセルさせる">子 goroutine をキャンセルさせる</h2>
+<p><code>Context</code> にはキャンセルを実行するメソッドは定義されていませんでした。 これは、通常の場合、キャンセルシグナルを受け取る goroutine とキャンセルを実施する goroutine は異なるためです。</p>
+<p>例えば、ある goroutine A があり、 A が新しく goroutine B を呼び出す場合で考えますと</p>
+<ul>
+<li>A は B をキャンセルできます</li>
+<li>B は A をキャンセルできません</li>
+<li>A は A 自身をキャンセルできません。(return で抜けることはできるでしょう)</li>
+<li>B は B 自身をキャンセルできません。(return で抜けることはできるでしょう)</li>
+</ul>
+<p>と整理できます。 この場合、A は B にキャンセル可能なコンテキストを渡す必要があり、 <a href="https://tip.golang.org/pkg/context/#WithCancel">context.WithCancel</a> で作成可能です。</p>
+<p>例を見せましょう。</p>
+<p>まず、コンテキストを受け取り、キャンセル可能な無限ループを作ります。</p>
+<pre class="sourceCode go" id="cb14"><code class="sourceCode go"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co">// infLoop は無限ループを行います。渡された context が終了した際にはこの関数を抜けます。</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">func</span> infLoop(ctx context.Context) {</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">    fmt.Println(<span class="st">&quot;start infLoop&quot;</span>)</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">    <span class="kw">for</span> {</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">        <span class="kw">select</span> {</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">        <span class="kw">case</span> &lt;-ctx.Done():</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">            fmt.Println(<span class="st">&quot;exit infLoop&quot;</span>)</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">            <span class="kw">return</span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9">        }</a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">    }</a>
+<a class="sourceLine" id="cb14-11" data-line-number="11">}</a></code></pre>
+<p>main では <a href="https://tip.golang.org/pkg/context/#Background">context.Background</a> で新しいコンテキストを作った上で、 この親コンテキストをもとにキャンセル可能な子コンテキストを作り、 <code>infLoop</code> に渡します。</p>
+<pre><code>func main() {
+    rand.Seed(time.Now().UnixNano())
+
+    ctx := context.Background()
+    ctx, cancel := context.WithCancel(ctx)
+
+    go infLoop(ctx)</code></pre>
+<p>後は、好きなタイミングで <code>cancel()</code> を呼び出せば、 <code>infLoop</code> は終了します。</p>
+<pre><code>    go infLoop(ctx)
+
+  time.Sllep(1000 * time.Millisecond)
+  cancel()
+}</code></pre>
+<p>実行可能なプログラムの全体像は以下の通りです。</p>
+<pre><code>package main
+
+import (
+    &quot;context&quot;
+    &quot;fmt&quot;
+    &quot;math/rand&quot;
+    &quot;time&quot;
+)
+
+// infLoop は無限ループを行います。渡された context が終了した際にはこの関数を抜けます。
+func infLoop(ctx context.Context) {
+    fmt.Println(&quot;start infLoop&quot;)
+    for {
+        select {
+        case &lt;-ctx.Done():
+            fmt.Println(&quot;exit infLoop&quot;)
+            return
+        }
+    }
+}
+
+func main() {
+    rand.Seed(time.Now().UnixNano())
+
+    ctx := context.Background()
+    ctx, cancel := context.WithCancel(ctx)
+
+    go infLoop(ctx)
+
+  time.Sleep(1000 * time.Millisecond)
+  fmt.Println(&quot;do cancel&quot;)
+  cancel()
+
+  // main が終了しないように sleep を挟んでおく
+    time.Sleep(1000 * time.Millisecond)
+}</code></pre>
+<p>実行結果は以下のようになります。</p>
+<pre class="console"><code>$ go run main.go
+start infLoop
+do cancel
+exit infLoop</code></pre>
+<h2 id="子-goroutine-をタイムアウトさせる">子 goroutine をタイムアウトさせる</h2>
+<p>ほぼ、上記のキャンセルと同様ではありますが、タイムアウト処理には <a href="https://tip.golang.org/pkg/context/#WithDeadline">context.WithDeadline</a> と <a href="https://tip.golang.org/pkg/context/#WithTimeout">context.WithTimeout</a> の二つが使えます。</p>
+<p>WithDeadline は指定時刻に、WithTimeout は指定時間経過後にそれぞれキャンセルされます。</p>
+<h2 id="cancel-の呼び出しはどこに書くか">cancel() の呼び出しはどこに書くか？</h2>
+<p>ここまでのコード例では、 <code>time.Sleep</code> を多用したため、 <code>cancel()</code> を手動で呼び出していました。 しかし、大抵の場合、 <code>foo</code> 関数で子 goroutine を作りっぱなしにすることはなく、 <code>foo</code> が終了するタイミングで子 goroutine も後始末することが多いでしょう。 ですので、 <code>defer</code> を使って下記のように書くことが多いと思います。</p>
+<pre class="sourceCode go" id="cb19"><code class="sourceCode go"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">func</span> foo(ctx context.Context) {</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">  ctx, cancel := context.WithCancel(ctx)</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">  <span class="kw">defer</span> cancel()</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">  <span class="kw">go</span> <span class="kw">func</span>(ctx) {</a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">    <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb19-7" data-line-number="7">  }(ctx)</a>
+<a class="sourceLine" id="cb19-8" data-line-number="8">}</a></code></pre>
+<h2 id="コンテキストで値を渡す">コンテキストで値を渡す</h2>
+<p><a href="https://tip.golang.org/pkg/context/#example_WithValue">context.WithValue</a> を使い、値を渡します。 重要なのは、ここで渡す値は、例えばリクエストの処理の間、ずっと受け渡したい値であり、gorouitne や関数のオプションに渡すべきではないということです。 （この関数を使うと便利に値が渡せてしまいますので、濫用に注意しましょう）</p>
+<p><code>context.WithValue</code> では、<code>key</code> と <code>val</code> のそれぞれに <code>interface</code> が使えます。</p>
+<h2 id="コンテキストの木構造">コンテキストの木構造</h2>
+<p><code>Context</code> は親子関係を持っています。 <code>WithCancel</code> や <code>WithTimeout</code>, <code>WithValue</code> などを呼び出すことで、どんどん子 <code>Context</code> ができていきます。 親の <code>Context</code> がキャンセルされた場合、子供や子孫のコンテキストに <code>Done</code> が送信されます。</p>
+<p>では、最上位の根 <code>Context</code> はどうやって作れば良いのでしょうか？？</p>
+<p><a href="https://tip.golang.org/pkg/context/#Background">context.Background</a> がそれになります。</p>
+<p>このコンテキストはキャンセルもできませんし、タイムアウト設定などもされていません。</p>
+<h1 id="まとめと-context-を使う際のルールについて">まとめと Context を使う際のルールについて</h1>
+<p><code>context</code> パッケージを使うと、リクエストの処理中の値を取り扱いや、リクエスト自体がキャンセルされた際の、子 goroutine の適切なキャンセルなどをとてもスッキリと記述できます。 ・・・が、それにはいくつかルールが必要です。</p>
+<p><a href="https://blog.golang.org/context">Go Concurrency Patterns: Context - The Go Blog</a> の最後に、Google 社内でのルールについて記されています。 まず、 <code>context</code> を用いる全ての関数で、最初の引数として <code>context</code> を受け取れるようにしています。 この時、 <em>必ず第１引数</em> にしています（社内規約です）。 また、 <code>context</code> を用いた関数が goroutine を呼び出すなら、適切なキャンセル処理をする必要があります。 このルールに従うことで、謎の goroutin がサーバ上で残るなど変な不具合がぐっと減らせるはずでしょう。</p>
+<p>サンプルコードは https://github.com/ayasuda/sandbox/tree/master/go_context においてあります。</p>
+<h1 id="参照">参照</h1>
+<ul>
+<li><a href="https://tip.golang.org/pkg/context/">context - The Go Programming Language</a></li>
+<li><a href="https://blog.golang.org/context">Go Concurrency Patterns: Context - The Go Blog</a></li>
+<li><a href="https://deeeet.com/writing/2016/07/22/context/">Go1.7のcontextパッケージ | SOTA</a></li>
+<li><a href="https://twinbird-htn.hatenablog.com/entry/2017/04/07/214420">golangでcontextパッケージを使う - write ahead log</a></li>
+<li><a href="https://blog.golang.org/pipelines">Go Concurrency Patterns: Pipelines and cancellation - The Go Blog</a></li>
+<li><a href="https://qiita.com/TsuyoshiUshio@github/items/34b63b663ffd56125c07">Go の Context を学ぶ - Qiita</a></li>
+<li><a href="https://qiita.com/marnie_ms4/items/985d67c4c1b29e11fffc">golang contextの使い方とか概念(contextとは)的な話 - Qiita</a></li>
+</ul>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
+</body>
+</html>
