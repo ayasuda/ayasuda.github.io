@@ -8,6 +8,7 @@
   <meta name="author" content="Atsushi Yasuda">
   <meta name="description" content="サーバプログラムやAPI呼び出しなどをする際によく見かけることになる context パッケージ。このパッケージが何を解決たかったのかと、使用法についてまとめてみます。">
   <meta name="keywords" content="Go, Context, How to">
+  <meta name="date" content="2019-04-15">
   <title>Go 言語 context パッケージ誕生の背景と使用方法</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -85,7 +86,13 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <article>
   <header class="content">
     <h1>Go 言語 context パッケージ誕生の背景と使用方法</h1>
-    <p>2019-04-15</p>
+    <div class="published">2019-04-15</div>
+    <p>サーバプログラムやAPI呼び出しなどをする際によく見かけることになる context パッケージ。このパッケージが何を解決たかったのかと、使用法についてまとめてみます。</p>
+    <ul class="keywords">
+      <li>Go</li>
+      <li>Context</li>
+      <li>How to</li>
+    </ul>
   </header>
 <p>Go 言語を使って何を書くかといえば、なんだかんだでサーバプログラムを書くことが多いかと思います。</p>
 <p>大抵の場合、ハンドラは goroutine で動かすことになります。また、ハンドラの中で goroutine 動かすケースも多々あります。 さて、例えばハンドラ内で外部 API を呼び出したり、マイクロサービスな関連サーバへリクエストをかけたりする際に、 それぞれのリクエストで AccessToken やタイムアウトの規定時間など、共通の値を用いるケースは多々あるかと思います。 また、 goroutine で平行で動かしているリクエストがある時、１つが失敗したら残りのリクエストも全部失敗させたいときなどもあり得るでしょう。</p>

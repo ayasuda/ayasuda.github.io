@@ -2,11 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <% if with_localhost %>
-    <base href="http://localhost:3000/">
-    <% else %>
     <base href="https://ayasuda.github.io/">
-    <% end %>
     <title>ayasuda.github.io</title>
     <link rel="stylesheet" href="/css/style.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -19,18 +15,21 @@
     </script>
   </head>
   <body>
-    <nav>
-    </nav>
     <header>
       <h1><a href="/">ayasuda.github.io</a></h1>
     </header>
-    <article>
+    <article class="index">
       <ul>
         <% pages.each do |page| %>
           <li>
-            <%= page.to_date %>
             <a href="<%= page.path %>"><%= page.title %></a>
+            <div class="published"><%= page.to_date %></div>
             <p><%= page.description %></p>
+            <ul class="keywords">
+              <% page.keywords.each do |keyword| %>
+                <li><%= keyword %></li>
+              <% end %>
+            </ul>
           </li>
         <% end %>
       </ul>

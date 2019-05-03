@@ -84,6 +84,10 @@ class Page
     metadata["description"]
   end
 
+  def keywords
+    metadata["keywords"]
+  end
+
   private
 
   def metadata

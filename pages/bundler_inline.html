@@ -8,6 +8,7 @@
   <meta name="author" content="Atsushi Yasuda">
   <meta name="description" content="bundler を使って簡単なスクリプトでも依存関係を定義できる、インライン記法についてメモをまとめておきました">
   <meta name="keywords" content="bundler">
+  <meta name="date" content="2017-10-20">
   <title>１ファイルくらいのスクリプト向け bundler</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -85,7 +86,11 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <article>
   <header class="content">
     <h1>１ファイルくらいのスクリプト向け bundler</h1>
-    <p>2017-10-20</p>
+    <div class="published">2017-10-20</div>
+    <p>bundler を使って簡単なスクリプトでも依存関係を定義できる、インライン記法についてメモをまとめておきました</p>
+    <ul class="keywords">
+      <li>bundler</li>
+    </ul>
   </header>
 <h1 id="簡単な-ruby-のスクリプトでもライブラリのバージョン管理をしたい">簡単な ruby のスクリプトでも、ライブラリのバージョン管理をしたい！</h1>
 <p>ruby のパッケージ管理ツールである <a href="http://bundler.io/">Bundler</a> はとても便利で、当たり前のように普段使いをしています。 ところで、ちょっとした、ちょうど 1 ファイルくらいの軽量スクリプト書くときに、いちいち <code>Gemfile</code> を書いたりする人はあまりいないでしょう。 軽量のスクリプトなら普通に <code>gem install hogehoge</code> みたいにライブラリをインストールし、 <code>require 'hogehoge'</code> してライブラリを読み込むのが普通でしょう。 でも、たまたまこのスクリプトファイルを共有する時とかに、ライブラリのバージョン差異が出て <em>地味に</em> 不便なんですよね。</p>

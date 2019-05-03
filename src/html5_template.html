@@ -2,11 +2,7 @@
 <html lang="ja" dir="ltr">
 <head>
   <meta charset="utf-8">
-$if(localhost)$
-  <base href="http://localhost:3000/">
-$else$
   <base href="https://ayasuda.github.io/">
-$endif$
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Atsushi Yasuda">
@@ -15,6 +11,9 @@ $if(description)$
 $endif$
 $if(keywords)$
   <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$">
+$endif$
+$if(date)$
+  <meta name="date" content="$date$">
 $endif$
   <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
   <style type="text/css">code{white-space: pre;}</style>
@@ -47,7 +46,17 @@ $endif$
 $if(title)$
   <header class="content">
     <h1>$title$</h1>
-    <p>$date$</p>
+    <div class="published">$date$</div>
+$if(description)$
+    <p>$description$</p>
+$endif$
+$if(keywords)$
+    <ul class="keywords">
+$for(keywords)$
+      <li>$keywords$</li>
+$endfor$
+    </ul>
+$endif$
   </header>
 $endif$
 $if(toc)$
