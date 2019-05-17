@@ -1,6 +1,5 @@
 # ayasuda.github.io
 
-
 ## How to add post
 
 1. copy src/template.md to src/{title}.md
