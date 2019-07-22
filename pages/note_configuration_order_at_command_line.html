@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="description" content="コマンドラインツールを作る時、プログラムがユーザから値を受ける方法は何通りもあります。特に代表的なのが設定ファイル・環境変数・コマンドライン引数です。本記事では、一般的にこれらをどのような優先順位で扱うかを調べていきます。">
+  <meta name="keywords" content="Command Line Tool, Option, Configuration, Programming Note">
+  <meta name="date" content="2019-07-22">
+  <title>コマンドラインツールでの設定値の優先順（設定ファイル・環境変数・コマンドライン引数）</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-138223597-1');
+  </script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header class="site">
+  <h1><a href="/">ayasuda.github.io</a></h1>
+</header>
+<article>
+  <header class="content">
+    <h1>コマンドラインツールでの設定値の優先順（設定ファイル・環境変数・コマンドライン引数）</h1>
+    <div class="published">2019-07-22</div>
+    <p>コマンドラインツールを作る時、プログラムがユーザから値を受ける方法は何通りもあります。特に代表的なのが設定ファイル・環境変数・コマンドライン引数です。本記事では、一般的にこれらをどのような優先順位で扱うかを調べていきます。</p>
+    <ul class="keywords">
+      <li>Command Line Tool</li>
+      <li>Option</li>
+      <li>Configuration</li>
+      <li>Programming Note</li>
+    </ul>
+  </header>
+<p>コマンドラインツールを作る時、プログラムがユーザから値を受ける方法は何通りもあります。 特に代表的なのが設定ファイル・環境変数・コマンドライン引数です。 自分でプログラムを書く場合、これらの値を自分の好きな順番で扱えます。 ただ、自分の好きな順番で扱えるからこそ、何をどのような優先順位で処理すべきか迷うこともあるでしょう。 本記事では、各種値を一般的にはどのように処理していくかを調べていきます。</p>
+<h1 id="結論">結論</h1>
+<p><a href="https://stackoverflow.com/questions/11077223/what-order-of-reading-configuration-values">environment variables - What order of reading configuration values? - Stack Overflow</a> でも言及されていますが、下記の優先順位で値を設定するのがベターでしょう。</p>
+<ol type="1">
+<li>コマンドライン引数</li>
+<li>コマンドライン引数で明示的に指定された設定ファイルからの値</li>
+<li>環境変数</li>
+<li>ローカルの設定ファイル</li>
+<li>グローバルな設定ファイル</li>
+</ol>
+<h1 id="他のプロダクトではどうなっているか">他のプロダクトではどうなっているか？</h1>
+<h2 id="springboot-における設定の優先順位">SpringBoot における設定の優先順位</h2>
+<p>Java のフレームワークである SpringBoot では次の順番で設定が読み込まれます。 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html</p>
+<ol type="1">
+<li>ホームディレクトリにある <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html#using-boot-devtools-globalsettings">Devtool のグローバルな設定</a> (devtool が有効になっておりかつ <code>~/.spring-boot-devtools.properties</code> がある場合)</li>
+<li>テストに記されている <code>[@TestPropertySource](https://docs.spring.io/spring/docs/5.1.8.RELEASE/javadoc-api/org/springframework/test/context/TestPropertySource.html)</code> アノテーションの値</li>
+<li><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html#boot-features-testing-spring-boot-applications-testing-autoconfigured-test">アプリケーションの一部をテストするため</a> の <code>[@SpringBootTest](https://docs.spring.io/spring-boot/docs/2.1.6.RELEASE/api/org/springframework/boot/test/context/SpringBootTest.html)</code> で設定されたテスト用の値</li>
+<li>コマンドライン引数の値</li>
+<li>環境変数 <code>SPRING_APPLICATION_JSON</code> の値</li>
+<li><code>ServletConfig</code> の初期化値</li>
+<li><code>ServletContext</code> の初期化値</li>
+<li><code>java:comp/env</code> で設定された JNDI の値</li>
+<li>Java System properties</li>
+<li>OS の環境変数</li>
+</ol>
+<p>(11 以上は略)</p>
+<h2 id="aws-coomand-line-interface-における設定の優先順位">AWS Coomand Line interface における設定の優先順位</h2>
+<p>AWS CLI では下記の順番で値が読み込まれます。 https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html</p>
+<blockquote>
+<ul>
+<li>If you specify an option by using one of the environment variables described in this topic, it overrides any value loaded from a profile in the configuration file.</li>
+<li>If you specify an option by using a parameter on the CLI command line, it overrides any value from either the corresponding environment variable or a profile in the configuration file.</li>
+</ul>
+</blockquote>
+<p>つまり、</p>
+<ol type="1">
+<li>コマンドライン引数</li>
+<li>環境変数</li>
+<li>設定ファイル</li>
+</ol>
+<p>の順番です。</p>
+<h1 id="参考">参考</h1>
+<ul>
+<li>https://stackoverflow.com/questions/11077223/what-order-of-reading-configuration-values</li>
+<li>https://dzone.com/articles/configuration-files</li>
+</ul>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
+</body>
+</html>
