@@ -2,7 +2,6 @@ require 'date'
 require 'erb'
 require 'pathname'
 require 'yaml'
-require 'awesome_print'
 
 
 PANDOC = "pandoc"
@@ -21,13 +20,17 @@ LOCALHOST = ENV['LOCAL'] || false
 
 task default: :all
 
+desc "test command to develop rake file self"
 task :test do
   p PAGES
 end
 
 directory PAGE_DIR
+
+desc "compile all published articles, index page and any of all"
 task all: [PAGE_DIR, INDEX]
 
+desc "compile index.html"
 task INDEX => [:page_all, PANDOCTEMPLATE, INDEX_BASE].flatten do
   with_localhost = LOCALHOST
   pages = Dir.glob("src/*.md").map{|name| Page.new(name) }
@@ -36,8 +39,10 @@ task INDEX => [:page_all, PANDOCTEMPLATE, INDEX_BASE].flatten do
   File.write(INDEX, ERB.new(File.read(INDEX_BASE)).result(binding))
 end
 
+desc "compile all published articles"
 task page_all: PAGES
 
+desc "clean up all published files"
 task :clean do
   rm_rf PAGE_DIR
   rm INDEX
@@ -53,8 +58,18 @@ rule %r{^#{PAGE_DIR}/.+\.html} => "%{^#{PAGE_DIR},src}X.md" do |t|
   end
 end
 
+desc "run local web server to check page view"
 task :run do
   sh "ruby -run -e httpd . -p 3000"
+end
+
+desc "show draft articles"
+task :draft do
+  SRCS.each do |src|
+    page = Page.new(src)
+    next if page.publish?
+    puts [src, page.title].join("\t")
+  end
 end
 
 class Page
