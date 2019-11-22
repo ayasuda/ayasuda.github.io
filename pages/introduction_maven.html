@@ -120,12 +120,12 @@ package: com.example.alice
 
 12 directories, 3 files</code></pre>
 <p>さて、プロジェクトディレクトリに移動して、コンパイルをしてみよう。 デフォルトで、上の方に示した goal, phase が全て定義済みとなっているが、よく使うのはこの辺りのコマンドだ。</p>
-<div class="line-block"><code>mvn compile</code> | Java のコードをコンパイルして target ディレクトリに配置する |
-<code>mvn test</code> | 単体テストを実行する |
-<code>mvn package</code> | パッケージを生成して target ディレクトリに配置する |
-<code>mvn install</code> | 作成されたパッケージをローカルリポジトリにインストールする。これにより、ローカル内の他のプロジェクトから参照可能になる。 |
-<code>mvn deploy</code> | 作成されたパッケージをリモートリポジトリに配置する。これにより、登録されたリモートリポジトリへのアクセス権がある他の開発者が参照可能になる。 |
-<code>mvn clean</code> | compile, test, package, などで生成された成果物を削除する |
+<div class="line-block"><code>mvn compile</code> | Java のコードをコンパイルして target ディレクトリに配置する |<br />
+<code>mvn test</code> | 単体テストを実行する |<br />
+<code>mvn package</code> | パッケージを生成して target ディレクトリに配置する |<br />
+<code>mvn install</code> | 作成されたパッケージをローカルリポジトリにインストールする。これにより、ローカル内の他のプロジェクトから参照可能になる。 |<br />
+<code>mvn deploy</code> | 作成されたパッケージをリモートリポジトリに配置する。これにより、登録されたリモートリポジトリへのアクセス権がある他の開発者が参照可能になる。 |<br />
+<code>mvn clean</code> | compile, test, package, などで生成された成果物を削除する |<br />
 <code>mvn javadoc:javadoc</code> | Javadoc を生成する |</div>
 <p>早速、パッケージを作成し、実行してみよう。上にも示した通り、パッケージの作成は <code>mvn package</code> から行う。</p>
 <pre><code>$ cd hello

@@ -12,20 +12,28 @@
   <title>カレンダー作成問題の解答 Go言語編</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-a.sourceLine { display: inline-block; min-height: 1.25em; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -33,38 +41,40 @@ pre.numberSource a.sourceLine::before
     color: #aaaaaa;
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; color: initial; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code span.dt { color: #902000; } /* DataType */
 code span.dv { color: #40a070; } /* DecVal */
-code span.bn { color: #40a070; } /* BaseN */
-code span.fl { color: #40a070; } /* Float */
-code span.ch { color: #4070a0; } /* Char */
-code span.st { color: #4070a0; } /* String */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.ot { color: #007020; } /* Other */
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.fu { color: #06287e; } /* Function */
 code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code span.cn { color: #880000; } /* Constant */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.im { } /* Import */
-code span.va { color: #19177c; } /* Variable */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.op { color: #666666; } /* Operator */
-code span.bu { } /* BuiltIn */
 code span.ex { } /* Extension */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.at { color: #7d9029; } /* Attribute */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="/css/style.css">
   <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -115,13 +125,13 @@ Su Mo Tu We Th Fr Sa
 <h2 id="今日の日付と-time-ライブラリ">今日の日付と time ライブラリ</h2>
 <p>さて、Go 言語で日付時刻を取り扱うなら <a href="https://golang.org/pkg/time/">time</a> パッケージです。 なお、このパッケージはグレゴリオ暦が想定されており、また閏秒は想定されていません。 （ですので、この問題が「天保暦のカレンダーを表示せよ」とかだと対応できませんね笑）</p>
 <p>まずはいつものコードを書いていきましょう。</p>
-<pre class="sourceCode go:main.go" id="cb2"><code class="sourceCode go"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">package</span> main</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">import</span> <span class="st">&quot;fmt&quot;</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">func</span> main() {</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">  fmt.Plintln(<span class="st">&quot;vim-go&quot;</span>)</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">}</a></code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">package</span> main</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">import</span> <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">func</span> main() {</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  fmt.Plintln(<span class="st">&quot;vim-go&quot;</span>)</span>
+<span id="cb2-7"><a href="#cb2-7"></a>}</span></code></pre></div>
 <p>早速、今日の日付と月末月初を表示してみましょう。</p>
 <p>ひとまず、 <a href="https://golang.org/pkg/time/#Now">time.Now()</a> で現時刻が取得できます。</p>
 <blockquote>
@@ -129,104 +139,104 @@ Su Mo Tu We Th Fr Sa
 </blockquote>
 <p>この関数は <a href="https://golang.org/pkg/time/#Time">Time型</a> を返します。この型はナノ秒単位での時刻を保持しているので 呼び出したタイミングによって値は異なります。</p>
 <p>次のコードで実験してみましょう。</p>
-<pre class="sourceCode go:main.go" id="cb3"><code class="sourceCode go"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">package</span> main</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">import</span> (</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="st">&quot;fmt&quot;</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">  <span class="st">&quot;time&quot;</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw">func</span> main() {</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">  fmt.Plintln(time.Now())</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">  fmt.Plintln(time.Now())</a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">}</a></code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">package</span> main</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">import</span> (</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="st">&quot;time&quot;</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="kw">func</span> main() {</span>
+<span id="cb3-9"><a href="#cb3-9"></a>  fmt.Plintln(time.Now())</span>
+<span id="cb3-10"><a href="#cb3-10"></a>  fmt.Plintln(time.Now())</span>
+<span id="cb3-11"><a href="#cb3-11"></a>}</span></code></pre></div>
 <p>このコードを実行した結果は次の通りです。ナノ秒の値が異なっているのがわかるかと思います。</p>
 <pre class="console"><code>$ go run main.go
 2019-05-05 01:04:15.881271 +0900 JST m=+0.000507473
 2019-05-05 01:04:15.881415 +0900 JST m=+0.000650832</code></pre>
 <p>さて、 <code>Time</code> 型には、年月日や時間を返す <code>func (Time) Year() int</code>, <code>func (t Time) Month() Month</code>, <code>func (t Time) Day() int</code>, <code>func (t Time) Hour() int</code> や、年月日の３項目を一気に返す <code>func (t Time) Date() (year int, month Month, day int)</code> などが用意されています。 なお、 <code>Month</code> 型は <code>type Month int</code> ですので、下記のコードは true になります。</p>
-<pre class="sourceCode go" id="cb5"><code class="sourceCode go"><a class="sourceLine" id="cb5-1" data-line-number="1">time.Febrary == <span class="dv">2</span> <span class="co">// true</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">time.November == <span class="dv">5</span> <span class="co">// false</span></a></code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb5-1"><a href="#cb5-1"></a>time.Febrary == <span class="dv">2</span> <span class="co">// true</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>time.November == <span class="dv">5</span> <span class="co">// false</span></span></code></pre></div>
 <p>月初に関してはこれらの関数の組み合わせと、 <a href="https://golang.org/pkg/time/#Date">time.Date</a> を組み合わせると取得できそうです。</p>
 <blockquote>
 <p>func Date(year int, month Month, day, hour, min, sec, nsec int, loc *Location) Time</p>
 </blockquote>
 <h2 id="月末の求め方-1-time.date-を使う">月末の求め方 1: time.Date を使う</h2>
 <p>月末に関してはどうでしょう？ 月の日数は月によって違います。また２月は閏年かどうかによって異なります。 この辺のコードを愚直に書くとこんな感じになります。</p>
-<pre class="sourceCode go:main.go" id="cb6"><code class="sourceCode go"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">package</span> main</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">import</span> (</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">    <span class="st">&quot;fmt&quot;</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">    <span class="st">&quot;time&quot;</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="kw">func</span> main() {</a>
-<a class="sourceLine" id="cb6-9" data-line-number="9">    n := time.Now()</a>
-<a class="sourceLine" id="cb6-10" data-line-number="10">    f := time.Date(n.Year(), n.Month(), <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local) <span class="co">// 月初</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11">    l := time.Date(n.Year(), n.Month(), lastDay(n), <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local) <span class="co">// 月末</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12">    fmt.Println(n)</a>
-<a class="sourceLine" id="cb6-13" data-line-number="13">    fmt.Println(f)</a>
-<a class="sourceLine" id="cb6-14" data-line-number="14">    fmt.Println(l)</a>
-<a class="sourceLine" id="cb6-15" data-line-number="15">}</a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">// lastDay は月末の日付を数値で返します</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="kw">func</span> lastDay(t time.Time) <span class="dt">int</span> {</a>
-<a class="sourceLine" id="cb6-19" data-line-number="19">    <span class="kw">switch</span> t.Month() {</a>
-<a class="sourceLine" id="cb6-20" data-line-number="20">    <span class="kw">case</span> time.January, time.March, time.May, time.July, time.August, time.October, time.December:</a>
-<a class="sourceLine" id="cb6-21" data-line-number="21">        <span class="kw">return</span> <span class="dv">31</span></a>
-<a class="sourceLine" id="cb6-22" data-line-number="22">    <span class="kw">case</span> time.April, time.June, time.September, time.November:</a>
-<a class="sourceLine" id="cb6-23" data-line-number="23">        <span class="kw">return</span> <span class="dv">30</span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24">    <span class="kw">case</span> time.February:</a>
-<a class="sourceLine" id="cb6-25" data-line-number="25">        <span class="kw">if</span> IsLeapYear(t) {</a>
-<a class="sourceLine" id="cb6-26" data-line-number="26">            <span class="kw">return</span> <span class="dv">29</span></a>
-<a class="sourceLine" id="cb6-27" data-line-number="27">        } <span class="kw">else</span> {</a>
-<a class="sourceLine" id="cb6-28" data-line-number="28">            <span class="kw">return</span> <span class="dv">28</span></a>
-<a class="sourceLine" id="cb6-29" data-line-number="29">        }</a>
-<a class="sourceLine" id="cb6-30" data-line-number="30">    <span class="kw">default</span>:</a>
-<a class="sourceLine" id="cb6-31" data-line-number="31">        <span class="kw">return</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb6-32" data-line-number="32">    }</a>
-<a class="sourceLine" id="cb6-33" data-line-number="33">}</a>
-<a class="sourceLine" id="cb6-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">// IsLeapYear は閏年なら true を返します</span></a>
-<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="kw">func</span> IsLeapYear(t time.Time) <span class="dt">bool</span> {</a>
-<a class="sourceLine" id="cb6-37" data-line-number="37">    y := time.Date(t.Year(), time.December, <span class="dv">31</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</a>
-<a class="sourceLine" id="cb6-38" data-line-number="38">    days := y.YearDay()</a>
-<a class="sourceLine" id="cb6-39" data-line-number="39"></a>
-<a class="sourceLine" id="cb6-40" data-line-number="40">    <span class="kw">if</span> days &gt; <span class="dv">365</span> {</a>
-<a class="sourceLine" id="cb6-41" data-line-number="41">        <span class="kw">return</span> <span class="ot">true</span></a>
-<a class="sourceLine" id="cb6-42" data-line-number="42">    } <span class="kw">else</span> {</a>
-<a class="sourceLine" id="cb6-43" data-line-number="43">        <span class="kw">return</span> <span class="ot">false</span></a>
-<a class="sourceLine" id="cb6-44" data-line-number="44">    }</a>
-<a class="sourceLine" id="cb6-45" data-line-number="45">}</a></code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">package</span> main</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="kw">import</span> (</span>
+<span id="cb6-4"><a href="#cb6-4"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>    <span class="st">&quot;time&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="kw">func</span> main() {</span>
+<span id="cb6-9"><a href="#cb6-9"></a>    n := time.Now()</span>
+<span id="cb6-10"><a href="#cb6-10"></a>    f := time.Date(n.Year(), n.Month(), <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local) <span class="co">// 月初</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>    l := time.Date(n.Year(), n.Month(), lastDay(n), <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local) <span class="co">// 月末</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a>    fmt.Println(n)</span>
+<span id="cb6-13"><a href="#cb6-13"></a>    fmt.Println(f)</span>
+<span id="cb6-14"><a href="#cb6-14"></a>    fmt.Println(l)</span>
+<span id="cb6-15"><a href="#cb6-15"></a>}</span>
+<span id="cb6-16"><a href="#cb6-16"></a></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">// lastDay は月末の日付を数値で返します</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="kw">func</span> lastDay(t time.Time) <span class="dt">int</span> {</span>
+<span id="cb6-19"><a href="#cb6-19"></a>    <span class="kw">switch</span> t.Month() {</span>
+<span id="cb6-20"><a href="#cb6-20"></a>    <span class="kw">case</span> time.January, time.March, time.May, time.July, time.August, time.October, time.December:</span>
+<span id="cb6-21"><a href="#cb6-21"></a>        <span class="kw">return</span> <span class="dv">31</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a>    <span class="kw">case</span> time.April, time.June, time.September, time.November:</span>
+<span id="cb6-23"><a href="#cb6-23"></a>        <span class="kw">return</span> <span class="dv">30</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a>    <span class="kw">case</span> time.February:</span>
+<span id="cb6-25"><a href="#cb6-25"></a>        <span class="kw">if</span> IsLeapYear(t) {</span>
+<span id="cb6-26"><a href="#cb6-26"></a>            <span class="kw">return</span> <span class="dv">29</span></span>
+<span id="cb6-27"><a href="#cb6-27"></a>        } <span class="kw">else</span> {</span>
+<span id="cb6-28"><a href="#cb6-28"></a>            <span class="kw">return</span> <span class="dv">28</span></span>
+<span id="cb6-29"><a href="#cb6-29"></a>        }</span>
+<span id="cb6-30"><a href="#cb6-30"></a>    <span class="kw">default</span>:</span>
+<span id="cb6-31"><a href="#cb6-31"></a>        <span class="kw">return</span> <span class="dv">1</span></span>
+<span id="cb6-32"><a href="#cb6-32"></a>    }</span>
+<span id="cb6-33"><a href="#cb6-33"></a>}</span>
+<span id="cb6-34"><a href="#cb6-34"></a></span>
+<span id="cb6-35"><a href="#cb6-35"></a><span class="co">// IsLeapYear は閏年なら true を返します</span></span>
+<span id="cb6-36"><a href="#cb6-36"></a><span class="kw">func</span> IsLeapYear(t time.Time) <span class="dt">bool</span> {</span>
+<span id="cb6-37"><a href="#cb6-37"></a>    y := time.Date(t.Year(), time.December, <span class="dv">31</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</span>
+<span id="cb6-38"><a href="#cb6-38"></a>    days := y.YearDay()</span>
+<span id="cb6-39"><a href="#cb6-39"></a></span>
+<span id="cb6-40"><a href="#cb6-40"></a>    <span class="kw">if</span> days &gt; <span class="dv">365</span> {</span>
+<span id="cb6-41"><a href="#cb6-41"></a>        <span class="kw">return</span> <span class="ot">true</span></span>
+<span id="cb6-42"><a href="#cb6-42"></a>    } <span class="kw">else</span> {</span>
+<span id="cb6-43"><a href="#cb6-43"></a>        <span class="kw">return</span> <span class="ot">false</span></span>
+<span id="cb6-44"><a href="#cb6-44"></a>    }</span>
+<span id="cb6-45"><a href="#cb6-45"></a>}</span></code></pre></div>
 <h2 id="月末の求め方-2-time.add-を使い次の月の月初から1日マイナスする">月末の求め方 2: time.Add を使い、次の月の月初から1日マイナスする</h2>
 <p>月末の日付を求めるやり方の別解として、次の月の月初から１日マイナスするという方法もあるでしょう。 この場合は、現在時刻が12月の場合だけ気をつける必要があります。</p>
 <p>また、日付の加算・減算には <code>func (t Time) Add(d Duration) Time</code> を使います。</p>
-<pre class="sourceCode go:main.go" id="cb7"><code class="sourceCode go"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">package</span> main</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">import</span> (</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">    <span class="st">&quot;fmt&quot;</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">    <span class="st">&quot;time&quot;</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="kw">func</span> main() {</a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">    n := time.Now()</a>
-<a class="sourceLine" id="cb7-10" data-line-number="10">    f := time.Date(n.Year(), n.Month(), <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</a>
-<a class="sourceLine" id="cb7-11" data-line-number="11">    l := lastDay(n)</a>
-<a class="sourceLine" id="cb7-12" data-line-number="12">    fmt.Println(n)</a>
-<a class="sourceLine" id="cb7-13" data-line-number="13">    fmt.Println(f)</a>
-<a class="sourceLine" id="cb7-14" data-line-number="14">    fmt.Println(l)</a>
-<a class="sourceLine" id="cb7-15" data-line-number="15">}</a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">// lastDay は指定月の最終日を返します。</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="kw">func</span> lastDay(n time.Time) time.Time {</a>
-<a class="sourceLine" id="cb7-19" data-line-number="19">    <span class="kw">var</span> f time.Time</a>
-<a class="sourceLine" id="cb7-20" data-line-number="20">    <span class="kw">if</span> n.Month() == time.November {</a>
-<a class="sourceLine" id="cb7-21" data-line-number="21">        f = time.Date(n.Year()+<span class="dv">1</span>, time.January, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</a>
-<a class="sourceLine" id="cb7-22" data-line-number="22">    } <span class="kw">else</span> {</a>
-<a class="sourceLine" id="cb7-23" data-line-number="23">        f = time.Date(n.Year(), n.Month()+<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</a>
-<a class="sourceLine" id="cb7-24" data-line-number="24">    }</a>
-<a class="sourceLine" id="cb7-25" data-line-number="25">    <span class="kw">return</span> f.Add(time.Hour * <span class="dv">24</span> * <span class="dv">-1</span>)</a>
-<a class="sourceLine" id="cb7-26" data-line-number="26">}</a></code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">package</span> main</span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">import</span> (</span>
+<span id="cb7-4"><a href="#cb7-4"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>    <span class="st">&quot;time&quot;</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>)</span>
+<span id="cb7-7"><a href="#cb7-7"></a></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="kw">func</span> main() {</span>
+<span id="cb7-9"><a href="#cb7-9"></a>    n := time.Now()</span>
+<span id="cb7-10"><a href="#cb7-10"></a>    f := time.Date(n.Year(), n.Month(), <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</span>
+<span id="cb7-11"><a href="#cb7-11"></a>    l := lastDay(n)</span>
+<span id="cb7-12"><a href="#cb7-12"></a>    fmt.Println(n)</span>
+<span id="cb7-13"><a href="#cb7-13"></a>    fmt.Println(f)</span>
+<span id="cb7-14"><a href="#cb7-14"></a>    fmt.Println(l)</span>
+<span id="cb7-15"><a href="#cb7-15"></a>}</span>
+<span id="cb7-16"><a href="#cb7-16"></a></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="co">// lastDay は指定月の最終日を返します。</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="kw">func</span> lastDay(n time.Time) time.Time {</span>
+<span id="cb7-19"><a href="#cb7-19"></a>    <span class="kw">var</span> f time.Time</span>
+<span id="cb7-20"><a href="#cb7-20"></a>    <span class="kw">if</span> n.Month() == time.November {</span>
+<span id="cb7-21"><a href="#cb7-21"></a>        f = time.Date(n.Year()+<span class="dv">1</span>, time.January, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</span>
+<span id="cb7-22"><a href="#cb7-22"></a>    } <span class="kw">else</span> {</span>
+<span id="cb7-23"><a href="#cb7-23"></a>        f = time.Date(n.Year(), n.Month()+<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</span>
+<span id="cb7-24"><a href="#cb7-24"></a>    }</span>
+<span id="cb7-25"><a href="#cb7-25"></a>    <span class="kw">return</span> f.Add(time.Hour * <span class="dv">24</span> * <span class="dv">-1</span>)</span>
+<span id="cb7-26"><a href="#cb7-26"></a>}</span></code></pre></div>
 <p>個人的には後者のコードの方がスッキリしていて良いと思います。</p>
 <h2 id="月初は何曜日">月初は何曜日？</h2>
 <p>実に単純ですが、<code>func (t Time) Weekday() Weekday</code> を使います。 なお、 <code>Weekday</code> 型は <code>type Weekday int</code> です。</p>
@@ -234,110 +244,110 @@ Su Mo Tu We Th Fr Sa
 <p>あとは、表示部分を作っていくだけです。 ただただ愚直に作るので、記事としてはあまり面白くないかもしれません笑</p>
 <h3 id="年月表記とセンタリング">年・月表記とセンタリング</h3>
 <p>月名の表示は <code>func (m Month) String() string</code> を使えばすぐにできます。 また今回のプログラムでは、表示の横幅が次の通り、<code>Su Mo Tu We Th Fr Sa</code> 20 文字で固定です。 ですので、月名の長さを <code>n</code> とすると、 <code>(20 - (n + 5)) / 2</code> 個のスペースを左側に挿入すると、いい感じにセンタリングできるはずです。 そんなわけで、最初の月名表示の部分は下記の様なコードになります。</p>
-<pre class="sourceCode go:main.go" id="cb8"><code class="sourceCode go"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">package</span> main</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">import</span> (</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">  <span class="st">&quot;fmt&quot;</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">  <span class="st">&quot;strings&quot;</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">  <span class="st">&quot;time&quot;</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="kw">func</span> main() {</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10">  n := time.Now()</a>
-<a class="sourceLine" id="cb8-11" data-line-number="11">  ms := n.Month().String()</a>
-<a class="sourceLine" id="cb8-12" data-line-number="12">  ls := (<span class="dv">20</span> - (<span class="bu">len</span>(ms) + <span class="dv">5</span>)) / <span class="dv">2</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13">  fmt.Printf(<span class="st">&quot;%s%s %d</span><span class="ch">\n</span><span class="st">&quot;</span>, strings.Repeat(<span class="st">&quot; &quot;</span>, ls), ms, n.Year())</a>
-<a class="sourceLine" id="cb8-14" data-line-number="14">}</a></code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">package</span> main</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">import</span> (</span>
+<span id="cb8-4"><a href="#cb8-4"></a>  <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>  <span class="st">&quot;strings&quot;</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>  <span class="st">&quot;time&quot;</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="kw">func</span> main() {</span>
+<span id="cb8-10"><a href="#cb8-10"></a>  n := time.Now()</span>
+<span id="cb8-11"><a href="#cb8-11"></a>  ms := n.Month().String()</span>
+<span id="cb8-12"><a href="#cb8-12"></a>  ls := (<span class="dv">20</span> - (<span class="bu">len</span>(ms) + <span class="dv">5</span>)) / <span class="dv">2</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a>  fmt.Printf(<span class="st">&quot;%s%s %d</span><span class="ch">\n</span><span class="st">&quot;</span>, strings.Repeat(<span class="st">&quot; &quot;</span>, ls), ms, n.Year())</span>
+<span id="cb8-14"><a href="#cb8-14"></a>}</span></code></pre></div>
 <h3 id="カレンダー表示部分">カレンダー表示部分</h3>
 <p>この部分も愚直にやっていくのが良いでしょう。</p>
 <p>今回の私は、 1 から日数分のループを回すことをベースに実装しました。 その際、最初の週の左インデントの量を月初の曜日によって変えつつ、 どのタイミングで改行を挟むかも月初の曜日によって変えるコードを用意しました。</p>
 <p>最終的な実装例は、以下の通りとなります。</p>
 <h1 id="解答例">解答例</h1>
 <p>ソースコードは <a href="https://github.com/ayasuda/sandbox/blob/master/go_cal/main.go">こちら</a> にあります。</p>
-<pre class="sourceCode go:main.go" id="cb9"><code class="sourceCode go"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">package</span> main</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">import</span> (</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">    <span class="st">&quot;fmt&quot;</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">    <span class="st">&quot;strings&quot;</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">    <span class="st">&quot;time&quot;</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="kw">func</span> main() {</a>
-<a class="sourceLine" id="cb9-10" data-line-number="10">    n := time.Now()</a>
-<a class="sourceLine" id="cb9-11" data-line-number="11">    f := time.Date(n.Year(), n.Month(), <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</a>
-<a class="sourceLine" id="cb9-12" data-line-number="12">    l := lastDay(n)</a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14">    ms := n.Month().String()</a>
-<a class="sourceLine" id="cb9-15" data-line-number="15">    ls := (<span class="dv">15</span> - <span class="bu">len</span>(ms)) / <span class="dv">2</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16">    fmt.Printf(<span class="st">&quot;%s%s %d</span><span class="ch">\n</span><span class="st">&quot;</span>, strings.Repeat(<span class="st">&quot; &quot;</span>, ls), ms, n.Year())</a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18">    <span class="kw">var</span> idt, cnt <span class="dt">int</span></a>
-<a class="sourceLine" id="cb9-19" data-line-number="19">    <span class="kw">switch</span> f.Weekday() {</a>
-<a class="sourceLine" id="cb9-20" data-line-number="20">    <span class="kw">case</span> time.Sunday:</a>
-<a class="sourceLine" id="cb9-21" data-line-number="21">        idt = <span class="dv">0</span></a>
-<a class="sourceLine" id="cb9-22" data-line-number="22">        cnt = <span class="dv">6</span></a>
-<a class="sourceLine" id="cb9-23" data-line-number="23">    <span class="kw">case</span> time.Monday:</a>
-<a class="sourceLine" id="cb9-24" data-line-number="24">        idt = <span class="dv">3</span></a>
-<a class="sourceLine" id="cb9-25" data-line-number="25">        cnt = <span class="dv">5</span></a>
-<a class="sourceLine" id="cb9-26" data-line-number="26">    <span class="kw">case</span> time.Tuesday:</a>
-<a class="sourceLine" id="cb9-27" data-line-number="27">        idt = <span class="dv">6</span></a>
-<a class="sourceLine" id="cb9-28" data-line-number="28">        cnt = <span class="dv">4</span></a>
-<a class="sourceLine" id="cb9-29" data-line-number="29">    <span class="kw">case</span> time.Wednesday:</a>
-<a class="sourceLine" id="cb9-30" data-line-number="30">        idt = <span class="dv">9</span></a>
-<a class="sourceLine" id="cb9-31" data-line-number="31">        cnt = <span class="dv">3</span></a>
-<a class="sourceLine" id="cb9-32" data-line-number="32">    <span class="kw">case</span> time.Thursday:</a>
-<a class="sourceLine" id="cb9-33" data-line-number="33">        idt = <span class="dv">12</span></a>
-<a class="sourceLine" id="cb9-34" data-line-number="34">        cnt = <span class="dv">2</span></a>
-<a class="sourceLine" id="cb9-35" data-line-number="35">    <span class="kw">case</span> time.Friday:</a>
-<a class="sourceLine" id="cb9-36" data-line-number="36">        idt = <span class="dv">15</span></a>
-<a class="sourceLine" id="cb9-37" data-line-number="37">        cnt = <span class="dv">1</span></a>
-<a class="sourceLine" id="cb9-38" data-line-number="38">    <span class="kw">case</span> time.Saturday:</a>
-<a class="sourceLine" id="cb9-39" data-line-number="39">        idt = <span class="dv">18</span></a>
-<a class="sourceLine" id="cb9-40" data-line-number="40">        cnt = <span class="dv">0</span></a>
-<a class="sourceLine" id="cb9-41" data-line-number="41">    }</a>
-<a class="sourceLine" id="cb9-42" data-line-number="42">    fmt.Println(<span class="st">&quot;Su Mo Tu We Th Fr Sa&quot;</span>)</a>
-<a class="sourceLine" id="cb9-43" data-line-number="43">    fmt.Printf(<span class="st">&quot;%s&quot;</span>, strings.Repeat(<span class="st">&quot; &quot;</span>, idt))</a>
-<a class="sourceLine" id="cb9-44" data-line-number="44">    <span class="kw">for</span> i := <span class="dv">1</span>; i &lt;= l.Day(); i++ {</a>
-<a class="sourceLine" id="cb9-45" data-line-number="45">        <span class="kw">if</span> i &lt; <span class="dv">10</span> {</a>
-<a class="sourceLine" id="cb9-46" data-line-number="46">            fmt.Printf(<span class="st">&quot; %d&quot;</span>, i)</a>
-<a class="sourceLine" id="cb9-47" data-line-number="47">        } <span class="kw">else</span> {</a>
-<a class="sourceLine" id="cb9-48" data-line-number="48">            fmt.Printf(<span class="st">&quot;%d&quot;</span>, i)</a>
-<a class="sourceLine" id="cb9-49" data-line-number="49">        }</a>
-<a class="sourceLine" id="cb9-50" data-line-number="50">        <span class="kw">if</span> cnt &lt;= <span class="dv">0</span> {</a>
-<a class="sourceLine" id="cb9-51" data-line-number="51">            fmt.Printf(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb9-52" data-line-number="52">            cnt = <span class="dv">6</span></a>
-<a class="sourceLine" id="cb9-53" data-line-number="53">        } <span class="kw">else</span> {</a>
-<a class="sourceLine" id="cb9-54" data-line-number="54">            fmt.Printf(<span class="st">&quot; &quot;</span>)</a>
-<a class="sourceLine" id="cb9-55" data-line-number="55">            cnt--</a>
-<a class="sourceLine" id="cb9-56" data-line-number="56">        }</a>
-<a class="sourceLine" id="cb9-57" data-line-number="57">    }</a>
-<a class="sourceLine" id="cb9-58" data-line-number="58">    fmt.Printf(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb9-59" data-line-number="59">}</a>
-<a class="sourceLine" id="cb9-60" data-line-number="60"></a>
-<a class="sourceLine" id="cb9-61" data-line-number="61"><span class="kw">func</span> lastDay(n time.Time) time.Time {</a>
-<a class="sourceLine" id="cb9-62" data-line-number="62">    <span class="kw">var</span> f time.Time</a>
-<a class="sourceLine" id="cb9-63" data-line-number="63">    <span class="kw">if</span> n.Month() == time.November {</a>
-<a class="sourceLine" id="cb9-64" data-line-number="64">        f = time.Date(n.Year()+<span class="dv">1</span>, time.January, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</a>
-<a class="sourceLine" id="cb9-65" data-line-number="65">    } <span class="kw">else</span> {</a>
-<a class="sourceLine" id="cb9-66" data-line-number="66">        f = time.Date(n.Year(), n.Month()+<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</a>
-<a class="sourceLine" id="cb9-67" data-line-number="67">    }</a>
-<a class="sourceLine" id="cb9-68" data-line-number="68">    <span class="kw">return</span> f.Add(time.Hour * <span class="dv">24</span> * <span class="dv">-1</span>)</a>
-<a class="sourceLine" id="cb9-69" data-line-number="69">}</a></code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">package</span> main</span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">import</span> (</span>
+<span id="cb9-4"><a href="#cb9-4"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a>    <span class="st">&quot;strings&quot;</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>    <span class="st">&quot;time&quot;</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>)</span>
+<span id="cb9-8"><a href="#cb9-8"></a></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="kw">func</span> main() {</span>
+<span id="cb9-10"><a href="#cb9-10"></a>    n := time.Now()</span>
+<span id="cb9-11"><a href="#cb9-11"></a>    f := time.Date(n.Year(), n.Month(), <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</span>
+<span id="cb9-12"><a href="#cb9-12"></a>    l := lastDay(n)</span>
+<span id="cb9-13"><a href="#cb9-13"></a></span>
+<span id="cb9-14"><a href="#cb9-14"></a>    ms := n.Month().String()</span>
+<span id="cb9-15"><a href="#cb9-15"></a>    ls := (<span class="dv">15</span> - <span class="bu">len</span>(ms)) / <span class="dv">2</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a>    fmt.Printf(<span class="st">&quot;%s%s %d</span><span class="ch">\n</span><span class="st">&quot;</span>, strings.Repeat(<span class="st">&quot; &quot;</span>, ls), ms, n.Year())</span>
+<span id="cb9-17"><a href="#cb9-17"></a></span>
+<span id="cb9-18"><a href="#cb9-18"></a>    <span class="kw">var</span> idt, cnt <span class="dt">int</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a>    <span class="kw">switch</span> f.Weekday() {</span>
+<span id="cb9-20"><a href="#cb9-20"></a>    <span class="kw">case</span> time.Sunday:</span>
+<span id="cb9-21"><a href="#cb9-21"></a>        idt = <span class="dv">0</span></span>
+<span id="cb9-22"><a href="#cb9-22"></a>        cnt = <span class="dv">6</span></span>
+<span id="cb9-23"><a href="#cb9-23"></a>    <span class="kw">case</span> time.Monday:</span>
+<span id="cb9-24"><a href="#cb9-24"></a>        idt = <span class="dv">3</span></span>
+<span id="cb9-25"><a href="#cb9-25"></a>        cnt = <span class="dv">5</span></span>
+<span id="cb9-26"><a href="#cb9-26"></a>    <span class="kw">case</span> time.Tuesday:</span>
+<span id="cb9-27"><a href="#cb9-27"></a>        idt = <span class="dv">6</span></span>
+<span id="cb9-28"><a href="#cb9-28"></a>        cnt = <span class="dv">4</span></span>
+<span id="cb9-29"><a href="#cb9-29"></a>    <span class="kw">case</span> time.Wednesday:</span>
+<span id="cb9-30"><a href="#cb9-30"></a>        idt = <span class="dv">9</span></span>
+<span id="cb9-31"><a href="#cb9-31"></a>        cnt = <span class="dv">3</span></span>
+<span id="cb9-32"><a href="#cb9-32"></a>    <span class="kw">case</span> time.Thursday:</span>
+<span id="cb9-33"><a href="#cb9-33"></a>        idt = <span class="dv">12</span></span>
+<span id="cb9-34"><a href="#cb9-34"></a>        cnt = <span class="dv">2</span></span>
+<span id="cb9-35"><a href="#cb9-35"></a>    <span class="kw">case</span> time.Friday:</span>
+<span id="cb9-36"><a href="#cb9-36"></a>        idt = <span class="dv">15</span></span>
+<span id="cb9-37"><a href="#cb9-37"></a>        cnt = <span class="dv">1</span></span>
+<span id="cb9-38"><a href="#cb9-38"></a>    <span class="kw">case</span> time.Saturday:</span>
+<span id="cb9-39"><a href="#cb9-39"></a>        idt = <span class="dv">18</span></span>
+<span id="cb9-40"><a href="#cb9-40"></a>        cnt = <span class="dv">0</span></span>
+<span id="cb9-41"><a href="#cb9-41"></a>    }</span>
+<span id="cb9-42"><a href="#cb9-42"></a>    fmt.Println(<span class="st">&quot;Su Mo Tu We Th Fr Sa&quot;</span>)</span>
+<span id="cb9-43"><a href="#cb9-43"></a>    fmt.Printf(<span class="st">&quot;%s&quot;</span>, strings.Repeat(<span class="st">&quot; &quot;</span>, idt))</span>
+<span id="cb9-44"><a href="#cb9-44"></a>    <span class="kw">for</span> i := <span class="dv">1</span>; i &lt;= l.Day(); i++ {</span>
+<span id="cb9-45"><a href="#cb9-45"></a>        <span class="kw">if</span> i &lt; <span class="dv">10</span> {</span>
+<span id="cb9-46"><a href="#cb9-46"></a>            fmt.Printf(<span class="st">&quot; %d&quot;</span>, i)</span>
+<span id="cb9-47"><a href="#cb9-47"></a>        } <span class="kw">else</span> {</span>
+<span id="cb9-48"><a href="#cb9-48"></a>            fmt.Printf(<span class="st">&quot;%d&quot;</span>, i)</span>
+<span id="cb9-49"><a href="#cb9-49"></a>        }</span>
+<span id="cb9-50"><a href="#cb9-50"></a>        <span class="kw">if</span> cnt &lt;= <span class="dv">0</span> {</span>
+<span id="cb9-51"><a href="#cb9-51"></a>            fmt.Printf(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb9-52"><a href="#cb9-52"></a>            cnt = <span class="dv">6</span></span>
+<span id="cb9-53"><a href="#cb9-53"></a>        } <span class="kw">else</span> {</span>
+<span id="cb9-54"><a href="#cb9-54"></a>            fmt.Printf(<span class="st">&quot; &quot;</span>)</span>
+<span id="cb9-55"><a href="#cb9-55"></a>            cnt--</span>
+<span id="cb9-56"><a href="#cb9-56"></a>        }</span>
+<span id="cb9-57"><a href="#cb9-57"></a>    }</span>
+<span id="cb9-58"><a href="#cb9-58"></a>    fmt.Printf(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb9-59"><a href="#cb9-59"></a>}</span>
+<span id="cb9-60"><a href="#cb9-60"></a></span>
+<span id="cb9-61"><a href="#cb9-61"></a><span class="kw">func</span> lastDay(n time.Time) time.Time {</span>
+<span id="cb9-62"><a href="#cb9-62"></a>    <span class="kw">var</span> f time.Time</span>
+<span id="cb9-63"><a href="#cb9-63"></a>    <span class="kw">if</span> n.Month() == time.November {</span>
+<span id="cb9-64"><a href="#cb9-64"></a>        f = time.Date(n.Year()+<span class="dv">1</span>, time.January, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</span>
+<span id="cb9-65"><a href="#cb9-65"></a>    } <span class="kw">else</span> {</span>
+<span id="cb9-66"><a href="#cb9-66"></a>        f = time.Date(n.Year(), n.Month()+<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, time.Local)</span>
+<span id="cb9-67"><a href="#cb9-67"></a>    }</span>
+<span id="cb9-68"><a href="#cb9-68"></a>    <span class="kw">return</span> f.Add(time.Hour * <span class="dv">24</span> * <span class="dv">-1</span>)</span>
+<span id="cb9-69"><a href="#cb9-69"></a>}</span></code></pre></div>
 <h1 id="発展例に向けて">発展例に向けて</h1>
 <p>今回のカレンダー問題は、 <code>cal</code> コマンドの簡易実装そのものです。ですので、実際の <code>cal</code> コマンド実装が大変参考になります。 また、cal コマンドのオプションを自前で実装してみるのも勉強になるでしょう。</p>
 <p>以下、個人的に興味深かった <code>cal</code> コマンドの現実の実装例を抜粋して紹介してみたいと思います。</p>
 <p>linux での cal 実装は下記にあります。</p>
-<p><a href="https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c" class="uri">https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c</a></p>
+<p><a href="https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c">https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c</a></p>
 <p>この実装では、月の日数を割とハードコード目に実装しているのが興味深いです。</p>
-<p><a href="https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c#L193" class="uri">https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c#L193</a></p>
-<pre class="sourceCode c" id="cb10"><code class="sourceCode c"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="dt">static</span> <span class="dt">const</span> <span class="dt">int</span> days_in_month[<span class="dv">2</span>][<span class="dv">13</span>] = {</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">        {<span class="dv">0</span>, <span class="dv">31</span>, <span class="dv">28</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>},</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">        {<span class="dv">0</span>, <span class="dv">31</span>, <span class="dv">29</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>},</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">};</a></code></pre>
+<p><a href="https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c#L193">https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c#L193</a></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1"></a><span class="dt">static</span> <span class="dt">const</span> <span class="dt">int</span> days_in_month[<span class="dv">2</span>][<span class="dv">13</span>] = {</span>
+<span id="cb10-2"><a href="#cb10-2"></a>        {<span class="dv">0</span>, <span class="dv">31</span>, <span class="dv">28</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>},</span>
+<span id="cb10-3"><a href="#cb10-3"></a>        {<span class="dv">0</span>, <span class="dv">31</span>, <span class="dv">29</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>},</span>
+<span id="cb10-4"><a href="#cb10-4"></a>};</span></code></pre></div>
 <p>カレンダー部分の表示では、複数月の表示に対応したコードが書かれています。 809行目からの１週当たりの表示部分は鮮やかですね。</p>
-<p><a href="https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c#L787" class="uri">https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c#L787</a></p>
+<p><a href="https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c#L787">https://github.com/karelzak/util-linux/blob/master/misc-utils/cal.c#L787</a></p>
 <p>FreeBSD での実装は以下にあります</p>
-<p><a href="https://github.com/freebsd/freebsd/blob/master/usr.bin/ncal/ncal.c" class="uri">https://github.com/freebsd/freebsd/blob/master/usr.bin/ncal/ncal.c</a></p>
+<p><a href="https://github.com/freebsd/freebsd/blob/master/usr.bin/ncal/ncal.c">https://github.com/freebsd/freebsd/blob/master/usr.bin/ncal/ncal.c</a></p>
 <p>年単位での表示がサポートされているので大変そうです笑</p>
 <p>ちなみに、 macOS とかで <code>cal</code> コマンドを <code>CAL</code> と呼ぶと縦横が転置して表示されますよね？</p>
 <pre><code>$ cal
@@ -359,13 +369,13 @@ $ CAL
 土   4 11 18 25
 日   5 12 19 26</code></pre>
 <p>この辺の動きは</p>
-<pre class="sourceCode c" id="cb12"><code class="sourceCode c"><a class="sourceLine" id="cb12-1" data-line-number="1">  <span class="co">/*</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">   * Get the filename portion of argv[0] and set flag_backward if</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">   * this program is called &quot;cal&quot;.</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">   */</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">   <span class="cf">if</span> (strncmp(basename(argv[<span class="dv">0</span>]), <span class="st">&quot;cal&quot;</span>, strlen(<span class="st">&quot;cal&quot;</span>)) == <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">           flag_backward = <span class="dv">1</span>;</a></code></pre>
-<p><a href="https://github.com/freebsd/freebsd/blob/master/usr.bin/ncal/ncal.c#L249" class="uri">https://github.com/freebsd/freebsd/blob/master/usr.bin/ncal/ncal.c#L249</a></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1"></a>  <span class="co">/*</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="co">   * Get the filename portion of argv[0] and set flag_backward if</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="co">   * this program is called &quot;cal&quot;.</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co">   */</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>   <span class="cf">if</span> (strncmp(basename(argv[<span class="dv">0</span>]), <span class="st">&quot;cal&quot;</span>, strlen(<span class="st">&quot;cal&quot;</span>)) == <span class="dv">0</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>           flag_backward = <span class="dv">1</span>;</span></code></pre></div>
+<p><a href="https://github.com/freebsd/freebsd/blob/master/usr.bin/ncal/ncal.c#L249">https://github.com/freebsd/freebsd/blob/master/usr.bin/ncal/ncal.c#L249</a></p>
 <p>にある通り、 <code>cal</code> という名前で呼び出さなかった時に、 <code>cal -N</code> をつけた時と同じ動きになる実装通りですね！</p>
 </article>
 <footer>
