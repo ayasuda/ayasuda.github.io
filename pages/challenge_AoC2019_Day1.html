@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Atsushi Yasuda">
   <meta name="description" content="ただただ Advent of Code 2019 を淡々とこなしていく記録">
-  <meta name="keywords" content="Programming, AdventCalender">
+  <meta name="keywords" content="プログラミング問題, AdventCalender">
   <meta name="date" content="2019-12-01">
   <title>今年はどのアドベントカレンダーにも投稿しないから、俺は AoC をただ解いていこうと思う。1 日目</title>
   <style type="text/css">code{white-space: pre;}</style>
@@ -99,13 +99,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div class="published">2019-12-01</div>
     <p>ただただ Advent of Code 2019 を淡々とこなしていく記録</p>
     <ul class="keywords">
-      <li>Programming</li>
+      <li>プログラミング問題</li>
       <li>AdventCalender</li>
     </ul>
   </header>
 <p>今年もアドベントカレンダーの季節が来た。 しかし、友達がいないので、俺はどのアドベントカレンダーにも参加していない。 そんな孤独感を紛らわせるためにも <a href="https://adventofcode.com/2019">Advent of Code</a> にチャレンジしていこうと思ったんだ。</p>
 <h1 id="日目-the-tyranny-of-the-rocket-equation">1 日目: The Tyranny of the Rocket Equation</h1>
-<h2 id="問目さっさと燃料を計算する簡単なお仕事">１問目：さっさと燃料を計算する簡単なお仕事。</h2>
+<h2 id="問目さっさと燃料を計算する簡単なお仕事">1 問目：さっさと燃料を計算する簡単なお仕事。</h2>
 <p>どうやら俺は宇宙にいるサンタのがクリスマスまでの地球への帰還に間に合うように、 エルフたちに彼の宇宙船に必要な燃料を伝達する必要があるようだ。</p>
 <p>各モジュールごとへの必要な燃料は下記の方法で算出できる。</p>
 <blockquote>
@@ -116,7 +116,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-2"><a href="#cb1-2"></a>m = <span class="dv">12</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a>p m / <span class="dv">3</span> - <span class="dv">2</span></span></code></pre></div>
 <p>・・・あんまりにも単純すぎるので、問題を解きやすく改善する。</p>
-<p>この問題では、入力は見ての通り数値が１行ごとに書かれたテキストで提供される。 そんなわけで、標準入力から数値を受け取って標準出力に表示するようにしよう。</p>
+<p>この問題では、入力は見ての通り数値が1 行ごとに書かれたテキストで提供される。 そんなわけで、標準入力から数値を受け取って標準出力に表示するようにしよう。</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="kw">while</span> l = gets</span>
@@ -154,7 +154,7 @@ Puzzle inputs differ by user.  Please log in to get your puzzle input.</code></p
 <p>燃料自体の重さがないと、宇宙船は途中で力尽きてしまうわけですよ。</p>
 <p>今回の問題では以下のルールで計算を求められる。</p>
 <ol type="1">
-<li>燃料に必要な燃料の計算式はさっきまでと同じ。3で割って、2を引く。例えば 10 の燃料に必要な燃料は 1 。</li>
+<li>燃料に必要な燃料の計算式はさっきまでと同じ。3 で割って、2を引く。例えば 10 の燃料に必要な燃料は 1 。</li>
 <li>マイナスになる場合は、0とする。例えば 5 の燃料に必要な燃料は 0 。</li>
 <li>燃料に必要な燃料に必要な燃料（以下略）も計算すること！</li>
 </ol>
@@ -194,7 +194,7 @@ Puzzle inputs differ by user.  Please log in to get your puzzle input.</code></p
 51316</code></pre>
 <p>と、まぁまぁいい感じで計算できているので、早速実行する。</p>
 <pre class="console"><code>$ cat input.tsv | ./ans.rb</code></pre>
-<p>まぁ、１日目なので普通にクリアできますよね。</p>
+<p>まぁ、1 日目なので普通にクリアできますよね。</p>
 <p>https://twitter.com/ayasuda_jp/status/1201345178805473280</p>
 </article>
 <footer>
