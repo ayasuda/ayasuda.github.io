@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="description" content="ただただ Advent of Code 2019 を淡々とこなしていく記録">
+  <meta name="keywords" content="Programming, AdventCalender">
+  <meta name="date" content="2019-12-01">
+  <title>今年はどのアドベントカレンダーにも投稿しないから、俺は AoC をただ解いていこうと思う。1 日目</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-138223597-1');
+  </script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header class="site">
+  <h1><a href="/">ayasuda.github.io</a></h1>
+</header>
+<article>
+  <header class="content">
+    <h1>今年はどのアドベントカレンダーにも投稿しないから、俺は AoC をただ解いていこうと思う。1 日目</h1>
+    <div class="published">2019-12-01</div>
+    <p>ただただ Advent of Code 2019 を淡々とこなしていく記録</p>
+    <ul class="keywords">
+      <li>Programming</li>
+      <li>AdventCalender</li>
+    </ul>
+  </header>
+<p>今年もアドベントカレンダーの季節が来た。 しかし、友達がいないので、俺はどのアドベントカレンダーにも参加していない。 そんな孤独感を紛らわせるためにも <a href="https://adventofcode.com/2019">Advent of Code</a> にチャレンジしていこうと思ったんだ。</p>
+<h1 id="日目-the-tyranny-of-the-rocket-equation">1 日目: The Tyranny of the Rocket Equation</h1>
+<h2 id="問目さっさと燃料を計算する簡単なお仕事">１問目：さっさと燃料を計算する簡単なお仕事。</h2>
+<p>どうやら俺は宇宙にいるサンタのがクリスマスまでの地球への帰還に間に合うように、 エルフたちに彼の宇宙船に必要な燃料を伝達する必要があるようだ。</p>
+<p>各モジュールごとへの必要な燃料は下記の方法で算出できる。</p>
+<blockquote>
+<p>Specifically, to find the fuel required for a module, take its mass, divide by three, round down, and subtract 2.</p>
+</blockquote>
+<p>いたってシンプルなので、サクッと以下の ruby コードで計算させてみる</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>m = <span class="dv">12</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>p m / <span class="dv">3</span> - <span class="dv">2</span></span></code></pre></div>
+<p>・・・あんまりにも単純すぎるので、問題を解きやすく改善する。</p>
+<p>この問題では、入力は見ての通り数値が１行ごとに書かれたテキストで提供される。 そんなわけで、標準入力から数値を受け取って標準出力に表示するようにしよう。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">while</span> l = gets</span>
+<span id="cb2-4"><a href="#cb2-4"></a>  p l.to_i / <span class="dv">3</span> - <span class="dv">2</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">end</span></span></code></pre></div>
+<p>テスト用のファイルを用意して・・・</p>
+<pre class="text:test.tsv"><code>12
+14
+1969
+100756</code></pre>
+<p>以下のコマンドで実行する。</p>
+<pre><code>$ cat test.tsv | ./ans.rb
+2
+2
+654
+33583</code></pre>
+<p>というわけで正しく動いていそうなので合計値を表示するようにし…</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a>a = <span class="dv">0</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">while</span> l = gets</span>
+<span id="cb5-5"><a href="#cb5-5"></a>  f = l.to_i / <span class="dv">3</span> - <span class="dv">2</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>  p f</span>
+<span id="cb5-7"><a href="#cb5-7"></a>  a += f</span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="kw">end</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a>p a</span></code></pre></div>
+<p>早速計算させてみよう。</p>
+<pre class="console"><code>$ curl https://adventofcode.com/2019/day/1/input
+Puzzle inputs differ by user.  Please log in to get your puzzle input.</code></pre>
+<p>と、思ったらネタバレ対策されてたので、安心して input を tsv に保存して実行する。</p>
+<pre class="console"><code>$ cat input.tsv | ./ans.rb</code></pre>
+<p>当たり前のようにパスしたので２問目へ。</p>
+<h2 id="ネタバレ-2-問目燃料自体の重さもあるよね-って話">(ネタバレ) 2 問目：燃料自体の重さもあるよね？　って話。</h2>
+<p>タイトル通り。</p>
+<p>燃料自体の重さがないと、宇宙船は途中で力尽きてしまうわけですよ。</p>
+<p>今回の問題では以下のルールで計算を求められる。</p>
+<ol type="1">
+<li>燃料に必要な燃料の計算式はさっきまでと同じ。3で割って、2を引く。例えば 10 の燃料に必要な燃料は 1 。</li>
+<li>マイナスになる場合は、0とする。例えば 5 の燃料に必要な燃料は 0 。</li>
+<li>燃料に必要な燃料に必要な燃料（以下略）も計算すること！</li>
+</ol>
+<p>例えば、モジュールの質量が 1969 なら、</p>
+<ul>
+<li>モジュールに必要な燃料は 654</li>
+<li>それに必要な燃料は 216</li>
+<li>それに必要な燃料は 70</li>
+<li>それに必要な燃料は 21</li>
+<li>それに必要な燃料は 5</li>
+<li>それに必要な燃料は -1… じゃなくて 0</li>
+</ul>
+<p>なので、合計 966 になる。</p>
+<p>うん。つまりは再帰が求められている。</p>
+<p>・・・と、いうわけでサクッと以下のプログラムを書く</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">def</span> calc(mass)</span>
+<span id="cb8-4"><a href="#cb8-4"></a>  fuel = mass / <span class="dv">3</span> - <span class="dv">2</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>  <span class="kw">return</span> <span class="dv">0</span> <span class="kw">if</span> fuel &lt;= <span class="dv">0</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>  fuel + calc(mass)</span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="kw">end</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9"></a>a = <span class="dv">0</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="kw">while</span> l = gets</span>
+<span id="cb8-11"><a href="#cb8-11"></a>  f = calc(l.to_i)</span>
+<span id="cb8-12"><a href="#cb8-12"></a>  p f</span>
+<span id="cb8-13"><a href="#cb8-13"></a>  a += f</span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="kw">end</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a>p a</span></code></pre></div>
+<p>こいつを早速 test.tsv にかましてみると　</p>
+<pre class="console"><code>$ cat test.tsv | ./ans.rb
+2
+2
+966
+50346
+51316</code></pre>
+<p>と、まぁまぁいい感じで計算できているので、早速実行する。</p>
+<pre class="console"><code>$ cat input.tsv | ./ans.rb</code></pre>
+<p>まぁ、１日目なので普通にクリアできますよね。</p>
+<p>https://twitter.com/ayasuda_jp/status/1201345178805473280</p>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
+</body>
+</html>
