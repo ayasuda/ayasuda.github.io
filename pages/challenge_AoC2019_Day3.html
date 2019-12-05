@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="description" content="ただただ Advent of Code 2019 を淡々とこなしていく記録の3日目">
+  <meta name="keywords" content="プログラミング問題, AdventCalender">
+  <meta name="date" content="2019-12-05">
+  <title>今年はどのアドベントカレンダーにも投稿しないから、俺は AoC をただ解いていこうと思う。3 日目</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-138223597-1');
+  </script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header class="site">
+  <h1><a href="/">ayasuda.github.io</a></h1>
+</header>
+<article>
+  <header class="content">
+    <h1>今年はどのアドベントカレンダーにも投稿しないから、俺は AoC をただ解いていこうと思う。3 日目</h1>
+    <div class="published">2019-12-05</div>
+    <p>ただただ Advent of Code 2019 を淡々とこなしていく記録の3日目</p>
+    <ul class="keywords">
+      <li>プログラミング問題</li>
+      <li>AdventCalender</li>
+    </ul>
+  </header>
+<p>さて、3 日目。今日は 12/5 だが・・・ サンタを乗せた宇宙船はスイングバイに無事成功し、一路金星へ向かっているようだ。 ただ、あわてんぼうのサンタクロースさんはとても慌てていたようで、燃料管理システムが完全にはインストールされていなかったようだ。 そんなわけで、そいつをやる。</p>
+<p><a href="https://adventofcode.com/2019/day/2">https://adventofcode.com/2019/day/2</a></p>
+<h1 id="日目-crossed-wires">3 日目: Crossed Wires</h1>
+<h2 id="問目-パネルを開けたらそこはワイヤーの天国でした">1 問目: パネルを開けたら、そこは、ワイヤーの天国でした。</h2>
+<p>制御ボードを開けてみるとごちゃごちゃしたワイヤーが見える。 これらのワイヤーは片方は必ず中央ポートに、もう片方はグリッドの外へと繋がっている。 また、ワイヤーは折れ曲がって繋がっている。 例えば、下記のようにワイヤーのパスが定義されているとすると</p>
+<pre><code>R8,U5,L5,D3</code></pre>
+<p>これは、ワイヤーが中央ポートから始まって右へ 8 、上へ 5 、左へ 5 、下へ 3 進み、そこからグリッドの外へと繋がっている。</p>
+<p>こんな風に複数のワイヤーが制御ボード上へ配置されているわけだが、これらのワイヤーは時たま交差する。</p>
+<p>燃料管理システムを完璧なものにするためには、中央ポートから最も近い交差地点を見つけ、中央ポートとの <a href="https://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%B3%E3%83%8F%E3%83%83%E3%82%BF%E3%83%B3%E8%B7%9D%E9%9B%A2">マンハッタン距離</a> を 算出する必要がある。</p>
+<p>まず、テスト用のファイルを用意する。</p>
+<pre><code>R75,D30,R83,U83,L12,D49,R71,U7,L72
+U62,R66,U55,R34,D71,R55,D58,R83</code></pre>
+<p>移動用の数字をパースするプログラムを書いて行こう。 まずはいつも通り、標準入力から定義を読み込む部分を作る。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">def</span> cordinates(directions)</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  directions</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">end</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="kw">while</span> l = gets</span>
+<span id="cb3-8"><a href="#cb3-8"></a>  directions = l.strip.split(<span class="st">&quot;,&quot;</span>)</span>
+<span id="cb3-9"><a href="#cb3-9"></a>  p cordinates(directions)</span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="kw">end</span></span></code></pre></div>
+<p>次に、<code>cordinates</code> メソッドを実装していく。 こいつは入力を基に、ワイヤーが通過する座標を列挙した配列を返すメソッドにする予定だ。</p>
+<p>まずは、方向指示をパースしよう。こんな風にできる。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb4-1"><a href="#cb4-1"></a>direction, magnitude = d[<span class="dv">0</span>], d[<span class="dv">1</span>,d.length()-<span class="dv">1</span>].to_i</span></code></pre></div>
+<p>後は、方向を考慮して、ただひたすら、座標を記録していくだけだ。 実装はこんな感じになる。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">def</span> cordinates(directions)</span>
+<span id="cb5-4"><a href="#cb5-4"></a>  cordinates = []</span>
+<span id="cb5-5"><a href="#cb5-5"></a>  current = [<span class="dv">0</span>, <span class="dv">0</span>]</span>
+<span id="cb5-6"><a href="#cb5-6"></a>  directions.each <span class="kw">do</span> |d|</span>
+<span id="cb5-7"><a href="#cb5-7"></a>    direction, magnitude = d[<span class="dv">0</span>], d[<span class="dv">1</span>,d.length()-<span class="dv">1</span>].to_i</span>
+<span id="cb5-8"><a href="#cb5-8"></a>    <span class="kw">case</span> direction</span>
+<span id="cb5-9"><a href="#cb5-9"></a>    <span class="kw">when</span> <span class="st">&quot;U&quot;</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>      magnitude.times <span class="kw">do</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a>        current[<span class="dv">1</span>] += <span class="dv">1</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a>        cordinates &lt;&lt; current.dup</span>
+<span id="cb5-13"><a href="#cb5-13"></a>      <span class="kw">end</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a>    <span class="kw">when</span> <span class="st">&quot;R&quot;</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a>      magnitude.times <span class="kw">do</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a>        current[<span class="dv">0</span>] += <span class="dv">1</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a>        cordinates &lt;&lt; current.dup</span>
+<span id="cb5-18"><a href="#cb5-18"></a>      <span class="kw">end</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a>    <span class="kw">when</span> <span class="st">&quot;D&quot;</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a>      magnitude.times <span class="kw">do</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a>        current[<span class="dv">1</span>] -= <span class="dv">1</span></span>
+<span id="cb5-22"><a href="#cb5-22"></a>        cordinates &lt;&lt; current.dup</span>
+<span id="cb5-23"><a href="#cb5-23"></a>      <span class="kw">end</span></span>
+<span id="cb5-24"><a href="#cb5-24"></a>    <span class="kw">when</span> <span class="st">&quot;L&quot;</span></span>
+<span id="cb5-25"><a href="#cb5-25"></a>      magnitude.times <span class="kw">do</span></span>
+<span id="cb5-26"><a href="#cb5-26"></a>        current[<span class="dv">0</span>] -= <span class="dv">1</span></span>
+<span id="cb5-27"><a href="#cb5-27"></a>        cordinates &lt;&lt; current.dup</span>
+<span id="cb5-28"><a href="#cb5-28"></a>      <span class="kw">end</span></span>
+<span id="cb5-29"><a href="#cb5-29"></a>    <span class="kw">else</span></span>
+<span id="cb5-30"><a href="#cb5-30"></a>      <span class="dt">STDERR</span>.puts = <span class="st">&quot;UNKNOWN DIRECTION :&quot;</span> + d</span>
+<span id="cb5-31"><a href="#cb5-31"></a>    <span class="kw">end</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a>  <span class="kw">end</span></span>
+<span id="cb5-33"><a href="#cb5-33"></a>  cordinates</span>
+<span id="cb5-34"><a href="#cb5-34"></a><span class="kw">end</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a></span>
+<span id="cb5-36"><a href="#cb5-36"></a><span class="kw">while</span> l = gets</span>
+<span id="cb5-37"><a href="#cb5-37"></a>  directions = l.strip.split(<span class="st">&quot;,&quot;</span>)</span>
+<span id="cb5-38"><a href="#cb5-38"></a>  p cordinates(directions)</span>
+<span id="cb5-39"><a href="#cb5-39"></a><span class="kw">end</span></span></code></pre></div>
+<p>動かしてみると、まぁいい感じになっている。</p>
+<pre class="console"><code>% cat test1.tsv| ./ans1.rb
+[[1, 0], [2, 0], ...(中略)..., [74, 0], [75, 0], [75, -1] ...(後略)</code></pre>
+<p>後は、２つのワイヤーから、共通する座標を抜き出せばそれで良い。</p>
+<p>ruby の場合、2つの配列で <code>&amp;</code> をとればすぐに抜き出せる。</p>
+<p>共通する座標の原点とのマンハッタン距離の最小値を出すとこんな感じになる。</p>
+<pre><code>paths = []
+
+while l = gets
+  directions = l.strip.split(&quot;,&quot;)
+  paths &lt;&lt; cordinates(directions)
+end
+
+cross = paths[0] &amp; paths[1]
+
+p cross.map{|c| c[0].abs + c[1].abs }.min</code></pre>
+<p>試してみよう。</p>
+<pre class="console"><code>% cat test1.tsv| ./ans1.rb
+159</code></pre>
+<p>いい感じ。</p>
+<p>これで制御ボード上で、最も中央ポートに近い交差地点がわかった。</p>
+<h2 id="問目-アラートの原因はなんだったのか">2 問目: アラートの原因はなんだったのか。</h2>
+<p>さて、次は交差地点へのステップ数を求めなきゃいけないらしい。</p>
+<p>ここまで出来てればほとんど出来上がったようなもんです。</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb9-1"><a href="#cb9-1"></a>crosses = paths[<span class="dv">0</span>] &amp; paths[<span class="dv">1</span>]</span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a>steps = corsses.map{|c| paths[<span class="dv">0</span>].index(c) + paths[<span class="dv">1</span>].index(c) + <span class="dv">2</span> }</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a>p steps.min</span></code></pre></div>
+<p>こいつも動きを試してみると・・・</p>
+<pre class="console"><code>% cat test1.tsv| ./ans1.rb
+610</code></pre>
+<p>うん。出来た。</p>
+</article>
+<footer>
+  <ul>
+    <li><a href="/">Archive</a></li>
+  </ul>
+</footer>
+</body>
+</html>
