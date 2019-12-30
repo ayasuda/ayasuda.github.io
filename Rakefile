@@ -16,7 +16,8 @@ PAGES = SRCS.gsub(/^src\//, 'pages/').ext('.html')
 INDEX = "index.html"
 INDEX_BASE = "src/index.html.erb"
 
-LOCALHOST = ENV['LOCAL'] || false
+#BASENAME="https://ayasuda.github.io/"
+BASENAME="http://localhost:3000/"
 
 task default: :all
 
@@ -32,7 +33,7 @@ task all: [PAGE_DIR, INDEX]
 
 desc "compile index.html"
 task INDEX => [:page_all, PANDOCTEMPLATE, INDEX_BASE].flatten do
-  with_localhost = LOCALHOST
+  basename = BASENAME
   pages = Dir.glob("src/*.md").map{|name| Page.new(name) }
   pages.select!(&:publish?)
   pages.sort!{|a, b| b.to_date <=> a.to_date }
@@ -50,11 +51,7 @@ end
 
 rule %r{^#{PAGE_DIR}/.+\.html} => "%{^#{PAGE_DIR},src}X.md" do |t|
   if Page.new(t.source).publish?
-    if LOCALHOST
-      sh "#{PANDOC} #{PANDOCFLAGS} -V localhost=1 -o #{t.name} #{t.source}"
-    else
-      sh "#{PANDOC} #{PANDOCFLAGS} -o #{t.name} #{t.source}"
-    end
+    sh "#{PANDOC} #{PANDOCFLAGS} -V basename=#{BASENAME} -o #{t.name} #{t.source}"
   end
 end
 
