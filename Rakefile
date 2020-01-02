@@ -16,8 +16,8 @@ PAGES = SRCS.gsub(/^src\//, 'pages/').ext('.html')
 INDEX = "index.html"
 INDEX_BASE = "src/index.html.erb"
 
-#BASENAME="https://ayasuda.github.io/"
-BASENAME="http://localhost:3000/"
+BASENAME="https://ayasuda.github.io/"
+#BASENAME="http://localhost:3000/"
 
 task default: :all
 
