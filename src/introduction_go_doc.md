@@ -2,11 +2,14 @@
 title: 'go doc の使い方・コメントを書いて、ちゃんと読む'
 date: '2019-04-12'
 description: 'godoc コマンドを使ってドキュメントを読む方法についてまとめてみました'
+tags:
+  - Go
+  - Tools
 keywords:
-  - golang
+  - Go
+  - Tools
+  - Command
   - godoc
-  - documentation
-  - tool
 ---
 
 Go 言語ではソースコード中にコメントを書くことで自動的に API ドキュメントを生成する方法が最初からサポートされています。

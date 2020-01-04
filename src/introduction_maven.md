@@ -2,9 +2,12 @@
 title: '俺のための Maven 入門'
 date: '2017-12-12'
 description: '初めて Maven に触れる人向けに、５分でわかる Maven の流れをまとめておきました'
+tags:
+  - Java
 keywords:
   - Java
   - Maven
+  - Maven入門
 ---
 
 なにもかもを忘れっぽい自分のために、 [Apache Maven](https://maven.apache.org) の入門記事をまとめておこうと思う。

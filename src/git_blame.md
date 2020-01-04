@@ -2,8 +2,12 @@
 title: '特定メソッドがどのように変更されてきたかを調べる'
 date: '2017-07-23'
 description: 'git blame の便利な使い方'
+tags:
+  - Tools
 keywords:
+  - Tools
   - git
+  - git blame
   - tig
   - vcs-ann
 ---

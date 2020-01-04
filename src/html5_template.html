@@ -50,10 +50,10 @@ $if(title)$
     <h1>$title$</h1>
     <div class="content-meta">
     <div class="published">$date$</div>
-$if(keywords)$
+$if(tags)$
       <ul class="keywords">
-$for(keywords)$
-        <li>$keywords$</li>
+$for(tags)$
+        <li><a href="/pages/tags/$tags$.html">$tags$</a></li>
 $endfor$
       </ul>
 $if(description)$

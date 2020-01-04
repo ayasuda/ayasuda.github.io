@@ -2,6 +2,9 @@
 title: 'PlantUML をリアルタイムでプレビューしたい - それ、fswatch でできるよ。'
 date: '2019-04-08'
 description: 'リアリタイムでプレビューをコマンドライン上だけで完結させるために、簡単なスクリプトを組んでみました。'
+tags:
+  - Tips
+  - Tools
 keywords:
   - PlantUML
   - fswatch

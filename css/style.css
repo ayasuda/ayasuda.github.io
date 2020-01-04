@@ -145,6 +145,10 @@ footer a{
   margin: 0;
 }
 
+.content-meta a {
+  color: #9EABB3;
+}
+
 .content h1 {
   font-size: 5rem;
   letter-spacing: -2px;
@@ -178,11 +182,12 @@ footer a{
 
 .index ul {
   list-style-type: none;
+  padding-left: 0;
 }
 .index > ul > li {
   margin-bottom: 2rem;
 }
-.index li a {
+.index > ul > li > a {
   font-size: 3rem;
   font-weight: bold;
   color: #f8b862;

@@ -2,9 +2,13 @@
 title: 'Golang time.Parse の使い方'
 date: '2019-07-23'
 description: 'Go 言語で文字列を`Time` 構造体に変換する `time.Parse` の使い方をまとめました'
+tags:
+  - Go
 keywords:
+  - Go
   - golang
   - time
+  - time.Parse
 ---
 
 この記事では、Golang で文字列を `Time` 構造体に変換する [`time.Parse`](https://golang.org/pkg/time/#Parse) の使い方を解説しつつ

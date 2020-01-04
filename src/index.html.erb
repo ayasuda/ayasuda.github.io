@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <base href="<%= basename %>">
-    <title>ayasuda.github.io</title>
+    <title>ayasuda.github.io<%= "- #{tag}" if defined? tag %></title>
     <link rel="stylesheet" href="/css/style.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
@@ -19,6 +19,9 @@
       <h1><a href="/">ayasuda.github.io</a></h1>
     </header>
     <article class="index">
+      <% if defined? tag %>
+        <h1>Tag: <%= tag %></h1>
+      <% end %>
       <ul>
         <% pages.each do |page| %>
           <li>
@@ -26,8 +29,8 @@
             <div class="content-meta">
               <div class="published"><%= page.to_date %></div>
               <ul class="keywords">
-                <% page.keywords.each do |keyword| %>
-                  <li><%= keyword %></li>
+                <% page.tags.each do |tag| %>
+                  <li><a href="/pages/tags/<%= tag %>.html"><%= tag %></a></li>
                 <% end %>
               </ul>
               <p><%= page.description %></p>

@@ -2,13 +2,14 @@
 title: 'history コマンドの使い方'
 date: '2119-05-06'
 description: 'コマンド実行履歴を閲覧する history と再実行する fc の紹介・解説および bash と zsh での履歴関連設定方法など'
+tag:
+  - Tips
 keywords:
+  - Tips
+  - Command line
   - history
   - fc
-  - bash
-  - zsh
-  - command
-  - cli
+  - zshbuiltins
 ---
 
 ターミナルで入力したコマンドの実行履歴を見るのには `history` コマンドを使います。

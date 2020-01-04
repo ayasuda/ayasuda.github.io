@@ -2,11 +2,12 @@
 title: '改めて flag パッケージの使い方 - golang flag'
 date: '2119-07-19'
 description: '改めて、自分のために golang の標準パッケージである flag の使い方をまとめておきます。'
+tags:
+  - Go
 keywords:
-  - golang
+  - Go
   - flag
-  - command-line
-  - arg
+  - コマンドライン引数
 ---
 
 Go 言語では標準パッケージの中にコマンドライン引数をパースする [flag](https://golang.org/pkg/flag/) があります。

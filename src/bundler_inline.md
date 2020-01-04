@@ -2,8 +2,12 @@
 title: '１ファイルくらいのスクリプト向け bundler'
 date: '2017-10-20'
 description: 'bundler を使って簡単なスクリプトでも依存関係を定義できる、インライン記法についてメモをまとめておきました'
+tags:
+  - Ruby
 keywords:
-  - bundler
+  - Ruby
+  - Bundler
+  - スクリプト
 ---
 
 簡単な ruby のスクリプトでも、ライブラリのバージョン管理をしたい！

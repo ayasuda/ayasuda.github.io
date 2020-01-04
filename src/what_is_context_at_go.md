@@ -2,6 +2,8 @@
 title: 'Go 言語 context パッケージ誕生の背景と使用方法'
 date: '2019-04-15'
 description: 'サーバプログラムやAPI呼び出しなどをする際によく見かけることになる context パッケージ。このパッケージが何を解決たかったのかと、使用法についてまとめてみます。'
+tags:
+  - Go
 keywords:
   - Go
   - Context

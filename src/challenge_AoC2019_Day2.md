@@ -2,9 +2,13 @@
 title: "今年はどのアドベントカレンダーにも投稿しないから、俺は AoC をただ解いていこうと思う。2 日目"
 description: "ただただ Advent of Code 2019 を淡々とこなしていく記録"
 date: '2019-12-02'
+tags:
+  - プログラミング問題
+  - アドベントカレンダー
 keywords:
   - プログラミング問題
-  - AdventCalender
+  - アドベントカレンダー
+  - Advento of Code
 ---
 
 さて、2 日目。

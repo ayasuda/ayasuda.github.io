@@ -2,6 +2,8 @@
 title: 'rails new するとできる bin ディレクトリまとめ'
 description: 'rails new するとできる bin ディレクトリの役割と、それぞれの内容についてメモ程度にまとめてみました。'
 date: '2017-11-06'
+tags:
+  - Ruby
 keywords:
   - rails
   - script

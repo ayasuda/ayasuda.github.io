@@ -2,8 +2,12 @@
 title: 'ちょっとした計算をしたいならbcを使えばいいらしいよ'
 date: '2017-10-06'
 description: 'ちょっとした計算をCLI上でやるなら bc コマンドが便利です。この記事では、最初の最初のさわりだけ、メモしてあります。'
+tags:
+  - Tools
 keywords:
-  - bundler
+  - Tools
+  - Command Line Tool
+  - bc
 ---
 bc の使い方メモ
 ====

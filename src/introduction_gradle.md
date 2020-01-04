@@ -2,9 +2,12 @@
 title: 'ぼくのための Gradle 入門'
 date: '2018-08-01'
 description: 'Gradle に入門しつつ、とりあえず Hello,World. と Java プログラムを書くまで'
+tags:
+  - Java
 keywords:
   - Java
   - Gradle
+  - Gradle入門
 ---
 
 Ruby な会社から Java な会社に転職したぼく。その前に立ちはだかるのは３つのビルドツールだった。

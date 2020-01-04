@@ -16,6 +16,8 @@ PAGES = SRCS.gsub(/^src\//, 'pages/').ext('.html')
 INDEX = "index.html"
 INDEX_BASE = "src/index.html.erb"
 
+TAGS_DIR = "pages/tags"
+
 BASENAME="https://ayasuda.github.io/"
 #BASENAME="http://localhost:3000/"
 
@@ -27,9 +29,10 @@ task :test do
 end
 
 directory PAGE_DIR
+directory TAGS_DIR
 
 desc "compile all published articles, index page and any of all"
-task all: [PAGE_DIR, INDEX]
+task all: [PAGE_DIR, INDEX, TAGS_DIR, :tag_index]
 
 desc "compile index.html"
 task INDEX => [:page_all, PANDOCTEMPLATE, INDEX_BASE].flatten do
@@ -42,6 +45,27 @@ end
 
 desc "compile all published articles"
 task page_all: PAGES
+
+task tag_index: :page_all do
+  tags = {}
+  SRCS.each do |src|
+    page = Page.new(src)
+    next unless page.publish?
+    next if page.tags.nil?
+    page.tags.each do |tag|
+      tags.store(tag, []) unless tags.key?(tag)
+      tags[tag] << src
+    end
+  end
+  tags.each do |tag, src|
+    out = TAGS_DIR + "/" + tag + ".html"
+    puts out
+    basename = BASENAME
+    pages = src.map{|s| Page.new(s) }.reverse
+    File.write(out, ERB.new(File.read(INDEX_BASE)).result(binding)
+    )
+  end
+end
 
 desc "clean up all published files"
 task :clean do
@@ -66,6 +90,25 @@ task :draft do
     page = Page.new(src)
     next if page.publish?
     puts [src, page.title].join("\t")
+  end
+end
+
+desc "show tags"
+task :tags do
+  tags = {}
+  SRCS.each do |src|
+    page = Page.new(src)
+    next if page.tags.nil?
+    page.tags.each do |tag|
+      tags.store(tag, []) unless tags.key?(tag)
+      tags[tag] << src
+    end
+  end
+  tags.each do |tag, src|
+    puts tag
+    src.each do |s|
+      puts "\t" + s
+    end
   end
 end
 
@@ -98,6 +141,10 @@ class Page
 
   def keywords
     metadata["keywords"]
+  end
+
+  def tags
+    metadata["tags"]
   end
 
   private
