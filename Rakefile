@@ -6,7 +6,7 @@ require 'yaml'
 
 PANDOC = "pandoc"
 PANDOCTEMPLATE="src/html5_template.html"
-PANDOCFLAGS = "-f markdown -t html --template=#{PANDOCTEMPLATE}"
+PANDOCFLAGS = "-f markdown -t html5 --toc --highlight-style=tango --template=#{PANDOCTEMPLATE}"
 
 SRCS = FileList["src/**/*.md"]
 

@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <base href="https://ayasuda.github.io/">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Atsushi Yasuda">
@@ -10,6 +12,7 @@
   <meta name="keywords" content="プログラミング問題, AdventCalender">
   <meta name="date" content="2019-12-01">
   <title>今年はどのアドベントカレンダーにも投稿しないから、俺は AoC をただ解いていこうと思う。1 日目</title>
+  <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
 code.sourceCode > span { display: inline-block; line-height: 1.25; }
@@ -42,41 +45,39 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  background-color: #f8f8f8; }
 @media screen {
 code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="/css/style.css">
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
   <script>
@@ -90,19 +91,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <![endif]-->
 </head>
 <body>
-<header class="site">
+<header class="site-header">
   <h1><a href="/">ayasuda.github.io</a></h1>
 </header>
-<article>
-  <header class="content">
+<article class="content">
+  <header>
     <h1>今年はどのアドベントカレンダーにも投稿しないから、俺は AoC をただ解いていこうと思う。1 日目</h1>
+    <div class="content-meta">
     <div class="published">2019-12-01</div>
-    <p>ただただ Advent of Code 2019 を淡々とこなしていく記録</p>
-    <ul class="keywords">
-      <li>プログラミング問題</li>
-      <li>AdventCalender</li>
-    </ul>
+      <ul class="keywords">
+        <li>プログラミング問題</li>
+        <li>AdventCalender</li>
+      </ul>
+      <p>ただただ Advent of Code 2019 を淡々とこなしていく記録</p>
+    </div>
   </header>
+  <nav id="TOC">
+  <ul>
+  <li><a href="#日目-the-tyranny-of-the-rocket-equation">1 日目: The Tyranny of the Rocket Equation</a><ul>
+  <li><a href="#問目さっさと燃料を計算する簡単なお仕事">1 問目：さっさと燃料を計算する簡単なお仕事。</a></li>
+  <li><a href="#ネタバレ-2-問目燃料自体の重さもあるよね-って話">(ネタバレ) 2 問目：燃料自体の重さもあるよね？　って話。</a></li>
+  </ul></li>
+  </ul>
+  </nav>
 <p>今年もアドベントカレンダーの季節が来た。 しかし、友達がいないので、俺はどのアドベントカレンダーにも参加していない。 そんな孤独感を紛らわせるためにも <a href="https://adventofcode.com/2019">Advent of Code</a> にチャレンジしていこうと思ったんだ。</p>
 <h1 id="日目-the-tyranny-of-the-rocket-equation">1 日目: The Tyranny of the Rocket Equation</h1>
 <h2 id="問目さっさと燃料を計算する簡単なお仕事">1 問目：さっさと燃料を計算する簡単なお仕事。</h2>
@@ -198,9 +209,7 @@ Puzzle inputs differ by user.  Please log in to get your puzzle input.</code></p
 <p>https://twitter.com/ayasuda_jp/status/1201345178805473280</p>
 </article>
 <footer>
-  <ul>
-    <li><a href="/">Archive</a></li>
-  </ul>
+  <a href="/">Home</a>
 </footer>
 </body>
 </html>

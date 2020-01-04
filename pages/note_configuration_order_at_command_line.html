@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <base href="https://ayasuda.github.io/">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Atsushi Yasuda">
@@ -10,8 +12,8 @@
   <meta name="keywords" content="Command Line Tool, Option, Configuration, Programming Note">
   <meta name="date" content="2019-07-22">
   <title>コマンドラインツールでの設定値の優先順（設定ファイル・環境変数・コマンドライン引数）</title>
-  <style type="text/css">code{white-space: pre;}</style>
   <link rel="stylesheet" href="/css/style.css">
+  <style type="text/css">code{white-space: pre;}</style>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
   <script>
@@ -25,21 +27,33 @@
   <![endif]-->
 </head>
 <body>
-<header class="site">
+<header class="site-header">
   <h1><a href="/">ayasuda.github.io</a></h1>
 </header>
-<article>
-  <header class="content">
+<article class="content">
+  <header>
     <h1>コマンドラインツールでの設定値の優先順（設定ファイル・環境変数・コマンドライン引数）</h1>
+    <div class="content-meta">
     <div class="published">2019-07-22</div>
-    <p>コマンドラインツールを作る時、プログラムがユーザから値を受ける方法は何通りもあります。特に代表的なのが設定ファイル・環境変数・コマンドライン引数です。本記事では、一般的にこれらをどのような優先順位で扱うかを調べていきます。</p>
-    <ul class="keywords">
-      <li>Command Line Tool</li>
-      <li>Option</li>
-      <li>Configuration</li>
-      <li>Programming Note</li>
-    </ul>
+      <ul class="keywords">
+        <li>Command Line Tool</li>
+        <li>Option</li>
+        <li>Configuration</li>
+        <li>Programming Note</li>
+      </ul>
+      <p>コマンドラインツールを作る時、プログラムがユーザから値を受ける方法は何通りもあります。特に代表的なのが設定ファイル・環境変数・コマンドライン引数です。本記事では、一般的にこれらをどのような優先順位で扱うかを調べていきます。</p>
+    </div>
   </header>
+  <nav id="TOC">
+  <ul>
+  <li><a href="#結論">結論</a></li>
+  <li><a href="#他のプロダクトではどうなっているか">他のプロダクトではどうなっているか？</a><ul>
+  <li><a href="#springboot-における設定の優先順位">SpringBoot における設定の優先順位</a></li>
+  <li><a href="#aws-coomand-line-interface-における設定の優先順位">AWS Coomand Line interface における設定の優先順位</a></li>
+  </ul></li>
+  <li><a href="#参考">参考</a></li>
+  </ul>
+  </nav>
 <p>コマンドラインツールを作る時、プログラムがユーザから値を受ける方法は何通りもあります。 特に代表的なのが設定ファイル・環境変数・コマンドライン引数です。 自分でプログラムを書く場合、これらの値を自分の好きな順番で扱えます。 ただ、自分の好きな順番で扱えるからこそ、何をどのような優先順位で処理すべきか迷うこともあるでしょう。 本記事では、各種値を一般的にはどのように処理していくかを調べていきます。</p>
 <h1 id="結論">結論</h1>
 <p><a href="https://stackoverflow.com/questions/11077223/what-order-of-reading-configuration-values">environment variables - What order of reading configuration values? - Stack Overflow</a> でも言及されていますが、下記の優先順位で値を設定するのがベターでしょう。</p>
@@ -88,9 +102,7 @@
 </ul>
 </article>
 <footer>
-  <ul>
-    <li><a href="/">Archive</a></li>
-  </ul>
+  <a href="/">Home</a>
 </footer>
 </body>
 </html>

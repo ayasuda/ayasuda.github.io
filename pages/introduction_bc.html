@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <base href="https://ayasuda.github.io/">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Atsushi Yasuda">
@@ -10,8 +12,8 @@
   <meta name="keywords" content="bundler">
   <meta name="date" content="2017-10-06">
   <title>ちょっとした計算をしたいならbcを使えばいいらしいよ</title>
-  <style type="text/css">code{white-space: pre;}</style>
   <link rel="stylesheet" href="/css/style.css">
+  <style type="text/css">code{white-space: pre;}</style>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
   <script>
@@ -25,18 +27,28 @@
   <![endif]-->
 </head>
 <body>
-<header class="site">
+<header class="site-header">
   <h1><a href="/">ayasuda.github.io</a></h1>
 </header>
-<article>
-  <header class="content">
+<article class="content">
+  <header>
     <h1>ちょっとした計算をしたいならbcを使えばいいらしいよ</h1>
+    <div class="content-meta">
     <div class="published">2017-10-06</div>
-    <p>ちょっとした計算をCLI上でやるなら bc コマンドが便利です。この記事では、最初の最初のさわりだけ、メモしてあります。</p>
-    <ul class="keywords">
-      <li>bundler</li>
-    </ul>
+      <ul class="keywords">
+        <li>bundler</li>
+      </ul>
+      <p>ちょっとした計算をCLI上でやるなら bc コマンドが便利です。この記事では、最初の最初のさわりだけ、メモしてあります。</p>
+    </div>
   </header>
+  <nav id="TOC">
+  <ul>
+  <li><a href="#bc-の使い方メモ">bc の使い方メモ</a><ul>
+  <li><a href="#bc">bc</a></li>
+  <li><a href="#どこまでできるの">どこまでできるの？</a></li>
+  </ul></li>
+  </ul>
+  </nav>
 <h1 id="bc-の使い方メモ">bc の使い方メモ</h1>
 <p>コンピュータの発展の結果、ちょっと複雑なことをやる計算機を使うのがやけに難しくなったきらいがありませんか？</p>
 <p>例えば、チームの新人歓迎会をやるために、飲み放題付き5500円のコースを16人で予約しつつ 5000円割引クーポンを使い、それを新人以外の15人で割り勘するときの料金を計算させようとすると みたいな計算を気軽にやりたい時に、どうすれば良いかすぐに思いつくでしょうか？</p>
@@ -53,9 +65,7 @@
 <p>ただし、あくまでも計算機。算術式を計算するものなので、例えば文字列の結合みたいなこのはできません(できたとしてもやる必要はないと思います)</p>
 </article>
 <footer>
-  <ul>
-    <li><a href="/">Archive</a></li>
-  </ul>
+  <a href="/">Home</a>
 </footer>
 </body>
 </html>

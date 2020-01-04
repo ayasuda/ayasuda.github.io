@@ -21,8 +21,11 @@
 golang のお勉強
   go module について
 
+スタイルの修正
+  Casper ベースで
+  下記のブログのデザインをベースに
+  https://blog.alexellis.io/
+  https://hayatoito.github.io/
+  dark, light の 2 テーマ対応
 
-todo command
-  todo list - show tasks
-  todo add
-  todo done
+index ページとカテゴリ別ページ、単一ページ、記事ページ

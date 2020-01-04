@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <base href="https://ayasuda.github.io/">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Atsushi Yasuda">
@@ -10,6 +12,7 @@
   <meta name="keywords" content="rails, script, binstub">
   <meta name="date" content="2017-11-06">
   <title>rails new するとできる bin ディレクトリまとめ</title>
+  <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
 code.sourceCode > span { display: inline-block; line-height: 1.25; }
@@ -42,41 +45,39 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  background-color: #f8f8f8; }
 @media screen {
 code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="/css/style.css">
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
   <script>
@@ -90,20 +91,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <![endif]-->
 </head>
 <body>
-<header class="site">
+<header class="site-header">
   <h1><a href="/">ayasuda.github.io</a></h1>
 </header>
-<article>
-  <header class="content">
+<article class="content">
+  <header>
     <h1>rails new するとできる bin ディレクトリまとめ</h1>
+    <div class="content-meta">
     <div class="published">2017-11-06</div>
-    <p>rails new するとできる bin ディレクトリの役割と、それぞれの内容についてメモ程度にまとめてみました。</p>
-    <ul class="keywords">
-      <li>rails</li>
-      <li>script</li>
-      <li>binstub</li>
-    </ul>
+      <ul class="keywords">
+        <li>rails</li>
+        <li>script</li>
+        <li>binstub</li>
+      </ul>
+      <p>rails new するとできる bin ディレクトリの役割と、それぞれの内容についてメモ程度にまとめてみました。</p>
+    </div>
   </header>
+  <nav id="TOC">
+  <ul>
+  <li><a href="#rails-の各種コマンドは-bin-ディレクトリから">Rails の各種コマンドは bin ディレクトリから</a><ul>
+  <li><a href="#そもそも論の-binstub">そもそも論の binstub</a></li>
+  <li><a href="#bundle-rails-rake-spring-yarn">bundle, rails, rake, spring, yarn</a></li>
+  <li><a href="#setup">setup</a></li>
+  <li><a href="#update">update</a></li>
+  <li><a href="#scripts-to-rule-them-all">Scripts To Rule Them All</a></li>
+  <li><a href="#なんで-script-ディレクトリじゃないの">なんで script ディレクトリじゃないの？</a></li>
+  <li><a href="#direnv-使って楽するといいと思うよ">direnv 使って楽するといいと思うよ</a></li>
+  </ul></li>
+  </ul>
+  </nav>
 <h1 id="rails-の各種コマンドは-bin-ディレクトリから">Rails の各種コマンドは bin ディレクトリから</h1>
 <p><code>rails new APP</code> すると出来上がる rails プロジェクトでは、 ルートディレクトリに <code>bin</code> ディレクトリが生成されます。</p>
 <p>この中には、サーバを起動したり、テストをしたり、アプリケションを管理する 様々なスクリプトファイルが置かれます。</p>
@@ -229,9 +245,7 @@ $ bin/update
 <p>このツールを使って、 PATH に <code>RAILS_ROOT/bin</code> を追加することで、例えば、 <code>rails</code> コマンドや <code>bundle</code> コマンドを自然に使えるようになります。</p>
 </article>
 <footer>
-  <ul>
-    <li><a href="/">Archive</a></li>
-  </ul>
+  <a href="/">Home</a>
 </footer>
 </body>
 </html>

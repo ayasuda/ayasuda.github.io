@@ -15,7 +15,7 @@
     </script>
   </head>
   <body>
-    <header>
+    <header class="site-header">
       <h1><a href="/">ayasuda.github.io</a></h1>
     </header>
     <article class="index">
@@ -23,16 +23,21 @@
         <% pages.each do |page| %>
           <li>
             <a href="<%= page.path %>"><%= page.title %></a>
-            <div class="published"><%= page.to_date %></div>
-            <p><%= page.description %></p>
-            <ul class="keywords">
-              <% page.keywords.each do |keyword| %>
-                <li><%= keyword %></li>
-              <% end %>
-            </ul>
+            <div class="content-meta">
+              <div class="published"><%= page.to_date %></div>
+              <ul class="keywords">
+                <% page.keywords.each do |keyword| %>
+                  <li><%= keyword %></li>
+                <% end %>
+              </ul>
+              <p><%= page.description %></p>
+            </div>
           </li>
         <% end %>
       </ul>
     </article>
+    <footer>
+      <a href="/">Home</a>
+    </footer>
   </body>
 </html>

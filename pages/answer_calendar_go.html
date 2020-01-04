@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <base href="https://ayasuda.github.io/">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Atsushi Yasuda">
@@ -10,6 +12,7 @@
   <meta name="keywords" content="プログラミング問題, Go, カレンダー作成問題">
   <meta name="date" content="2019-05-06">
   <title>カレンダー作成問題の解答 Go言語編</title>
+  <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
 code.sourceCode > span { display: inline-block; line-height: 1.25; }
@@ -42,41 +45,39 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  background-color: #f8f8f8; }
 @media screen {
 code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="/css/style.css">
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
   <script>
@@ -90,20 +91,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <![endif]-->
 </head>
 <body>
-<header class="site">
+<header class="site-header">
   <h1><a href="/">ayasuda.github.io</a></h1>
 </header>
-<article>
-  <header class="content">
+<article class="content">
+  <header>
     <h1>カレンダー作成問題の解答 Go言語編</h1>
+    <div class="content-meta">
     <div class="published">2019-05-06</div>
-    <p>初心者向けプログラミング問題の１つである「カレンダー作成問題」の解答コードと作り方をメモしていきます。</p>
-    <ul class="keywords">
-      <li>プログラミング問題</li>
-      <li>Go</li>
-      <li>カレンダー作成問題</li>
-    </ul>
+      <ul class="keywords">
+        <li>プログラミング問題</li>
+        <li>Go</li>
+        <li>カレンダー作成問題</li>
+      </ul>
+      <p>初心者向けプログラミング問題の１つである「カレンダー作成問題」の解答コードと作り方をメモしていきます。</p>
+    </div>
   </header>
+  <nav id="TOC">
+  <ul>
+  <li><a href="#カレンダー作成問題">カレンダー作成問題</a></li>
+  <li><a href="#手順">手順</a><ul>
+  <li><a href="#今日の日付と-time-ライブラリ">今日の日付と time ライブラリ</a></li>
+  <li><a href="#月末の求め方-1-time.date-を使う">月末の求め方 1: time.Date を使う</a></li>
+  <li><a href="#月末の求め方-2-time.add-を使い次の月の月初から1日マイナスする">月末の求め方 2: time.Add を使い、次の月の月初から1日マイナスする</a></li>
+  <li><a href="#月初は何曜日">月初は何曜日？</a></li>
+  <li><a href="#表示部分を作っていこう">表示部分を作っていこう</a><ul>
+  <li><a href="#年月表記とセンタリング">年・月表記とセンタリング</a></li>
+  <li><a href="#カレンダー表示部分">カレンダー表示部分</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#解答例">解答例</a></li>
+  <li><a href="#発展例に向けて">発展例に向けて</a></li>
+  </ul>
+  </nav>
 <p><a href="https://blog.jnito.com/entry/2019/05/03/121235">アウトプットのネタに困ったらこれ！？Ruby初心者向けのプログラミング問題を集めてみた（全10問）</a> で紹介された問題を解いてみようと思いました。</p>
 <p>プログラマー歴1x年目。最近は手癖でプログラムを書いているので、意外にこの手の問題が解けなくなっているかもしれない……</p>
 <p>なお、本記事では解答例は記事の最後に記します。 記事の冒頭で問題の紹介を抜粋します。次に、実装手順をつらつらと書いていきます。 ほら、いざって時には解答例じゃなくて、そこに至る手順が大事になることも多いですし。お寿司。 なお、今回は Go 言語を用いて解答していきたいと思います。 最後に解答例と発展例を示していきます。</p>
@@ -379,9 +399,7 @@ $ CAL
 <p>にある通り、 <code>cal</code> という名前で呼び出さなかった時に、 <code>cal -N</code> をつけた時と同じ動きになる実装通りですね！</p>
 </article>
 <footer>
-  <ul>
-    <li><a href="/">Archive</a></li>
-  </ul>
+  <a href="/">Home</a>
 </footer>
 </body>
 </html>

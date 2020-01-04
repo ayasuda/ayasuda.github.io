@@ -1,186 +1,192 @@
-html, body, div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code,
-del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var,
-b, i,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
-  margin:0;
-  padding:0;
-  border:0;
-  outline:0;
-  font-size:100%;
-  vertical-align:baseline;
-  background:transparent;
+/* Table of Contents
+/* ------------------------------------------------------------
+
+https://github.com/TryGhost/Casper の生成物を参考にした
+独自のスタイル。
+
+設定項目だけ参考にして、内容は独自。
+独自である必要性は、ない。
+
+1.  Global Styles
+2.  Layout
+3.  Special Templates
+4.  Site Header
+4.1 Home header
+4.2 Archive header
+5.  Site Navigation
+6.  Post Feed
+7.  Single Post
+7.1. Post Byline
+7.2. Members Subscribe Form
+7.3. Comments
+7.4. Related Posts
+7.5. Koenig Styles
+8.  Author Template
+9.  Error Template
+10. Subscribe Overlay
+11. Site Footer
+12. Dark Mode
+
+ */
+
+/* 1. Global - Set up the things
+/* ---------------------------------------------------------- */
+
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+@import "normalize.css";
+
+html {
+  font-size: 62.5%;
+  height: 100%;
+  max-height: 100%;
+}
+body {
+  background: #fff;
 }
 
-article,aside,details,figcaption,figure,
-footer,header,hgroup,menu,nav,section {
-  display:block;
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-position: center center;
+  background-size: cover;
+  border-radius: 100%;
 }
+
+.hidden {
+  visibility: hidden;
+  position: absolute;
+  text-indent: -9999px;
+}
+
+/* 2. Layout - Page building blocks
+/* ---------------------------------------------------------- */
 
 body {
-  background-color: #eee;
-  color: #111;
-  font-family: Helvetica, arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
-}
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 
-body > header {
-  background-color: #f8b862; /* 萱草色 */
-
-  max-width: 59.38rem;
-  text-align: left;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 1.25rem;
-}
-
-body > header h1 {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-body > header h1 a {
-  color: #fff;
-  text-decoration: none;
-}
-
-article header h1 {
-  color: #f8b862; /* 萱草色 */
-  display: inline-block;
-}
-
-article header .published {
-  color: #999;
-}
-
-article header p {
-  color: #999;
-  font-style: italic;
-}
-
-.keywords li {
-  display: inline-block;
-  background-color: #eee;
-  padding: 0.4em;
-  border-radius: 4px;
+  letter-spacing: 0.01rem;
+  font-size: 1.8rem;
+  color: #3A4145;
 }
 
 article {
-  background-color: #fcfcfc;
-  color: #111;
-  display: block;
-
-  max-width: 59.38rem;
-  text-align: left;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 1.25rem;
+  width: 80%;
+  margin: 4rem auto;
 }
 
-article h1 {
-  font-size: 1.6em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-article h2 {
-  font-size: 1.4em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-article h3 {
-  font-size: 1.3em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-article h4 {
-  font-size: 1.2em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-article h5 {
-  font-size: 1.1em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-article h6 {
-  font-size: 1em;
-  margin-top: 1em;
-  margin-bottom: 1em;
+#TOC {
+  display: none;
 }
 
-article p {
-  margin-left: 1em;
+/* 3. Special Template Styles
+/* ---------------------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+  color: #3A4145;
 }
 
-article ul {
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-left: 2em;
+/* 4. Header
+/* ---------------------------------------------------------- */
+.site-header {
+  background-color: #f8b862;
+}
+.site-header h1 {
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-article ol {
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-left: 2em;
+.site-header a {
+  text-decoration: none;
+  color: #fff;
 }
 
-article pre {
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-left: 2em;
-  background-color: #f7f7f7;
-  box-shadow: 0 2px 4px rgba(0,0,0,.15), 0 0 3px rgba(0,0,0,.15);
-  padding: .99em;
-  overflow-x: auto
-  white-space: pre;
-  font-size .95em;
-  line-height: 1.8em;
+/* 5. Footer
+/* ---------------------------------------------------------- */
+footer {
+  background-color: #f8b862;
+  text-align: center;
+  padding: 1rem;
+}
+footer a{
+  list-style-type: none;
+  color: #fff;
 }
 
-article img {
-  border: solid 1px #eee;
-  max-width: 100%;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+
+/* 7. Single Post
+/* ---------------------------------------------------------- */
+.content header h1 {
+  font-size: 3rem;
+  color: #f8b862;
+  margin: 0.2rem 0;
 }
+
+.content-meta {
+  font-size: 1.5rem;
+  color: #9EABB3;
+}
+
+.content-meta ul {
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.content-meta li {
+  margin: 0.2em;
+}
+.content-meta p {
+  padding: 0;
+  margin: 0;
+}
+
+.content h1 {
+  font-size: 5rem;
+  letter-spacing: -2px;
+  text-indent: -3px;
+}
+
+.content h1 {
+  font-size: 3.6rem;
+  letter-spacing: -1px;
+}
+
+.content h2 {
+  font-size: 3rem;
+  letter-spacing: -0.6px;
+}
+
+.content h3 {
+  font-size: 2.5rem;
+}
+
+.content h4, .content h5, .content h6 {
+  font-size: 2rem;
+}
+
+.content {
+  font-size: 1.6rem;
+}
+
+/* 8. Index page 
+/* ---------------------------------------------------------- */
 
 .index ul {
-  display: inline-block;
-  list-style: none;
+  list-style-type: none;
 }
-
-.index a {
-  font-size: 1.4em;
-  font-weight: bolder;
+.index > ul > li {
+  margin-bottom: 2rem;
+}
+.index li a {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #f8b862;
+  margin: 0.2rem 0;
   text-decoration: none;
-  color: #f8b862; /* 萱草色 */
-}
-
-.index a:hover{
-  text-decoration: underline;
-}
-
-.index .published {
-  font-size: 1.4em;
-  color: #999;
-}
-
-.index p {
-  margin-left: 0;
-  color: #999;
-}
-
-body > footer {
-  text-align: center;
-  color: #666;
-  font-size: 0.875rem;
-  margin: 2.5rem 0;
+  letter-spacing: -1px;
 }

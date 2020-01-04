@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <base href="https://ayasuda.github.io/">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Atsushi Yasuda">
@@ -10,8 +12,8 @@
   <meta name="keywords" content="PlantUML, fswatch, filesystem, preveiw, edit, tips">
   <meta name="date" content="2019-04-08">
   <title>PlantUML をリアルタイムでプレビューしたい - それ、fswatch でできるよ。</title>
-  <style type="text/css">code{white-space: pre;}</style>
   <link rel="stylesheet" href="/css/style.css">
+  <style type="text/css">code{white-space: pre;}</style>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
   <script>
@@ -25,23 +27,34 @@
   <![endif]-->
 </head>
 <body>
-<header class="site">
+<header class="site-header">
   <h1><a href="/">ayasuda.github.io</a></h1>
 </header>
-<article>
-  <header class="content">
+<article class="content">
+  <header>
     <h1>PlantUML をリアルタイムでプレビューしたい - それ、fswatch でできるよ。</h1>
+    <div class="content-meta">
     <div class="published">2019-04-08</div>
-    <p>リアリタイムでプレビューをコマンドライン上だけで完結させるために、簡単なスクリプトを組んでみました。</p>
-    <ul class="keywords">
-      <li>PlantUML</li>
-      <li>fswatch</li>
-      <li>filesystem</li>
-      <li>preveiw</li>
-      <li>edit</li>
-      <li>tips</li>
-    </ul>
+      <ul class="keywords">
+        <li>PlantUML</li>
+        <li>fswatch</li>
+        <li>filesystem</li>
+        <li>preveiw</li>
+        <li>edit</li>
+        <li>tips</li>
+      </ul>
+      <p>リアリタイムでプレビューをコマンドライン上だけで完結させるために、簡単なスクリプトを組んでみました。</p>
+    </div>
   </header>
+  <nav id="TOC">
+  <ul>
+  <li><a href="#ファイルの変更検知に-fswatch-を使う">ファイルの変更検知に fswatch を使う</a><ul>
+  <li><a href="#fswatch-を用いた検知の方法">fswatch を用いた検知の方法</a></li>
+  </ul></li>
+  <li><a href="#plantuml-でテキストを画像に変換する">PlantUML でテキストを画像に変換する</a></li>
+  <li><a href="#二つを組み合わせて簡単なレビュー機能を実現する">二つを組み合わせて、簡単なレビュー機能を実現する</a></li>
+  </ul>
+  </nav>
 <p>Markdown や PlantUML をリアルタイムで確認したいと誰でも思うものです。 いくつか方法はありますが、MacOS でリアルタイムプレビューを行う一つの方法について簡単にメモして行きましょう。</p>
 <h1 id="ファイルの変更検知に-fswatch-を使う">ファイルの変更検知に fswatch を使う</h1>
 <p>リアルタイムにプレビューしたいなら、まずはファイルの変更を検知する必要があります。 Linux なら <code>inotify</code> をつかますが、MacOS にはありません。 そこで、<a href="https://github.com/emcrisostomo/fswatch">fswatch</a> を使います。</p>
@@ -90,9 +103,7 @@ done</code></pre>
 <p>ちょっと、PlantUML が起動するたびにフォーカスが PlantUML に取られちゃう気もしますが、十分にそれっぽく動かせると思います。</p>
 </article>
 <footer>
-  <ul>
-    <li><a href="/">Archive</a></li>
-  </ul>
+  <a href="/">Home</a>
 </footer>
 </body>
 </html>

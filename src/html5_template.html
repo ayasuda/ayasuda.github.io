@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <base href="$basename$">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Atsushi Yasuda">
@@ -16,6 +18,7 @@ $if(date)$
   <meta name="date" content="$date$">
 $endif$
   <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
+  <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
 $if(quotes)$
   <style type="text/css">q { quotes: "“" "”" "‘" "’"; }</style>
@@ -25,7 +28,6 @@ $if(highlighting-css)$
 $highlighting-css$
   </style>
 $endif$
-  <link rel="stylesheet" href="/css/style.css">
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
   <script>
@@ -39,23 +41,25 @@ $endif$
   <![endif]-->
 </head>
 <body>
-<header class="site">
+<header class="site-header">
   <h1><a href="/">ayasuda.github.io</a></h1>
 </header>
-<article>
+<article class="content">
 $if(title)$
-  <header class="content">
+  <header>
     <h1>$title$</h1>
+    <div class="content-meta">
     <div class="published">$date$</div>
-$if(description)$
-    <p>$description$</p>
-$endif$
 $if(keywords)$
-    <ul class="keywords">
+      <ul class="keywords">
 $for(keywords)$
-      <li>$keywords$</li>
+        <li>$keywords$</li>
 $endfor$
-    </ul>
+      </ul>
+$if(description)$
+      <p>$description$</p>
+$endif$
+    </div>
 $endif$
   </header>
 $endif$
@@ -67,9 +71,7 @@ $endif$
 $body$
 </article>
 <footer>
-  <ul>
-    <li><a href="/">Archive</a></li>
-  </ul>
+  <a href="/">Home</a>
 </footer>
 </body>
 </html>
