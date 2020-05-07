@@ -10,3 +10,22 @@ title: 'これはタイトルです'
 * [構文解析にまつわる小話たち | κeenのHappy Hacκing Blog](http://keens.github.io/slide/koubunkaisekiarekore/)
 * [The Side Project Marketing Checklist](https://www.sideprojectchecklist.com/marketing-checklist/)
 * [ここがクソだよ日本人エンジニア](https://anond.hatelabo.jp/20170728223725)
+
+
+https://www.freecodecamp.org/news/why-every-software-engineer-should-write-articles-f35bdae72d1b/
+Why Every Software Engineer Should Write Articles
+
+技術記事を書くとをオススメする記事
+書き手には「知識が深まる」「貢献できることへの喜びを得られる」
+「何かを伝える文書を書く練習になる」「人に読まれることで様々な機会を得られる」という４つの利点を、
+読み手目線では「新しい知識を得られる」だけでなく様々な人の書いた記事を読むことで「多角的な視点が持てる」というメリットを解いている。
+
+--
+
+https://junkyard.song.mu/slides/gocon2019-fukuoka/#0
+Go でツールを量産する僕の方法
+
+Songmu 氏による Go 言語でのコマンドラインツールを作る際のあれこれについて述べられた記事
+コマンドラインツールの雛形および、シグナルについての紹介、標準入出力の制御、プロセスの制御、終了コードについてなどを記している。
+
+--
