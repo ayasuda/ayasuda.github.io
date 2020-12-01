@@ -1,22 +1,62 @@
 ---
-title: '改めて flag パッケージの使い方 - golang flag'
+title: 'Go 言語でのコマンドライン引数処理'
 date: '2119-07-19'
-description: '改めて、自分のために golang の標準パッケージである flag の使い方をまとめておきます。'
+description: '改めて、自分のために golang でのコマンドライン引数処理として os.Args と、標準パッケージである flag の使い方をまとめておきます。'
 tags:
   - Go
 keywords:
   - Go
+  - Args
   - flag
   - コマンドライン引数
 ---
 
+TODO: 前書き
+
+# os.Args
+
+[コマンドライン引数](https://en.wikipedia.org/wiki/Command-line_interface#Arguments) はプログラムの実行時にプログラムに渡す変数の一つです。
+
+最も簡単にコマンドライン引数を処理するのであれば [os.Args](https://golang.org/pkg/os/#pkg-variables) 変数がわかりやすいでしょう。
+
+プログラム名および実行時の引数がスライスの形で保持されています。
+
+サンプルプログラム書いて動きを見て見ましょう。
+
+```go:args.go
+package main
+
+import (
+  "fmt"
+  "os"
+)
+
+func main() {
+  fmt.Println(os.Args)
+}
+```
+
+このファイルをビルドし、実行して見ます。
+
+```
+$ go build args.go
+$ ./args foo bar --baz "qux"
+[./args foo bar --baz qux]
+```
+
+ご覧の通り、呼び出した時のプログラム名と引数がシンプルにそのまま表示されました。
+
+# flag パッケージ
+
+`os.Args` はあまりにもシンプルすぎて実用上ではもう少し簡単にコマンドライン引数を扱いたいです。
+
 Go 言語では標準パッケージの中にコマンドライン引数をパースする [flag](https://golang.org/pkg/flag/) があります。
 
-本記事では、改めて使い方をまとめてみます。
+TODO: 以下言いまわし
 
 一番簡単な使い方
 
-```go:basic.go
+```go:flag.go
 package main
 
 import (
