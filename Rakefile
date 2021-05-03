@@ -19,13 +19,12 @@ INDEX_BASE = "src/index.html.erb"
 TAGS_DIR = "pages/tags"
 
 BASENAME="https://ayasuda.github.io/"
-#BASENAME="http://localhost:3000/"
 
 task default: :all
 
 desc "test command to develop rake file self"
 task :test do
-  p PAGES
+  SRCS.each{|s| p s }
 end
 
 directory PAGE_DIR
@@ -80,7 +79,7 @@ rule %r{^#{PAGE_DIR}/.+\.html} => "%{^#{PAGE_DIR},src}X.md" do |t|
 end
 
 desc "run local web server to check page view"
-task :run do
+task run: [:clean, :all] do
   sh "ruby -run -e httpd . -p 3000"
 end
 
