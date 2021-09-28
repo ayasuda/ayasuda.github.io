@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="keywords" content="Signal, Daemon">
+  <meta name="date" content="2021-09-28">
+  <title>シグナル処理ことはじめ</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style type="text/css">code{white-space: pre;}</style>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-138223597-1');
+  </script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header class="site-header">
+  <h1><a href="/">ayasuda.github.io</a></h1>
+</header>
+<article class="content">
+  <header>
+    <h1>シグナル処理ことはじめ</h1>
+    <div class="content-meta">
+    <div class="published">2021-09-28</div>
+  </header>
+  <nav id="TOC">
+  <ul>
+  <li><a href="#シグナルってなんだっけ">シグナルってなんだっけ</a>
+  <ul>
+  <li><a href="#シグナルの種類">シグナルの種類</a></li>
+  </ul></li>
+  <li><a href="#各言語でのシグナル制御">各言語でのシグナル制御</a>
+  <ul>
+  <li><a href="#go">Go</a></li>
+  <li><a href="#c">C</a></li>
+  <li><a href="#ruby">Ruby</a></li>
+  <li><a href="#java">Java</a></li>
+  </ul></li>
+  </ul>
+  </nav>
+<p>HTTP サーバみたいにずっと動きっぱなしのプログラムを <a href="https://ja.wikipedia.org/wiki/%E3%83%87%E3%83%BC%E3%83%A2%E3%83%B3">デーモン</a> とか呼んでた時代もありましたが、最近は聞かない気がします。</p>
+<p>とはいえ、Go や Rust の人気も出てきた昨今、割とデーモンになるようなプログラムを書く機会も増えているのではないかと感じています。 例えば、<a href="https://www.json.org/json-ja.html">JSON</a> を <a href="https://datatracker.ietf.org/doc/html/rfc7230">HTTP</a> でやり取りするようなサーバアプリケーションや、 <a href="https://grpc.io/">gRPC</a> サーバアプリケーションを書いた場合には、基本的には動かしっぱなしのデーモンとしてアプリケーションを作るのが一般的です。</p>
+<p>そんなプログラムを書くときに大事になってくる要素の一つがシグナル処理です。</p>
+<p>あなたのプログラムは起動した後、任意のタイミングでうまく停止できる必要があります。 一般的には、アプリケーションは停止シグナルを受け取ったら停止するように作ります。 具体的には起動後に <code>Ctrl + C</code> を入力されたり、 OS から <a href="https://linuxjm.osdn.jp/html/LDP_man-pages/man2/kill.2.html">kill コマンド</a> で停止をリクエストされたりした時に アプリケーションはシグナルを OS から受け取りますので、受け取ったシグナルに応じた停止処理を作るのが良いでしょう。</p>
+<p>本文書では、きちんと停止処理を書くために、改めてシグナル処理について振り返ってみます。</p>
+<h1 id="シグナルってなんだっけ">シグナルってなんだっけ</h1>
+<p>一般的に、動いているプログラムをプロセスと呼び、このプロセスはたまに OS から割り込みを受けます。 この割り込みが「シグナル」です。</p>
+<p>例えば、あなたが <code>httpd</code> サーバを動かしている最中に、誰かがそのマシンの電源ボタンを押してシャットダウンを開始したとしたら <code>httpd</code> サーバには <code>SIGHUP</code> というシグナルが OS から送られます。</p>
+<p>他にも、起動中にあなたが <code>kill your_server</code> みたいにプロセスを終了させたり、<code>Ctrl + C</code> で終了を試みたりした場合も、 OS はプロセスに対して <code>SIGINT</code> というシグナルを送ります。</p>
+<p>あなたがサーバを書くときに、シグナルを処理しなくても、最終的には OS によってプロセスは終了させられることにはなると思いますが、 きちんと処理した方がスマートです。 (何がどうスマートかというと、終了時の処理をきちんと書いてあるあたりがスマートです)</p>
+<p>そんなわけで、世界中の大抵のサーバプログラムでは、シグナル制御がきちんと書かれています。 例えば、 Ruby on Rails の <code>rails</code> コマンドで <a href="https://github.com/rails/rails/blob/v6.0.0/railties/lib/rails/cli.rb#L10">SIGINT を処理しているのはこの辺</a> です。</p>
+<h2 id="シグナルの種類">シグナルの種類</h2>
+<p>シグナルは OS によって定義されており、OS によってまちまちです。 とはいえ、ある程度は共通化されており、大体の OS が従っている <a href="https://en.wikipedia.org/wiki/Signal_(IPC)#POSIX_signals">POSIX のシグナル</a> には 30 強のシグナルが定義されています。 このうち、デーモンになるプログラムを書く際に、よく使うのは２−３種類です。</p>
+<p>この、一般的な業務アプリを書くサーバプログラマーがよく出会う２-３種類を順に上げていくと以下の通りとなります。</p>
+<ul>
+<li>SIGINT (割り込み, interrupt): 端末、つまりターミナルとかから割り込みキー (通常は <code>Ctrl + C</code>) が押されたときに発生するシグナル</li>
+<li>SIGTERM (終了, terminate): 誰かが kill コマンド実行するとかによりプロセスを終了するよう OS が判断したときに発生するシグナル</li>
+<li>SIGHUP (停止, hang-up): 端末が閉じられた時とかに発生するシグナル。例えば、無限ループするプログラムを実行中とかに、ターミナルを閉じたりするとこのシグナルが発生し、無限ループ中のプログラムは終了する。</li>
+</ul>
+<p>自分でシグナル処理をアプリケーションに書くのが <code>SIGINT</code>, <code>SIGTERM</code> あたりで、 <code>SIGHUP</code> は、どちらかというと <code>SIGHUP</code> が発生しないように <code>nohup</code> コマンドを使うときに出くわすことが多い印象です。</p>
+<p>その他にも、セグメンテーション違反が起きたときの <code>SIGSEGV</code> や、<code>Ctrl + Z</code> 押したときの <code>SIGSTP</code> などもありますが、あまり自分で処理するプログラムを書くことはない印象です。</p>
+<p>その他のシグナルについては、 <a href="https://ja.wikipedia.org/wiki/%E3%82%B7%E3%82%B0%E3%83%8A%E3%83%AB_(Unix)">wikipedia</a> を読むのが一番わかりやすいと思います。</p>
+<h1 id="各言語でのシグナル制御">各言語でのシグナル制御</h1>
+<p>各言語でのシグナル処理の実装例を見ていこう。 それぞれ無限ループしながら１秒に１ずつカウントを標準出力に書き、 <code>Ctrl + C</code> を受け取ったら “bye” と書いて終了するプログラムだ。</p>
+<h2 id="go">Go</h2>
+<h2 id="c">C</h2>
+<p>c_signal</p>
+<h2 id="ruby">Ruby</h2>
+<p>ruby_signal</p>
+<h2 id="java">Java</h2>
+<p>java_signal</p>
+</article>
+<footer>
+  <a href="/">Home</a>
+</footer>
+</body>
+</html>

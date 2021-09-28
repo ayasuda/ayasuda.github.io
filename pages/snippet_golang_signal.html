@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="keywords" content="Signal, Daemon">
+  <meta name="date" content="2021-09-28">
+  <title>Go 言語でのシグナル処理</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style type="text/css">code{white-space: pre;}</style>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-138223597-1');
+  </script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header class="site-header">
+  <h1><a href="/">ayasuda.github.io</a></h1>
+</header>
+<article class="content">
+  <header>
+    <h1>Go 言語でのシグナル処理</h1>
+    <div class="content-meta">
+    <div class="published">2021-09-28</div>
+  </header>
+  <nav id="TOC">
+  <ul>
+  <li><a href="#go">Go</a></li>
+  </ul>
+  </nav>
+<h2 id="go">Go</h2>
+<pre class="golang"><code>package main
+
+import (
+    &quot;fmt&quot;
+    &quot;os&quot;
+    &quot;os/signal&quot;
+    &quot;syscall&quot;
+    &quot;time&quot;
+)
+
+func main() {
+    ticker := time.NewTicker(1 * time.Second)
+
+    done := make(chan bool, 1)
+    sigs := make(chan os.Signal, 1)
+
+    signal.Notify(sigs, syscall.SIGINT)
+
+    cnt := 0
+
+    go func() {
+        for {
+            _ = &lt;-ticker.C
+            cnt += 1
+            fmt.Println(cnt)
+        }
+    }()
+
+    go func() {
+        &lt;-sigs
+        fmt.Println(&quot;bye&quot;)
+        ticker.Stop()
+        done &lt;- true
+    }()
+
+    &lt;-done
+}</code></pre>
+</article>
+<footer>
+  <a href="/">Home</a>
+</footer>
+</body>
+</html>
