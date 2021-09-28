@@ -19,6 +19,8 @@ INDEX_BASE = "src/index.html.erb"
 TAGS_DIR = "pages/tags"
 
 BASENAME="https://ayasuda.github.io/"
+BASENAME_LOCAL="http://localhost:3000"
+basename = BASENAME
 
 task default: :all
 
@@ -35,7 +37,6 @@ task all: [PAGE_DIR, INDEX, TAGS_DIR, :tag_index]
 
 desc "compile index.html"
 task INDEX => [:page_all, PANDOCTEMPLATE, INDEX_BASE].flatten do
-  basename = BASENAME
   pages = Dir.glob("src/*.md").map{|name| Page.new(name) }
   pages.select!(&:publish?)
   pages.sort!{|a, b| b.to_date <=> a.to_date }
@@ -59,7 +60,6 @@ task tag_index: :page_all do
   tags.each do |tag, src|
     out = TAGS_DIR + "/" + tag + ".html"
     puts out
-    basename = BASENAME
     pages = src.map{|s| Page.new(s) }.reverse
     File.write(out, ERB.new(File.read(INDEX_BASE)).result(binding)
     )
@@ -74,14 +74,24 @@ end
 
 rule %r{^#{PAGE_DIR}/.+\.html} => "%{^#{PAGE_DIR},src}X.md" do |t|
   if Page.new(t.source).publish?
-    sh "#{PANDOC} #{PANDOCFLAGS} -V basename=#{BASENAME} -o #{t.name} #{t.source}"
+    sh "#{PANDOC} #{PANDOCFLAGS} -V basename=#{basename} -o #{t.name} #{t.source}"
   end
 end
 
 desc "run local web server to check page view"
-task run: [:clean, :all] do
+task run: [:set_local, :clean, :all] do
   sh "ruby -run -e httpd . -p 3000"
 end
+
+task :set_local do
+  basename=BASENAME_LOCAL
+end
+
+desc "install indipendent packages"
+task :install do
+  sh "gem install webrick"
+end
+
 
 desc "show draft articles"
 task :draft do
