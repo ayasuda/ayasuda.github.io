@@ -11,11 +11,14 @@ keywords:
   - Advento of Code
 ---
 
+[1日目](./challenge_AoC2019_Day1)
+
 さて、2 日目。
 サンタを乗せた宇宙船は無事発射されたようだ。現在はどうも月からスイングバイしているところとのこと。
 ところがどっこい何かアラームが鳴り響いているようだ。うーん。怖い。
 
 [https://adventofcode.com/2019/day/2](https://adventofcode.com/2019/day/2)
+
 
 # 2 日目: 1202 Program Alarm
 
