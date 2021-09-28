@@ -15,19 +15,19 @@
   <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -47,7 +47,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -108,15 +108,18 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <nav id="TOC">
   <ul>
   <li><a href="#what-is-gradle">What is Gradle</a></li>
-  <li><a href="#gradle-ですぐにビルド実行ができる-helloworld-を表示する-java-アプリを作ろう">Gradle ですぐにビルド・実行ができる、 Hello,World を表示する java アプリを作ろう</a><ul>
+  <li><a href="#gradle-ですぐにビルド実行ができる-helloworld-を表示する-java-アプリを作ろう">Gradle ですぐにビルド・実行ができる、 Hello,World を表示する java アプリを作ろう</a>
+  <ul>
   <li><a href="#素の-java-で書くとどうなる">素の Java で書くとどうなる？</a></li>
   <li><a href="#gradle-を使った-helloworld-プロジェクト">Gradle を使った Hello,World プロジェクト</a></li>
   </ul></li>
-  <li><a href="#つのファイルに別れた-java-アプリ">2 つのファイルに別れた Java アプリ</a><ul>
+  <li><a href="#つのファイルに別れた-java-アプリ">2 つのファイルに別れた Java アプリ</a>
+  <ul>
   <li><a href="#素の-java-で書くと">素の Java で書くと？</a></li>
   <li><a href="#gradle-を使った場合">Gradle を使った場合</a></li>
   </ul></li>
-  <li><a href="#外部のライブラリを使う-java-アプリ">外部のライブラリを使う Java アプリ</a><ul>
+  <li><a href="#外部のライブラリを使う-java-アプリ">外部のライブラリを使う Java アプリ</a>
+  <ul>
   <li><a href="#素の-java-で書くと-1">素の Java で書くと？</a></li>
   <li><a href="#gradle-を使った場合-1">Gradle を使った場合</a></li>
   </ul></li>
@@ -139,11 +142,11 @@ $ cd vanilla_java
 $ git init
 $ git commit --allow-emtpy -m &#39;Initial commit&#39;</code></pre>
 <p>そして、アプリケーションコードを作ってみましょう。とりあえず、 Application.java という名前にします。</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode java:application.java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">public</span> <span class="kw">class</span> Application {</span>
-<span id="cb2-2"><a href="#cb2-2"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
-<span id="cb2-3"><a href="#cb2-3"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hello, World.&quot;</span>);</span>
-<span id="cb2-4"><a href="#cb2-4"></a>  }</span>
-<span id="cb2-5"><a href="#cb2-5"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java:application.java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Application <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Hello, World.&quot;</span><span class="op">);</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>こいつをコンパイルして、クラスファイルを作り、実行してみましょう。うまくいけば、 Hello,World. と表示されるはずです。</p>
 <pre class="console"><code>$ javac Application.java
 $ ls
@@ -152,8 +155,8 @@ $ java Application
 Hello, World.</code></pre>
 <p>毎回正確なコマンドを打つのは面倒ですよね？　ですので、実行可能な jar ファイルを生成しておきましょう。</p>
 <p>まず、マニフェストファイルを作ります。このファイルの中には、どのクラスを最初に実行するかを記しておきます。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode text:manifest.txt"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1"></a>Manifest-Version: 1.0</span>
-<span id="cb4-2"><a href="#cb4-2"></a>Main-Class: Application</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode text:manifest.txt"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Manifest-Version: 1.0</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Main-Class: Application</span></code></pre></div>
 <p>次に下記のコマンドでファイルをまとめます</p>
 <pre><code>$ jar cvfm app.jar Manifest.txt Application.class</code></pre>
 <p>これで <code>app.jar</code> というファイルができたはずです。この jar ファイルを java コマンドから実行すると、次のようにきちんと実行できるはずです。</p>
@@ -167,18 +170,18 @@ $ cd with_gradle
 $ git init
 $ gradle init</code></pre>
 <p>Gradle のウリとしてプラグイン機構があり java アプリであれば <a href="https://docs.gradle.org/current/userguide/java_plugin.html">Gradle Java Plugin</a> を組み込むことで、 いろんなタスクやその他諸々が自動で設定されます。(ただし規約に従う必要がある) そんなわけで <code>gradle init</code> で生成された <code>build.gradle</code> に次の１行を足します。</p>
-<pre class="groovy:build.gradle"><code>apply plugin: &#39;java&#39;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode groovy:build.gradle"><code class="sourceCode groovy"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>apply plugin<span class="op">:</span> <span class="st">&#39;java&#39;</span></span></code></pre></div>
 <p>Gradle Java Plugin は、デフォルトで <code>src/main/java</code> に java のソースが置かれているものとしてコンパイルタスクなどが組まれています。 ですので、今回作るアプリの Main クラスを <code>src/main/java/パッケージ名/</code> 以下に置くことにしましょう。 ひとまず、パッケージ名を with_gradle として以下のようにディレクトリとファイルを作ります。</p>
 <pre class="console"><code>$ mkdir -p src/main/java/with_gradle
 $ vim src/main/java/with_gradle/Application.java</code></pre>
 <p>今回は “Hello,World.” と表示するだけのプログラムなので、 内容は以下のとおりです。</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode java:src/main/java/with_gradle/application.java"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">package</span><span class="im"> with_gradle;</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="kw">public</span> <span class="kw">class</span> Application {</span>
-<span id="cb10-4"><a href="#cb10-4"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
-<span id="cb10-5"><a href="#cb10-5"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hello, World&quot;</span>);</span>
-<span id="cb10-6"><a href="#cb10-6"></a>  }</span>
-<span id="cb10-7"><a href="#cb10-7"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode java:src/main/java/with_gradle/application.java"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> with_gradle</span><span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Application <span class="op">{</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Hello, World&quot;</span><span class="op">);</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>プログラムを書いたら早速ビルドして…</p>
 <pre class="console"><code>$ ./gradlew build</code></pre>
 <p>そして、実行してみましょう。 ビルドをすることで <code>Application.class</code> が <code>build/classes/jaav/main</code> 以下にできたはずです。 ですので、 <code>-classpath</code> オプションを指定して実行します。</p>
@@ -192,31 +195,31 @@ Hello, World</code></pre>
 </ol>
 <p>自分でマニフェストファイルを書く方法についてはよくわからなかったので、ここでは 2, 3 についてみて行きましょう。</p>
 <p>Gradle Java Plugin の jar オブジェクトには manifest プロパティがあり、そこで値を設定することで、 jar タスクにてパッケージする際の <code>MANIFEST.MF</code> の内容を設定できます。 今回は、 <code>Main-Class</code> を <code>with_gradle.Application</code> にしたいので、 <code>build.gradle</code> を下記のように書き換えます。</p>
-<pre class="buidl.gradle"><code>apply plugin: &#39;java&#39;
-
-jar {
-  manifest {
-    attributes(&#39;Main-Class&#39;: &#39;with_gradle.Application&#39;)
-  }
-}</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode buidl.gradle"><code class="sourceCode groovy"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>apply plugin<span class="op">:</span> <span class="st">&#39;java&#39;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>jar <span class="op">{</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  manifest <span class="op">{</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span><span class="op">(</span><span class="st">&#39;Main-Class&#39;</span><span class="op">:</span> <span class="st">&#39;with_gradle.Application&#39;</span><span class="op">)</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>書き換えたら早速ビルドしてみましょう。</p>
 <pre class="console"><code>$ ./gradlew build</code></pre>
 <p>これにより、正しく Main-Class が設定されたマニフェストファイルを含んだ jar ファイルが <code>build/libs/</code> 以下にできたはずです。 と、いうわけで実行してみましょう。</p>
 <pre class="console"><code>$ java -jar build/libs/with_jar.jar
 Hello, World.</code></pre>
 <p>なお、 jar ファイルの名前は <code>jar.baseName</code> で変更可能です。</p>
-<pre class="buidl.gradle"><code>apply plugin: &#39;java&#39;
-
-jar {
-  baseName = &#39;app&#39;
-  manifest {
-    attributes(&#39;Main-Class&#39;: &#39;what_is_context.Hello&#39;)
-  }
-}</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode buidl.gradle"><code class="sourceCode groovy"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>apply plugin<span class="op">:</span> <span class="st">&#39;java&#39;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>jar <span class="op">{</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  baseName <span class="op">=</span> <span class="st">&#39;app&#39;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  manifest <span class="op">{</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span><span class="op">(</span><span class="st">&#39;Main-Class&#39;</span><span class="op">:</span> <span class="st">&#39;what_is_context.Hello&#39;</span><span class="op">)</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>単に実行をしたいだけならば <a href="https://docs.gradle.org/current/userguide/application_plugin.html">Application Plugin</a> を使うのが最も簡単です。 このプラグインを読み込んで、 <code>mainClassName</code> 属性を設定することで、アプリケーションを実行する <code>run</code> タスクが使えるようになります。</p>
-<pre class="buidl.gradle"><code>apply plugin: &#39;java&#39;
-apply plugin: &#39;application&#39;
-mainClassName = &#39;what_is_context.Hello&#39;</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode buidl.gradle"><code class="sourceCode groovy"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>apply plugin<span class="op">:</span> <span class="st">&#39;java&#39;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>apply plugin<span class="op">:</span> <span class="st">&#39;application&#39;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>mainClassName <span class="op">=</span> <span class="st">&#39;what_is_context.Hello&#39;</span></span></code></pre></div>
 <p>上記の様にファイルを変更すれば、下記の様に <code>run</code> タスクを実行するだけです。</p>
 <pre class="console"><code>$ ./gradlew run
 Hello, World</code></pre>
@@ -225,21 +228,21 @@ Hello, World</code></pre>
 <p>ここまでの話では、 <em>Gradle を使うメリットなんて感じられない</em> と思います。煩雑になっただけにしか見えないかと思います。 ですが、実際のプログラミングでは1ファイルで済むことはあまりありませんし、外部のライブラリを使わないこともあまりありません。 次に、バニラと Gradle を使った場合とで複数ファイルのプログラミングはどのように違うのかをみていきたいと思います。</p>
 <h2 id="素の-java-で書くと">素の Java で書くと？</h2>
 <p>まず、 Hello, World. の文字列を別のクラスから取得するようにしましょう。特に、<sub>面倒臭く</sub> それっぽくするために、ディレクトリを切ってその下にクラスを置くようにしてみましょう。</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode java:generators/greetingmessagegenerator.java"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">package</span><span class="im"> generators;</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="kw">public</span> <span class="kw">class</span> GreetingMessageGenerator {</span>
-<span id="cb19-4"><a href="#cb19-4"></a>  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span>() {</span>
-<span id="cb19-5"><a href="#cb19-5"></a>    <span class="kw">return</span> <span class="st">&quot;Hello, World.&quot;</span>;</span>
-<span id="cb19-6"><a href="#cb19-6"></a>  }</span>
-<span id="cb19-7"><a href="#cb19-7"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode java:application.java"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">import</span><span class="im"> generators.GreetingMessageGenerator;</span></span>
-<span id="cb20-2"><a href="#cb20-2"></a></span>
-<span id="cb20-3"><a href="#cb20-3"></a><span class="kw">public</span> <span class="kw">class</span> Application {</span>
-<span id="cb20-4"><a href="#cb20-4"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
-<span id="cb20-5"><a href="#cb20-5"></a>    <span class="bu">String</span> message = <span class="kw">new</span> <span class="fu">GreetingMessageGenerator</span>().<span class="fu">generate</span>();</span>
-<span id="cb20-6"><a href="#cb20-6"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(message);</span>
-<span id="cb20-7"><a href="#cb20-7"></a>  }</span>
-<span id="cb20-8"><a href="#cb20-8"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode java:generators/greetingmessagegenerator.java"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> generators</span><span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> GreetingMessageGenerator <span class="op">{</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">&quot;Hello, World.&quot;</span><span class="op">;</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode java:application.java"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">generators</span><span class="op">.</span><span class="im">GreetingMessageGenerator</span><span class="op">;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Application <span class="op">{</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> message <span class="op">=</span> <span class="kw">new</span> <span class="fu">GreetingMessageGenerator</span><span class="op">().</span><span class="fu">generate</span><span class="op">();</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>message<span class="op">);</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>この２つのクラスをそれぞれコンパイルしてみましょう。</p>
 <pre class="console"><code>$ javac Application.java generators/GreetingMessageGenerator.java
 $ java Application</code></pre>
@@ -248,13 +251,13 @@ $ java Application</code></pre>
 $ java -jar app.jar</code></pre>
 <p>ここまでなら先ほどまでとそこまで変わらないから大丈夫ですよね？？</p>
 <p>さて、次にメッセージを書き換えてみましょう。</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode java:generators/greetingmessagegenerator.java"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">package</span><span class="im"> generators;</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a></span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="kw">public</span> <span class="kw">class</span> GreetingMessageGenerator {</span>
-<span id="cb23-4"><a href="#cb23-4"></a>  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span>() {</span>
-<span id="cb23-5"><a href="#cb23-5"></a>    <span class="kw">return</span> <span class="st">&quot;Hello, Java.&quot;</span>;</span>
-<span id="cb23-6"><a href="#cb23-6"></a>  }</span>
-<span id="cb23-7"><a href="#cb23-7"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode java:generators/greetingmessagegenerator.java"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> generators</span><span class="op">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> GreetingMessageGenerator <span class="op">{</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">&quot;Hello, Java.&quot;</span><span class="op">;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>書き換えたのは GreetingMessageGenerator.java だけなので、コンパイルし直すのはそのファイルだけです。</p>
 <pre class="console"><code>$ javac generators/GreetingMessageGenerator.java
 $ java Application
@@ -266,21 +269,21 @@ Hello, World.</code></pre>
 <p>複数ファイルのプログラムでは、ファイルを更新するごとにこの処理が必要になります。 もちろん、毎回全てのファイルをコンパイルし直しやパッケージの作り直しをしてもかまいませんが、プログラムのサイズが大きくなればなるほど時間がかかるようになってしまいます。</p>
 <h2 id="gradle-を使った場合">Gradle を使った場合</h2>
 <p>Gradle を使ったプロジェクトも同様にしましょう。ディレクトリは全て <code>src/main/java/with_gradle</code> 以下に作りましょう。</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode java:src/main/java/with_gradle/generators/greetingmessagegenerator.java"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">package</span><span class="im"> generators;</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a></span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="kw">public</span> <span class="kw">class</span> GreetingMessageGenerator {</span>
-<span id="cb26-4"><a href="#cb26-4"></a>  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span>() {</span>
-<span id="cb26-5"><a href="#cb26-5"></a>    <span class="kw">return</span> <span class="st">&quot;Hello, World.&quot;</span>;</span>
-<span id="cb26-6"><a href="#cb26-6"></a>  }</span>
-<span id="cb26-7"><a href="#cb26-7"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode java:src/main/java/with_gradle/application.java"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">import</span><span class="im"> generators.GreetingMessageGenerator;</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a></span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="kw">public</span> <span class="kw">class</span> Application {</span>
-<span id="cb27-4"><a href="#cb27-4"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
-<span id="cb27-5"><a href="#cb27-5"></a>    <span class="bu">String</span> message = <span class="kw">new</span> <span class="fu">GreetingMessageGenerator</span>().<span class="fu">generate</span>();</span>
-<span id="cb27-6"><a href="#cb27-6"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(message);</span>
-<span id="cb27-7"><a href="#cb27-7"></a>  }</span>
-<span id="cb27-8"><a href="#cb27-8"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode java:src/main/java/with_gradle/generators/greetingmessagegenerator.java"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> generators</span><span class="op">;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> GreetingMessageGenerator <span class="op">{</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">&quot;Hello, World.&quot;</span><span class="op">;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode java:src/main/java/with_gradle/application.java"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">generators</span><span class="op">.</span><span class="im">GreetingMessageGenerator</span><span class="op">;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Application <span class="op">{</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> message <span class="op">=</span> <span class="kw">new</span> <span class="fu">GreetingMessageGenerator</span><span class="op">().</span><span class="fu">generate</span><span class="op">();</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>message<span class="op">);</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>さて、ビルドや実行手順はファイルが１つだろうが複数だろうが、変わりません。</p>
 <pre class="console"><code>$ ./gradlew build
 $ java -jar build/libs/app.jar
@@ -301,43 +304,43 @@ $ wget https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.21/snakeyaml-1.21.jar
 </ul>
 <p>みたいな理由です。</p>
 <p>さて、早速このライブラリを使ったクラスを作成し、 Application.java からそれを使うように修正してみましょう。</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode java:src/main/java/with_gradle/generators/yamlmessagegenerator.java"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1"></a><span class="kw">package</span><span class="im"> generators;</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="kw">import</span><span class="im"> org.yaml.snakeyaml.Yaml;</span></span>
-<span id="cb30-3"><a href="#cb30-3"></a></span>
-<span id="cb30-4"><a href="#cb30-4"></a><span class="kw">public</span> <span class="kw">class</span> YamlMessageGenerator {</span>
-<span id="cb30-5"><a href="#cb30-5"></a>  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span>() {</span>
-<span id="cb30-6"><a href="#cb30-6"></a>    <span class="bu">String</span> document = <span class="st">&quot;message: Hello, YAML&quot;</span>;</span>
-<span id="cb30-7"><a href="#cb30-7"></a>    Yaml yaml = <span class="kw">new</span> <span class="fu">Yaml</span>();</span>
-<span id="cb30-8"><a href="#cb30-8"></a>    Message message = (Message) yaml.<span class="fu">loadAs</span>(document, Message.<span class="fu">class</span>);</span>
-<span id="cb30-9"><a href="#cb30-9"></a>    <span class="kw">return</span> message;</span>
-<span id="cb30-10"><a href="#cb30-10"></a>  }</span>
-<span id="cb30-11"><a href="#cb30-11"></a></span>
-<span id="cb30-12"><a href="#cb30-12"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">class</span> Message {</span>
-<span id="cb30-13"><a href="#cb30-13"></a>    <span class="bu">String</span> message;</span>
-<span id="cb30-14"><a href="#cb30-14"></a></span>
-<span id="cb30-15"><a href="#cb30-15"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getMessage</span>() {</span>
-<span id="cb30-16"><a href="#cb30-16"></a>      <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">message</span>;</span>
-<span id="cb30-17"><a href="#cb30-17"></a>    }</span>
-<span id="cb30-18"><a href="#cb30-18"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setMessage</span>(<span class="bu">String</span> message) {</span>
-<span id="cb30-19"><a href="#cb30-19"></a>      <span class="kw">this</span>.<span class="fu">message</span> = message;</span>
-<span id="cb30-20"><a href="#cb30-20"></a>    }</span>
-<span id="cb30-21"><a href="#cb30-21"></a>  }</span>
-<span id="cb30-22"><a href="#cb30-22"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb31"><pre class="sourceCode java:application.java"><code class="sourceCode java"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw">import</span><span class="im"> generators.YamlMessageGenerator;</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a></span>
-<span id="cb31-3"><a href="#cb31-3"></a><span class="kw">public</span> <span class="kw">class</span> Application {</span>
-<span id="cb31-4"><a href="#cb31-4"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
-<span id="cb31-5"><a href="#cb31-5"></a>    <span class="bu">String</span> message = <span class="kw">new</span> <span class="fu">YamlMessageGenerator</span>().<span class="fu">generate</span>();</span>
-<span id="cb31-6"><a href="#cb31-6"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(message);</span>
-<span id="cb31-7"><a href="#cb31-7"></a>  }</span>
-<span id="cb31-8"><a href="#cb31-8"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode java:src/main/java/with_gradle/generators/yamlmessagegenerator.java"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> generators</span><span class="op">;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">org</span><span class="op">.</span><span class="im">yaml</span><span class="op">.</span><span class="im">snakeyaml</span><span class="op">.</span><span class="im">Yaml</span><span class="op">;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> YamlMessageGenerator <span class="op">{</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> document <span class="op">=</span> <span class="st">&quot;message: Hello, YAML&quot;</span><span class="op">;</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    Yaml yaml <span class="op">=</span> <span class="kw">new</span> <span class="fu">Yaml</span><span class="op">();</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    Message message <span class="op">=</span> <span class="op">(</span>Message<span class="op">)</span> yaml<span class="op">.</span><span class="fu">loadAs</span><span class="op">(</span>document<span class="op">,</span> Message<span class="op">.</span><span class="fu">class</span><span class="op">);</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> message<span class="op">;</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">class</span> Message <span class="op">{</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> message<span class="op">;</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getMessage</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">message</span><span class="op">;</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setMessage</span><span class="op">(</span><span class="bu">String</span> message<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="fu">message</span> <span class="op">=</span> message<span class="op">;</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode java:application.java"><code class="sourceCode java"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">generators</span><span class="op">.</span><span class="im">YamlMessageGenerator</span><span class="op">;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Application <span class="op">{</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> message <span class="op">=</span> <span class="kw">new</span> <span class="fu">YamlMessageGenerator</span><span class="op">().</span><span class="fu">generate</span><span class="op">();</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>message<span class="op">);</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>このプログラムをコンパイル・実行するときには、クラスパスにカレントディレクトリとライブラリとを指定する必要があります。</p>
 <pre class="console"><code>$ javac -classpath .:snakeyaml-1.21.jar Application.java
 $ java -classpath .:snakeyaml-1.21.jar Application</code></pre>
 <p>また、jar ファイルにまとめるときには Class-Path をマニフェストに設定する必要があります。</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode manifest.txt"><code class="sourceCode default"><span id="cb33-1"><a href="#cb33-1"></a>Manifest-Version: 1.0</span>
-<span id="cb33-2"><a href="#cb33-2"></a>Main-Class: Application</span>
-<span id="cb33-3"><a href="#cb33-3"></a>Class-Path: snakeyaml-1.21.jar</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode manifest.txt"><code class="sourceCode default"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>Manifest-Version: 1.0</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>Main-Class: Application</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>Class-Path: snakeyaml-1.21.jar</span></code></pre></div>
 <p>jar にまとめた後、app.jar と snakeyaml-1.21.jar とが同じディレクトリにあるときに実行可能です。</p>
 <pre class="console"><code>$ jar cvfm app.jar Manifest.text Application.class generators/*.class
 $ java -jar app.jar</code></pre>
@@ -345,68 +348,68 @@ $ java -jar app.jar</code></pre>
 <h2 id="gradle-を使った場合-1">Gradle を使った場合</h2>
 <p>Gradle を使っていれば、もう少し話は簡単になります。</p>
 <p>先ずはソースコードを用意しましょう。</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode java:gererators/yamlmessagegenerator.java"><code class="sourceCode java"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw">package</span><span class="im"> with_gradle.generators;</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a><span class="kw">import</span><span class="im"> org.yaml.snakeyaml.Yaml;</span></span>
-<span id="cb35-3"><a href="#cb35-3"></a></span>
-<span id="cb35-4"><a href="#cb35-4"></a><span class="kw">public</span> <span class="kw">class</span> YamlMessageGenerator {</span>
-<span id="cb35-5"><a href="#cb35-5"></a>  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span>() {</span>
-<span id="cb35-6"><a href="#cb35-6"></a>    <span class="bu">String</span> document = <span class="st">&quot;message: Hello, YAML&quot;</span>;</span>
-<span id="cb35-7"><a href="#cb35-7"></a>    Yaml yaml = <span class="kw">new</span> <span class="fu">Yaml</span>();</span>
-<span id="cb35-8"><a href="#cb35-8"></a>    Message message = (Message) yaml.<span class="fu">loadAs</span>(document, Message.<span class="fu">class</span>);</span>
-<span id="cb35-9"><a href="#cb35-9"></a>    <span class="kw">return</span> message;</span>
-<span id="cb35-10"><a href="#cb35-10"></a>  }</span>
-<span id="cb35-11"><a href="#cb35-11"></a></span>
-<span id="cb35-12"><a href="#cb35-12"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">class</span> Message {</span>
-<span id="cb35-13"><a href="#cb35-13"></a>    <span class="bu">String</span> message;</span>
-<span id="cb35-14"><a href="#cb35-14"></a></span>
-<span id="cb35-15"><a href="#cb35-15"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getMessage</span>() {</span>
-<span id="cb35-16"><a href="#cb35-16"></a>      <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">message</span>;</span>
-<span id="cb35-17"><a href="#cb35-17"></a>    }</span>
-<span id="cb35-18"><a href="#cb35-18"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setMessage</span>(<span class="bu">String</span> message) {</span>
-<span id="cb35-19"><a href="#cb35-19"></a>      <span class="kw">this</span>.<span class="fu">message</span> = message;</span>
-<span id="cb35-20"><a href="#cb35-20"></a>    }</span>
-<span id="cb35-21"><a href="#cb35-21"></a>  }</span>
-<span id="cb35-22"><a href="#cb35-22"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb36"><pre class="sourceCode java:src/main/java/with_gradle/application.java"><code class="sourceCode java"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">import</span><span class="im"> with_gradle.generators.YamlMessageGenerator;</span></span>
-<span id="cb36-2"><a href="#cb36-2"></a></span>
-<span id="cb36-3"><a href="#cb36-3"></a><span class="kw">public</span> <span class="kw">class</span> Application {</span>
-<span id="cb36-4"><a href="#cb36-4"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
-<span id="cb36-5"><a href="#cb36-5"></a>    <span class="bu">String</span> message = <span class="kw">new</span> <span class="fu">YamlMessageGenerator</span>().<span class="fu">generate</span>();</span>
-<span id="cb36-6"><a href="#cb36-6"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(message);</span>
-<span id="cb36-7"><a href="#cb36-7"></a>  }</span>
-<span id="cb36-8"><a href="#cb36-8"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode java:gererators/yamlmessagegenerator.java"><code class="sourceCode java"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> with_gradle</span><span class="op">.</span><span class="im">generators</span><span class="op">;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">org</span><span class="op">.</span><span class="im">yaml</span><span class="op">.</span><span class="im">snakeyaml</span><span class="op">.</span><span class="im">Yaml</span><span class="op">;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> YamlMessageGenerator <span class="op">{</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="bu">String</span> <span class="fu">generate</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> document <span class="op">=</span> <span class="st">&quot;message: Hello, YAML&quot;</span><span class="op">;</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    Yaml yaml <span class="op">=</span> <span class="kw">new</span> <span class="fu">Yaml</span><span class="op">();</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    Message message <span class="op">=</span> <span class="op">(</span>Message<span class="op">)</span> yaml<span class="op">.</span><span class="fu">loadAs</span><span class="op">(</span>document<span class="op">,</span> Message<span class="op">.</span><span class="fu">class</span><span class="op">);</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> message<span class="op">;</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">class</span> Message <span class="op">{</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> message<span class="op">;</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getMessage</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">message</span><span class="op">;</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setMessage</span><span class="op">(</span><span class="bu">String</span> message<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="fu">message</span> <span class="op">=</span> message<span class="op">;</span></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode java:src/main/java/with_gradle/application.java"><code class="sourceCode java"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">with_gradle</span><span class="op">.</span><span class="im">generators</span><span class="op">.</span><span class="im">YamlMessageGenerator</span><span class="op">;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Application <span class="op">{</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> message <span class="op">=</span> <span class="kw">new</span> <span class="fu">YamlMessageGenerator</span><span class="op">().</span><span class="fu">generate</span><span class="op">();</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>message<span class="op">);</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>次に、Gradle のビルドファイルに、外部ライブラリへの依存関係を記します。</p>
 <p>ついでに、Fat-Jar (依存するライブラリなども全て含めた jar ファイル) を作るための <a href="http://imperceptiblethoughts.com/shadow/">Shadow Plugin</a> も導入します。</p>
-<pre class="groovy:build.gradle"><code>// Gradle でのビルド中に Shadow プラグインを使う
-buildscript {
-  repositories {
-    jcenter()
-  }
-  dependencies {
-    classpath &#39;com.github.jengelman.gradle.plugins:shadow:2.0.4&#39;
-  }
-}
-apply plugin: &#39;java&#39;
-apply plugin: &#39;application&#39;
-apply plugin: &#39;com.github.johnrengelman.shadow&#39;
-mainClassName = &#39;with_gradle.Application&#39;
-
-jar {
-  manifest {
-    baseName = &#39;app&#39;
-    attributes(&#39;Main-Class&#39;: mainClassName)
-  }
-}
-
-// ライブラリを Maven リポジトリから取得する
-repositories {
-  mavenCentral()
-}
-
-// 依存関係として snakeyaml の 1.21 を追加する
-dependencies {
-  compile group: &#39;org.yaml&#39;, name: &#39;snakeyaml&#39;, version: &#39;1.21&#39;
-}</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode groovy:build.gradle"><code class="sourceCode groovy"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Gradle でのビルド中に Shadow プラグインを使う</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>buildscript <span class="op">{</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  repositories <span class="op">{</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">jcenter</span><span class="op">()</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  dependencies <span class="op">{</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    classpath <span class="st">&#39;com.github.jengelman.gradle.plugins:shadow:2.0.4&#39;</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>apply plugin<span class="op">:</span> <span class="st">&#39;java&#39;</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>apply plugin<span class="op">:</span> <span class="st">&#39;application&#39;</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>apply plugin<span class="op">:</span> <span class="st">&#39;com.github.johnrengelman.shadow&#39;</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>mainClassName <span class="op">=</span> <span class="st">&#39;with_gradle.Application&#39;</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>jar <span class="op">{</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>  manifest <span class="op">{</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    baseName <span class="op">=</span> <span class="st">&#39;app&#39;</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span><span class="op">(</span><span class="st">&#39;Main-Class&#39;</span><span class="op">:</span> mainClassName<span class="op">)</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a><span class="co">// ライブラリを Maven リポジトリから取得する</span></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>repositories <span class="op">{</span></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mavenCentral</span><span class="op">()</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a><span class="co">// 依存関係として snakeyaml の 1.21 を追加する</span></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>dependencies <span class="op">{</span></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>  compile group<span class="op">:</span> <span class="st">&#39;org.yaml&#39;</span><span class="op">,</span> name<span class="op">:</span> <span class="st">&#39;snakeyaml&#39;</span><span class="op">,</span> version<span class="op">:</span> <span class="st">&#39;1.21&#39;</span></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>さて準備ができたら早速ビルドしてみます。</p>
 <pre><code>$ ./gradlew build
 $ java -jar build/libs/with_gradle-all.jar # fat-jar になっているので、直接実行できます

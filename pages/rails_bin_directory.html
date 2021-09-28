@@ -15,19 +15,19 @@
   <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -47,7 +47,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -107,7 +107,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   </header>
   <nav id="TOC">
   <ul>
-  <li><a href="#rails-の各種コマンドは-bin-ディレクトリから">Rails の各種コマンドは bin ディレクトリから</a><ul>
+  <li><a href="#rails-の各種コマンドは-bin-ディレクトリから">Rails の各種コマンドは bin ディレクトリから</a>
+  <ul>
   <li><a href="#そもそも論の-binstub">そもそも論の binstub</a></li>
   <li><a href="#bundle-rails-rake-spring-yarn">bundle, rails, rake, spring, yarn</a></li>
   <li><a href="#setup">setup</a></li>
@@ -160,44 +161,44 @@ $ bin/setup
 # other steps...</code></pre>
 <p>実際のところは、デフォルトで最小限のセットアップ構成が書かれているだけです。</p>
 <p>短いので以下にファイルを転載します。ご覧の通り、本当に最小限のスクリプトです。 このスクリプトをメンテナンスすることで、プロジェクトに新しいメンバーがアサインされた際などの手間が省けます。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">#!/usr/bin/env ruby</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>require <span class="st">&#39;pathname&#39;</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>require <span class="st">&#39;fileutils&#39;</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>include <span class="dt">FileUtils</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co"># アプリケーションのルートパス</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="dt">APP_ROOT</span> = <span class="dt">Pathname</span>.new <span class="dt">File</span>.expand_path(<span class="st">&#39;../../&#39;</span>, <span class="dv">__FILE__</span>)</span>
-<span id="cb4-8"><a href="#cb4-8"></a></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="kw">def</span> system!(*args)</span>
-<span id="cb4-10"><a href="#cb4-10"></a>  system(*args) || abort(<span class="st">&quot;\n== Command </span><span class="ot">#{</span>args<span class="ot">}</span><span class="st"> failed ==&quot;</span>)</span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="kw">end</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a></span>
-<span id="cb4-13"><a href="#cb4-13"></a>chdir <span class="dt">APP_ROOT</span> <span class="kw">do</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a>  <span class="co"># このスクリプトはアプリケーションのセットアップの第一ステップとなります。</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a>  <span class="co"># ですので、必要なステップをこのファイルに追加していってください</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a></span>
-<span id="cb4-17"><a href="#cb4-17"></a>  puts <span class="st">&#39;== Installing dependencies ==&#39;</span></span>
-<span id="cb4-18"><a href="#cb4-18"></a>  system! <span class="st">&#39;gem install bundler --conservative&#39;</span></span>
-<span id="cb4-19"><a href="#cb4-19"></a>  system(<span class="st">&#39;bundle check&#39;</span>) || system!(<span class="st">&#39;bundle install&#39;</span>)</span>
-<span id="cb4-20"><a href="#cb4-20"></a></span>
-<span id="cb4-21"><a href="#cb4-21"></a>  <span class="co"># JavaScript の依存ライブラリを yarn を使ってインストールします</span></span>
-<span id="cb4-22"><a href="#cb4-22"></a>  <span class="co"># system(&#39;bin/yarn&#39;)</span></span>
-<span id="cb4-23"><a href="#cb4-23"></a></span>
-<span id="cb4-24"><a href="#cb4-24"></a></span>
-<span id="cb4-25"><a href="#cb4-25"></a>  <span class="co"># puts &quot;\n== Copying sample files ==&quot;</span></span>
-<span id="cb4-26"><a href="#cb4-26"></a>  <span class="co"># unless File.exist?(&#39;config/database.yml&#39;)</span></span>
-<span id="cb4-27"><a href="#cb4-27"></a>  <span class="co">#   cp &#39;config/database.yml.sample&#39;, &#39;config/database.yml&#39;</span></span>
-<span id="cb4-28"><a href="#cb4-28"></a>  <span class="co"># end</span></span>
-<span id="cb4-29"><a href="#cb4-29"></a></span>
-<span id="cb4-30"><a href="#cb4-30"></a>  puts <span class="st">&quot;\n== Preparing database ==&quot;</span></span>
-<span id="cb4-31"><a href="#cb4-31"></a>  system! <span class="st">&#39;bin/rails db:setup&#39;</span></span>
-<span id="cb4-32"><a href="#cb4-32"></a></span>
-<span id="cb4-33"><a href="#cb4-33"></a>  puts <span class="st">&quot;\n== Removing old logs and tempfiles ==&quot;</span></span>
-<span id="cb4-34"><a href="#cb4-34"></a>  system! <span class="st">&#39;bin/rails log:clear tmp:clear&#39;</span></span>
-<span id="cb4-35"><a href="#cb4-35"></a></span>
-<span id="cb4-36"><a href="#cb4-36"></a>  puts <span class="st">&quot;\n== Restarting application server ==&quot;</span></span>
-<span id="cb4-37"><a href="#cb4-37"></a>  system! <span class="st">&#39;bin/rails restart&#39;</span></span>
-<span id="cb4-38"><a href="#cb4-38"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">#!/usr/bin/env ruby</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span> <span class="vs">&#39;pathname&#39;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span> <span class="vs">&#39;fileutils&#39;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">include</span> <span class="dt">FileUtils</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># アプリケーションのルートパス</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="cn">APP_ROOT</span> <span class="kw">=</span> <span class="dt">Pathname</span><span class="at">.new</span> <span class="dt">File</span><span class="at">.expand_path</span>(<span class="vs">&#39;../../&#39;</span>, <span class="dv">__FILE__</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">def</span> system!(<span class="kw">*</span>args)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system</span>(<span class="kw">*</span>args) <span class="kw">||</span> <span class="fu">abort</span>(<span class="st">&quot;\n== Command </span><span class="sc">#{</span>args<span class="sc">}</span><span class="st"> failed ==&quot;</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>chdir <span class="cn">APP_ROOT</span> <span class="cf">do</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># このスクリプトはアプリケーションのセットアップの第一ステップとなります。</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ですので、必要なステップをこのファイルに追加していってください</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">puts</span> <span class="vs">&#39;== Installing dependencies ==&#39;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  system! <span class="vs">&#39;gem install bundler --conservative&#39;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system</span>(<span class="vs">&#39;bundle check&#39;</span>) <span class="kw">||</span> system!(<span class="vs">&#39;bundle install&#39;</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># JavaScript の依存ライブラリを yarn を使ってインストールします</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># system(&#39;bin/yarn&#39;)</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># puts &quot;\n== Copying sample files ==&quot;</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># unless File.exist?(&#39;config/database.yml&#39;)</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   cp &#39;config/database.yml.sample&#39;, &#39;config/database.yml&#39;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># end</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">puts</span> <span class="st">&quot;\n== Preparing database ==&quot;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  system! <span class="vs">&#39;bin/rails db:setup&#39;</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">puts</span> <span class="st">&quot;\n== Removing old logs and tempfiles ==&quot;</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  system! <span class="vs">&#39;bin/rails log:clear tmp:clear&#39;</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">puts</span> <span class="st">&quot;\n== Restarting application server ==&quot;</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  system! <span class="vs">&#39;bin/rails restart&#39;</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
 <h2 id="update">update</h2>
 <p>Rails が用意する、「アプリケーションを更新するスクリプト」です。</p>
 <p><a href="https://github.com/rails/rails/pull/20972">プルリクエスト</a> を見れば意図は明白ですが、 ある Rails プロジェクトを更新、例えば <code>git pull origin</code> した後などに、変更されたすべてを更新させるスクリプトです。</p>

@@ -15,19 +15,19 @@
   <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -47,7 +47,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -111,7 +111,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#godoc-の動きの確認">godoc の動きの確認</a></li>
   <li><a href="#簡単なコメントを書く">簡単なコメントを書く</a></li>
   <li><a href="#ブラウザ以外からドキュメントを読む">ブラウザ以外からドキュメントを読む</a></li>
-  <li><a href="#もっと詳しくドキュメントを書く">もっと詳しくドキュメントを書く</a><ul>
+  <li><a href="#もっと詳しくドキュメントを書く">もっと詳しくドキュメントを書く</a>
+  <ul>
   <li><a href="#パッケージドキュメントを盛り盛りにする">パッケージドキュメントを盛り盛りにする</a></li>
   <li><a href="#notes-オプションで追加項目をリストアップする"><code>-notes</code> オプションで追加項目をリストアップする</a></li>
   <li><a href="#簡単なフォーマット">簡単なフォーマット</a></li>
@@ -132,17 +133,17 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>$ mkdir -p $GOPATH/src/path/to/your/library
 $ cd $GOPATH/src/path/to/youre/library
 $ vim sample.go</code></pre>
-<div class="sourceCode" id="cb2"><pre class="sourceCode go:sample.go"><code class="sourceCode go"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">package</span> sample</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">import</span> <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">func</span> Foo(s <span class="dt">string</span>) <span class="dt">string</span> {</span>
-<span id="cb2-6"><a href="#cb2-6"></a>    <span class="kw">return</span> <span class="st">&quot;Foo &quot;</span> + s + <span class="st">&quot; ooF&quot;</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>}</span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="kw">func</span> PrintFoo(s <span class="dt">string</span>) {</span>
-<span id="cb2-10"><a href="#cb2-10"></a>    fmt.Println(Foo(s))</span>
-<span id="cb2-11"><a href="#cb2-11"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode go:sample.go"><code class="sourceCode go"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> sample</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> Foo<span class="op">(</span>s <span class="dt">string</span><span class="op">)</span> <span class="dt">string</span> <span class="op">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="st">&quot;Foo &quot;</span> <span class="op">+</span> s <span class="op">+</span> <span class="st">&quot; ooF&quot;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> PrintFoo<span class="op">(</span>s <span class="dt">string</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>Foo<span class="op">(</span>s<span class="op">))</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p><em>この段階で、すでに <code>godoc</code> コマンドからドキュメントを参照可能です</em></p>
 <p>まずはブラウザから見てみましょう。<code>-http</code> オプションで、ドキュメントをみるための web サーバが起動できます。</p>
 <pre><code>$ godoc -http=:8080</code></pre>
@@ -158,34 +159,34 @@ $ vim sample.go</code></pre>
 <p>Godoc comments are just good comments, the sort you would want to read even if godoc didn’t exist.</p>
 </blockquote>
 <p>コメントは <code>type</code>, <code>variable</code>, <code>constant</code>, <code>function</code>, <code>package</code> に書くことができます。また、コメントには一つルールがあり、その要素名で始める必要があります。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode go:sample.go"><code class="sourceCode go"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">// sample パッケージはコメントの書き方と読み方の例を提供します。</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">package</span> sample</span>
-<span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="kw">import</span> <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">// Bar はとある変数です</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="kw">var</span> Bar = <span class="st">&quot;some variable&quot;</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">// Baz はとある定数です</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="kw">const</span> Baz = <span class="st">&quot;some constant&quot;</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a></span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="co">// Qux はとある構造体です</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="kw">type</span> Qux <span class="kw">struct</span> {</span>
-<span id="cb4-14"><a href="#cb4-14"></a>    <span class="co">// A には適当な文字列をどうぞ</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a>    A <span class="dt">string</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a>    <span class="co">// A にも適当な文字列をどうぞ</span></span>
-<span id="cb4-17"><a href="#cb4-17"></a>    B <span class="dt">string</span></span>
-<span id="cb4-18"><a href="#cb4-18"></a>}</span>
-<span id="cb4-19"><a href="#cb4-19"></a></span>
-<span id="cb4-20"><a href="#cb4-20"></a><span class="co">// Foo はとりあえず前後に変な文字をくっけます</span></span>
-<span id="cb4-21"><a href="#cb4-21"></a><span class="kw">func</span> Foo(s <span class="dt">string</span>) <span class="dt">string</span> {</span>
-<span id="cb4-22"><a href="#cb4-22"></a>    <span class="kw">return</span> <span class="st">&quot;Foo &quot;</span> + s + <span class="st">&quot; ooF&quot;</span></span>
-<span id="cb4-23"><a href="#cb4-23"></a>}</span>
-<span id="cb4-24"><a href="#cb4-24"></a></span>
-<span id="cb4-25"><a href="#cb4-25"></a><span class="co">// PrintFoo はとりあえず前後に変な文字をくっけます</span></span>
-<span id="cb4-26"><a href="#cb4-26"></a><span class="kw">func</span> PrintFoo(s <span class="dt">string</span>) {</span>
-<span id="cb4-27"><a href="#cb4-27"></a>    fmt.Println(Foo(s))</span>
-<span id="cb4-28"><a href="#cb4-28"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode go:sample.go"><code class="sourceCode go"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// sample パッケージはコメントの書き方と読み方の例を提供します。</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> sample</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Bar はとある変数です</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> Bar <span class="op">=</span> <span class="st">&quot;some variable&quot;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Baz はとある定数です</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> Baz <span class="op">=</span> <span class="st">&quot;some constant&quot;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Qux はとある構造体です</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> Qux <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// A には適当な文字列をどうぞ</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    A <span class="dt">string</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// A にも適当な文字列をどうぞ</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    B <span class="dt">string</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">// Foo はとりあえず前後に変な文字をくっけます</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> Foo<span class="op">(</span>s <span class="dt">string</span><span class="op">)</span> <span class="dt">string</span> <span class="op">{</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="st">&quot;Foo &quot;</span> <span class="op">+</span> s <span class="op">+</span> <span class="st">&quot; ooF&quot;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">// PrintFoo はとりあえず前後に変な文字をくっけます</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> PrintFoo<span class="op">(</span>s <span class="dt">string</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>Foo<span class="op">(</span>s<span class="op">))</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>こいつをブラウザで表示すると下記のようにいい感じに表示されます。</p>
 <p><img src="/img/introduction_go_doc/4.png" /></p>
 <h1 id="ブラウザ以外からドキュメントを読む">ブラウザ以外からドキュメントを読む</h1>
@@ -213,12 +214,12 @@ func PrintFoo(s string)
 <h2 id="notes-オプションで追加項目をリストアップする"><code>-notes</code> オプションで追加項目をリストアップする</h2>
 <p>基本的にコード中や指定箇所以外のコメントは無視されますが、<code>godoc</code> のノート機能を使うと、より多くのメタ情報を知るせます。</p>
 <p>デフォルトでは <code>BUG(who)</code> が定義されているので、例えば、下記のようなコメントを書くと、godoc で見たときにひとまとまりに表示されます。</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">// Foo はとりあえず前後に変な文字をくっけます</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="co">//</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co">// </span><span class="al">BUG</span><span class="co">(ayasuda) ごめん、なんかバグある気がする</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="kw">func</span> Foo(s <span class="dt">string</span>) <span class="dt">string</span> {</span>
-<span id="cb7-5"><a href="#cb7-5"></a>    <span class="kw">return</span> <span class="st">&quot;Foo &quot;</span> + s + <span class="st">&quot; ooF&quot;</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Foo はとりあえず前後に変な文字をくっけます</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">// </span><span class="al">BUG</span><span class="co">(ayasuda) ごめん、なんかバグある気がする</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> Foo<span class="op">(</span>s <span class="dt">string</span><span class="op">)</span> <span class="dt">string</span> <span class="op">{</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="st">&quot;Foo &quot;</span> <span class="op">+</span> s <span class="op">+</span> <span class="st">&quot; ooF&quot;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>ブラウザで見ると下記のようになります。</p>
 <p><img src="/img/introduction_go_doc/5.png" /></p>
 <p>繰り返しになりますが、デフォルトでは <code>BUG</code> が定義されているので、コメント中で <code>BUG(who)</code> を記述可能です。<code>-notes</code> オプションでこの定義は自由に増やせます。</p>
@@ -234,24 +235,24 @@ func PrintFoo(s string)
 <li>URL はリンクになります</li>
 </ul>
 <p>そんなわけで、例えば、下記のようなコメントを書くと</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">/*</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co">ここはパッケージコメントの最初になるから見出しではないよー</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co">Hで始まり単一行かつ句読点なしかつ前が見出しではないのでこれは見出し</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co">段落段落</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co">段落段落</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">段落段落</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="co">次の段落</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="co">次の段落</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a></span>
-<span id="cb8-13"><a href="#cb8-13"></a><span class="co">    整形済みテキスt</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a></span>
-<span id="cb8-15"><a href="#cb8-15"></a><span class="co">次のやつはリンクになるはず。</span></span>
-<span id="cb8-16"><a href="#cb8-16"></a><span class="co">https://golang.org/</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co">*/</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a><span class="kw">package</span> sample</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">ここはパッケージコメントの最初になるから見出しではないよー</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">Hで始まり単一行かつ句読点なしかつ前が見出しではないのでこれは見出し</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">段落段落</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">段落段落</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">段落段落</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">次の段落</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">次の段落</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">    整形済みテキスt</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">次のやつはリンクになるはず。</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">https://golang.org/</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> sample</span></code></pre></div>
 <p>以下のようにHTML化されます。</p>
 <p><img src="/img/introduction_go_doc/6.png" /></p>
 <p>これ以上にいろいろ装飾したい場合は、 最悪、ソースが <a href="https://github.com/golang/tools/tree/master/godoc">ここ</a> にあるので・・・</p>
@@ -259,23 +260,23 @@ func PrintFoo(s string)
 <p>公式ドキュメントのいくつかの関数では、 Example が付いてます。 これは <a href="https://blog.golang.org/examples">Testable Examples</a> を利用して作られています。</p>
 <p>上記の <code>sample</code> パッケージに対して Testable Example を作るなら、まずは <code>/path/to/your/library/example_test.go</code> を用意します。 パッケージ名は <code>sample_test</code> としてください。</p>
 <p>中には次のルールでサンプルがかけます。</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">func</span> ExampleFoo()     <span class="co">// Foo 関数のサンプルコードになります</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">func</span> ExampleBar_Qux() <span class="co">// Bar 構造体の Qux 関数のサンプルコードになります</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">func</span> Example()        <span class="co">// パッケージ全体のサンプルコードになります</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="kw">func</span> ExampleFoo_foo   <span class="co">// Foo 関数のサンプルコード(fooの場合)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> ExampleFoo<span class="op">()</span>     <span class="co">// Foo 関数のサンプルコードになります</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> ExampleBar_Qux<span class="op">()</span> <span class="co">// Bar 構造体の Qux 関数のサンプルコードになります</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> Example<span class="op">()</span>        <span class="co">// パッケージ全体のサンプルコードになります</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> ExampleFoo_foo   <span class="co">// Foo 関数のサンプルコード(fooの場合)</span></span></code></pre></div>
 <p>また、テストコード中に <code>Output:</code> から始まるコメントを記載することで、標準出力に書き込まれた値をチェックすることができます。</p>
 <p>そんなわけで、こんなコードを書きます。</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode go:/path/to/your/library/example_test.go"><code class="sourceCode go"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">package</span> sample_test</span>
-<span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="kw">import</span> (</span>
-<span id="cb10-4"><a href="#cb10-4"></a>    <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a>    <span class="st">&quot;path/to/your/library&quot;</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a>)</span>
-<span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="kw">func</span> ExampleFoo() {</span>
-<span id="cb10-9"><a href="#cb10-9"></a>    fmt.Println(sample.Foo(<span class="st">&quot;foo&quot;</span>))</span>
-<span id="cb10-10"><a href="#cb10-10"></a>    <span class="co">// Output: Foo foo ooF</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode go:/path/to/your/library/example_test.go"><code class="sourceCode go"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> sample_test</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;path/to/your/library&quot;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> ExampleFoo<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>sample<span class="op">.</span>Foo<span class="op">(</span><span class="st">&quot;foo&quot;</span><span class="op">))</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Output: Foo foo ooF</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>テストはいつも通り、<code>go test</code> コマンドから実行可能です。</p>
 <pre><code>$ go test
 PASS

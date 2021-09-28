@@ -15,19 +15,19 @@
   <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -47,7 +47,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -107,13 +107,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   </header>
   <nav id="TOC">
   <ul>
-  <li><a href="#準備編-http-サーバとハンドラを書いてみよう">準備編: HTTP サーバとハンドラを書いてみよう。</a><ul>
+  <li><a href="#準備編-http-サーバとハンドラを書いてみよう">準備編: HTTP サーバとハンドラを書いてみよう。</a>
+  <ul>
   <li><a href="#一番簡単な-http-サーバとhttpサーバの動作検証方法">一番簡単な HTTP サーバと、HTTPサーバの動作検証方法</a></li>
   <li><a href="#外部-api-呼び出しなどの非同期処理がある場合">外部 API 呼び出しなどの非同期処理がある場合</a></li>
   <li><a href="#タイムアウト処理を実装しようとして失敗してみる">タイムアウト処理を実装しようとして、失敗してみる</a></li>
   <li><a href="#リクエスト毎の変数的な何かまたは-context-が何を解決するか">リクエスト毎の変数的な何か。または context が何を解決するか。</a></li>
   </ul></li>
-  <li><a href="#context-パッケージはこう使うんだよ">Context パッケージはこう使うんだよ</a><ul>
+  <li><a href="#context-パッケージはこう使うんだよ">Context パッケージはこう使うんだよ</a>
+  <ul>
   <li><a href="#context-型"><code>Context</code> 型</a></li>
   <li><a href="#子-goroutine-をキャンセルさせる">子 goroutine をキャンセルさせる</a></li>
   <li><a href="#子-goroutine-をタイムアウトさせる">子 goroutine をタイムアウトさせる</a></li>
@@ -133,19 +135,19 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>Go を使うと速くて軽い http サーバが簡単に書けるので、ナウでヤングなマイクロサービスを やりたいときとかに気軽にサーバプログラムを書いたりします。</p>
 <h2 id="一番簡単な-http-サーバとhttpサーバの動作検証方法">一番簡単な HTTP サーバと、HTTPサーバの動作検証方法</h2>
 <p>というわけで、 “簡単なサーバ” を書いて実行してみましょう。まずは <code>main.go</code> を用意します。</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">package</span> main</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">import</span> (</span>
-<span id="cb1-4"><a href="#cb1-4"></a>    <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>    <span class="st">&quot;net/http&quot;</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>)</span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">func</span> main() {</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    http.HandleFunc(<span class="st">&quot;/&quot;</span>, <span class="kw">func</span>(w http.ResponseWriter, r *http.Request) {</span>
-<span id="cb1-10"><a href="#cb1-10"></a>        fmt.Fprintf(w, <span class="st">&quot;Hello, World.&quot;</span>)</span>
-<span id="cb1-11"><a href="#cb1-11"></a>    })</span>
-<span id="cb1-12"><a href="#cb1-12"></a>    http.ListenAndServe(<span class="st">&quot;:3000&quot;</span>, <span class="ot">nil</span>)</span>
-<span id="cb1-13"><a href="#cb1-13"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;net/http&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    http<span class="op">.</span>HandleFunc<span class="op">(</span><span class="st">&quot;/&quot;</span><span class="op">,</span> <span class="kw">func</span><span class="op">(</span>w http<span class="op">.</span>ResponseWriter<span class="op">,</span> r <span class="op">*</span>http<span class="op">.</span>Request<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        fmt<span class="op">.</span>Fprintf<span class="op">(</span>w<span class="op">,</span> <span class="st">&quot;Hello, World.&quot;</span><span class="op">)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">})</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    http<span class="op">.</span>ListenAndServe<span class="op">(</span><span class="st">&quot;:3000&quot;</span><span class="op">,</span> <span class="ot">nil</span><span class="op">)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>で、コンパイルして実行します。</p>
 <pre class="console"><code>$ go run main.go</code></pre>
 <p>実行できたらアクセスしてみましょう。</p>
@@ -153,27 +155,27 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 Hello, World.</code></pre>
 <p>ほらね。簡単に http サーバが書けたでしょう？</p>
 <p>この記事では、このプログラムをベースとして様々な改造をしていきます。 その際、毎回 <code>curl</code> で動作検証をするのは面倒です。 ですので、<code>go run main.go</code> で HTTP レスポンス自体を検証できるように、 <a href="https://golang.org/pkg/net/http/httptest/">httptest</a> を使ってリクエスト・レスポンスの検証をしやすくしておきます。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">package</span> main</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">import</span> (</span>
-<span id="cb4-4"><a href="#cb4-4"></a>    <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>    <span class="st">&quot;io/ioutil&quot;</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>    <span class="st">&quot;net/http&quot;</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>    <span class="st">&quot;net/http/httptest&quot;</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>)</span>
-<span id="cb4-9"><a href="#cb4-9"></a></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</span>
-<span id="cb4-11"><a href="#cb4-11"></a>    fmt.Fprintf(w, <span class="st">&quot;Hello, World.&quot;</span>)</span>
-<span id="cb4-12"><a href="#cb4-12"></a>}</span>
-<span id="cb4-13"><a href="#cb4-13"></a></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="kw">func</span> main() {</span>
-<span id="cb4-15"><a href="#cb4-15"></a>    server := httptest.NewServer(http.HandlerFunc(handleRoot))</span>
-<span id="cb4-16"><a href="#cb4-16"></a>    <span class="kw">defer</span> server.Close()</span>
-<span id="cb4-17"><a href="#cb4-17"></a></span>
-<span id="cb4-18"><a href="#cb4-18"></a>    res, _ := http.Get(server.URL)</span>
-<span id="cb4-19"><a href="#cb4-19"></a>    body, _ := ioutil.ReadAll(res.Body)</span>
-<span id="cb4-20"><a href="#cb4-20"></a>    fmt.Printf(<span class="st">&quot;Response: %s</span><span class="ch">\n</span><span class="st">&quot;</span>, body)</span>
-<span id="cb4-21"><a href="#cb4-21"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;io/ioutil&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;net/http&quot;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;net/http/httptest&quot;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> handleRoot<span class="op">(</span>w http<span class="op">.</span>ResponseWriter<span class="op">,</span> r <span class="op">*</span>http<span class="op">.</span>Request<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Fprintf<span class="op">(</span>w<span class="op">,</span> <span class="st">&quot;Hello, World.&quot;</span><span class="op">)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    server <span class="op">:=</span> httptest<span class="op">.</span>NewServer<span class="op">(</span>http<span class="op">.</span>HandlerFunc<span class="op">(</span>handleRoot<span class="op">))</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">defer</span> server<span class="op">.</span>Close<span class="op">()</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    res<span class="op">,</span> _ <span class="op">:=</span> http<span class="op">.</span>Get<span class="op">(</span>server<span class="op">.</span>URL<span class="op">)</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    body<span class="op">,</span> _ <span class="op">:=</span> ioutil<span class="op">.</span>ReadAll<span class="op">(</span>res<span class="op">.</span>Body<span class="op">)</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Printf<span class="op">(</span><span class="st">&quot;Response: %s</span><span class="ch">\n</span><span class="st">&quot;</span><span class="op">,</span> body<span class="op">)</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>こうしておけば、以下のコマンドですぐに実行できますし…</p>
 <pre><code>$ go run main.go
 Response: Hello, World.</code></pre>
@@ -181,64 +183,64 @@ Response: Hello, World.</code></pre>
 <h2 id="外部-api-呼び出しなどの非同期処理がある場合">外部 API 呼び出しなどの非同期処理がある場合</h2>
 <p>さて、Go 言語の特徴の一つとして非同期処理を比較的簡単に書けるというものがあります。 ですので、例えばハンドラ内で外部APIを呼び出したりする場合には、 goroutine を使った非同期かがよく行われます。</p>
 <p>具体的なイメージとしては、例えば、下記みたいに ntp 使って時刻を表示するサーバとか</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">import</span> <span class="st">&quot;github.com/beevik/ntp&quot;</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</span>
-<span id="cb6-4"><a href="#cb6-4"></a>    time, _ := ntp.Time(<span class="st">&quot;ntp.nict.jp&quot;</span>)</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    fmt.Fprintln(w, time)</span>
-<span id="cb6-6"><a href="#cb6-6"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&quot;github.com/beevik/ntp&quot;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> handleRoot<span class="op">(</span>w http<span class="op">.</span>ResponseWriter<span class="op">,</span> r <span class="op">*</span>http<span class="op">.</span>Request<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    time<span class="op">,</span> _ <span class="op">:=</span> ntp<span class="op">.</span>Time<span class="op">(</span><span class="st">&quot;ntp.nict.jp&quot;</span><span class="op">)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Fprintln<span class="op">(</span>w<span class="op">,</span> time<span class="op">)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>後は、なんか重めな処理を goroutine 使ってバックエンドに流したりするすサーバとかもあるわけです。</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">func</span> request(w io.Writer, text <span class="dt">string</span>, count <span class="dt">int</span>) {</span>
-<span id="cb7-2"><a href="#cb7-2"></a>    <span class="kw">for</span> i := <span class="dv">0</span>; i &lt; count; i++ {</span>
-<span id="cb7-3"><a href="#cb7-3"></a>        time.Sleep(<span class="dv">500</span> * time.Millisecond)</span>
-<span id="cb7-4"><a href="#cb7-4"></a>        fmt.Fprintln(w, text)</span>
-<span id="cb7-5"><a href="#cb7-5"></a>    }</span>
-<span id="cb7-6"><a href="#cb7-6"></a>}</span>
-<span id="cb7-7"><a href="#cb7-7"></a></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</span>
-<span id="cb7-9"><a href="#cb7-9"></a>    <span class="kw">go</span> request(w, <span class="st">&quot;foo&quot;</span>, <span class="dv">4</span>)</span>
-<span id="cb7-10"><a href="#cb7-10"></a>    <span class="kw">go</span> request(w, <span class="st">&quot;bar&quot;</span>, <span class="dv">4</span>)</span>
-<span id="cb7-11"><a href="#cb7-11"></a>    request(w, <span class="st">&quot;baz&quot;</span>, <span class="dv">5</span>)</span>
-<span id="cb7-12"><a href="#cb7-12"></a>    <span class="kw">go</span> request(w, <span class="st">&quot;qux&quot;</span>, <span class="dv">4</span>)</span>
-<span id="cb7-13"><a href="#cb7-13"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> request<span class="op">(</span>w io<span class="op">.</span>Writer<span class="op">,</span> text <span class="dt">string</span><span class="op">,</span> count <span class="dt">int</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> i <span class="op">:=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> count<span class="op">;</span> i<span class="op">++</span> <span class="op">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        time<span class="op">.</span>Sleep<span class="op">(</span><span class="dv">500</span> <span class="op">*</span> time<span class="op">.</span>Millisecond<span class="op">)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        fmt<span class="op">.</span>Fprintln<span class="op">(</span>w<span class="op">,</span> text<span class="op">)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> handleRoot<span class="op">(</span>w http<span class="op">.</span>ResponseWriter<span class="op">,</span> r <span class="op">*</span>http<span class="op">.</span>Request<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> request<span class="op">(</span>w<span class="op">,</span> <span class="st">&quot;foo&quot;</span><span class="op">,</span> <span class="dv">4</span><span class="op">)</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> request<span class="op">(</span>w<span class="op">,</span> <span class="st">&quot;bar&quot;</span><span class="op">,</span> <span class="dv">4</span><span class="op">)</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    request<span class="op">(</span>w<span class="op">,</span> <span class="st">&quot;baz&quot;</span><span class="op">,</span> <span class="dv">5</span><span class="op">)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> request<span class="op">(</span>w<span class="op">,</span> <span class="st">&quot;qux&quot;</span><span class="op">,</span> <span class="dv">4</span><span class="op">)</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>他にも、MySQL などのデータベースの読み書きや、それをラップした DAO, ORM などの処理。 ファイルの読み書きなどディスクIOが発生する何かなどは気軽に goroutine 化して行くことが数多くあるでしょう。</p>
 <p>直接 goroutine 化しないとしても、ライブラリ内などでは積極的にされているかもしれません。 このようなとき、上記のような素直すぎるプログラムを書いたとき、真っ先に困るのが <em>タイムアウト処理の実装</em> でしょう。</p>
 <p>何をどう困るのかを実感するために、サンプルコードとして、ランダムで 0 - 2000 ミリ秒で String を返す <code>request</code> メソッドと、それを呼び出すハンドラを用意します。</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">// request は 0-2000ミリ秒ランダムで待機した上で、`kind` を返す</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">func</span> request(kind <span class="dt">string</span>) <span class="dt">string</span> {</span>
-<span id="cb8-3"><a href="#cb8-3"></a>    time.Sleep(time.Duration(rand.Intn(<span class="dv">2000</span>)) * time.Millisecond)</span>
-<span id="cb8-4"><a href="#cb8-4"></a>    <span class="kw">return</span> fmt.Sprintf(<span class="st">&quot;%s, &quot;</span>, kind)</span>
-<span id="cb8-5"><a href="#cb8-5"></a>}</span>
-<span id="cb8-6"><a href="#cb8-6"></a></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co">// handleRoot は　HTTP リクエストのハンドラで、foo, bar, baz, qux をランダムに返す</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</span>
-<span id="cb8-9"><a href="#cb8-9"></a>    c := <span class="bu">make</span>(<span class="kw">chan</span> <span class="dt">string</span>)</span>
-<span id="cb8-10"><a href="#cb8-10"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;foo&quot;</span>) }()</span>
-<span id="cb8-11"><a href="#cb8-11"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;bar&quot;</span>) }()</span>
-<span id="cb8-12"><a href="#cb8-12"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;baz&quot;</span>) }()</span>
-<span id="cb8-13"><a href="#cb8-13"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;qux&quot;</span>) }()</span>
-<span id="cb8-14"><a href="#cb8-14"></a></span>
-<span id="cb8-15"><a href="#cb8-15"></a>    <span class="kw">for</span> i := <span class="dv">0</span>; i &lt; <span class="dv">4</span>; i++ {</span>
-<span id="cb8-16"><a href="#cb8-16"></a>        res := &lt;-c</span>
-<span id="cb8-17"><a href="#cb8-17"></a>        fmt.Fprint(w, res)</span>
-<span id="cb8-18"><a href="#cb8-18"></a>    }</span>
-<span id="cb8-19"><a href="#cb8-19"></a>}</span>
-<span id="cb8-20"><a href="#cb8-20"></a></span>
-<span id="cb8-21"><a href="#cb8-21"></a><span class="kw">func</span> main() {</span>
-<span id="cb8-22"><a href="#cb8-22"></a>    server := httptest.NewServer(http.HandlerFunc(handleRoot))</span>
-<span id="cb8-23"><a href="#cb8-23"></a>    <span class="kw">defer</span> server.Close()</span>
-<span id="cb8-24"><a href="#cb8-24"></a></span>
-<span id="cb8-25"><a href="#cb8-25"></a>    rand.Seed(time.Now().UnixNano())</span>
-<span id="cb8-26"><a href="#cb8-26"></a></span>
-<span id="cb8-27"><a href="#cb8-27"></a>  <span class="co">// 一応、所要時間も記録しておく</span></span>
-<span id="cb8-28"><a href="#cb8-28"></a>    start := time.Now()</span>
-<span id="cb8-29"><a href="#cb8-29"></a>    res, _ := http.Get(server.URL)</span>
-<span id="cb8-30"><a href="#cb8-30"></a>    elapsed := time.Since(start)</span>
-<span id="cb8-31"><a href="#cb8-31"></a>    body, _ := ioutil.ReadAll(res.Body)</span>
-<span id="cb8-32"><a href="#cb8-32"></a>    fmt.Printf(<span class="st">&quot;Response: %s (%s)</span><span class="ch">\n</span><span class="st">&quot;</span>, body, elapsed)</span>
-<span id="cb8-33"><a href="#cb8-33"></a>  <span class="co">// main が即終了しないようにしておく</span></span>
-<span id="cb8-34"><a href="#cb8-34"></a>  time.Sleep(<span class="dv">2000</span> * time.Millisecond)</span>
-<span id="cb8-35"><a href="#cb8-35"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// request は 0-2000ミリ秒ランダムで待機した上で、`kind` を返す</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> request<span class="op">(</span>kind <span class="dt">string</span><span class="op">)</span> <span class="dt">string</span> <span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    time<span class="op">.</span>Sleep<span class="op">(</span>time<span class="op">.</span>Duration<span class="op">(</span>rand<span class="op">.</span>Intn<span class="op">(</span><span class="dv">2000</span><span class="op">))</span> <span class="op">*</span> time<span class="op">.</span>Millisecond<span class="op">)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> fmt<span class="op">.</span>Sprintf<span class="op">(</span><span class="st">&quot;%s, &quot;</span><span class="op">,</span> kind<span class="op">)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">// handleRoot は　HTTP リクエストのハンドラで、foo, bar, baz, qux をランダムに返す</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> handleRoot<span class="op">(</span>w http<span class="op">.</span>ResponseWriter<span class="op">,</span> r <span class="op">*</span>http<span class="op">.</span>Request<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    c <span class="op">:=</span> <span class="bu">make</span><span class="op">(</span><span class="kw">chan</span> <span class="dt">string</span><span class="op">)</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;foo&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;bar&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;baz&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;qux&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> i <span class="op">:=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">4</span><span class="op">;</span> i<span class="op">++</span> <span class="op">{</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        res <span class="op">:=</span> <span class="op">&lt;-</span>c</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        fmt<span class="op">.</span>Fprint<span class="op">(</span>w<span class="op">,</span> res<span class="op">)</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    server <span class="op">:=</span> httptest<span class="op">.</span>NewServer<span class="op">(</span>http<span class="op">.</span>HandlerFunc<span class="op">(</span>handleRoot<span class="op">))</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">defer</span> server<span class="op">.</span>Close<span class="op">()</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    rand<span class="op">.</span>Seed<span class="op">(</span>time<span class="op">.</span>Now<span class="op">().</span>UnixNano<span class="op">())</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 一応、所要時間も記録しておく</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    start <span class="op">:=</span> time<span class="op">.</span>Now<span class="op">()</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    res<span class="op">,</span> _ <span class="op">:=</span> http<span class="op">.</span>Get<span class="op">(</span>server<span class="op">.</span>URL<span class="op">)</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    elapsed <span class="op">:=</span> time<span class="op">.</span>Since<span class="op">(</span>start<span class="op">)</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    body<span class="op">,</span> _ <span class="op">:=</span> ioutil<span class="op">.</span>ReadAll<span class="op">(</span>res<span class="op">.</span>Body<span class="op">)</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Printf<span class="op">(</span><span class="st">&quot;Response: %s (%s)</span><span class="ch">\n</span><span class="st">&quot;</span><span class="op">,</span> body<span class="op">,</span> elapsed<span class="op">)</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="co">// main が即終了しないようにしておく</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  time<span class="op">.</span>Sleep<span class="op">(</span><span class="dv">2000</span> <span class="op">*</span> time<span class="op">.</span>Millisecond<span class="op">)</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p><code>console $ go run main.go Response: bar, baz, foo, qux, (1.860987136s)</code></p>
 <h2 id="タイムアウト処理を実装しようとして失敗してみる">タイムアウト処理を実装しようとして、失敗してみる</h2>
 <p>シンプルにタイムアウトを実装するなら、<code>c</code> 以外にもう一つタイムアウト用のチャンネルを用意し、 どちらかが返ってきたら <code>handleRoot</code> を打ち切るように実装すれば ok なはずです。 より、処理を簡単にするため、下のコードではさらに <code>all</code> チャンネルと 4 つのリクエストを待つ goroutine を用意していきます。</p>
@@ -247,67 +249,67 @@ Response: Hello, World.</code></pre>
 <li>4 つの <code>request</code> を全て処理しきった結果を返す</li>
 </ol>
 <p>のどちらかの挙動となるはずです。</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</span>
-<span id="cb9-2"><a href="#cb9-2"></a>    c := <span class="bu">make</span>(<span class="kw">chan</span> <span class="dt">string</span>)</span>
-<span id="cb9-3"><a href="#cb9-3"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;foo&quot;</span>) }()</span>
-<span id="cb9-4"><a href="#cb9-4"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;bar&quot;</span>) }()</span>
-<span id="cb9-5"><a href="#cb9-5"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;baz&quot;</span>) }()</span>
-<span id="cb9-6"><a href="#cb9-6"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;qux&quot;</span>) }()</span>
-<span id="cb9-7"><a href="#cb9-7"></a></span>
-<span id="cb9-8"><a href="#cb9-8"></a>  <span class="co">// 全てのレスポンスを待機するチャンネルを作る</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a>    all := <span class="bu">make</span>(<span class="kw">chan</span> <span class="dt">string</span>)</span>
-<span id="cb9-10"><a href="#cb9-10"></a>    <span class="kw">go</span> <span class="kw">func</span>() {</span>
-<span id="cb9-11"><a href="#cb9-11"></a>        <span class="kw">var</span> res <span class="dt">string</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a>        <span class="kw">for</span> i := <span class="dv">0</span>; i &lt; <span class="dv">4</span>; i++ {</span>
-<span id="cb9-13"><a href="#cb9-13"></a>            res += &lt;-c</span>
-<span id="cb9-14"><a href="#cb9-14"></a>        }</span>
-<span id="cb9-15"><a href="#cb9-15"></a>        all &lt;- res</span>
-<span id="cb9-16"><a href="#cb9-16"></a>    }()</span>
-<span id="cb9-17"><a href="#cb9-17"></a></span>
-<span id="cb9-18"><a href="#cb9-18"></a>  <span class="co">// タイムアウトを1500ミリ秒後に設定する</span></span>
-<span id="cb9-19"><a href="#cb9-19"></a>    timeout := time.After(<span class="dv">1500</span> * time.Millisecond)</span>
-<span id="cb9-20"><a href="#cb9-20"></a></span>
-<span id="cb9-21"><a href="#cb9-21"></a>    <span class="kw">select</span> {</span>
-<span id="cb9-22"><a href="#cb9-22"></a>    <span class="kw">case</span> response := &lt;-all:</span>
-<span id="cb9-23"><a href="#cb9-23"></a>        fmt.Fprint(w, response)</span>
-<span id="cb9-24"><a href="#cb9-24"></a>    <span class="kw">case</span> &lt;-timeout:</span>
-<span id="cb9-25"><a href="#cb9-25"></a>        fmt.Fprint(w, <span class="st">&quot;timeout&quot;</span>)</span>
-<span id="cb9-26"><a href="#cb9-26"></a>    }</span>
-<span id="cb9-27"><a href="#cb9-27"></a>    <span class="kw">return</span></span>
-<span id="cb9-28"><a href="#cb9-28"></a>}</span>
-<span id="cb9-29"><a href="#cb9-29"></a></span>
-<span id="cb9-30"><a href="#cb9-30"></a><span class="co">// request, main は略</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode go:main.go"><code class="sourceCode go"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> handleRoot<span class="op">(</span>w http<span class="op">.</span>ResponseWriter<span class="op">,</span> r <span class="op">*</span>http<span class="op">.</span>Request<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    c <span class="op">:=</span> <span class="bu">make</span><span class="op">(</span><span class="kw">chan</span> <span class="dt">string</span><span class="op">)</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;foo&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;bar&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;baz&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;qux&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 全てのレスポンスを待機するチャンネルを作る</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    all <span class="op">:=</span> <span class="bu">make</span><span class="op">(</span><span class="kw">chan</span> <span class="dt">string</span><span class="op">)</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">var</span> res <span class="dt">string</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">for</span> i <span class="op">:=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">4</span><span class="op">;</span> i<span class="op">++</span> <span class="op">{</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>            res <span class="op">+=</span> <span class="op">&lt;-</span>c</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        all <span class="op">&lt;-</span> res</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}()</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">// タイムアウトを1500ミリ秒後に設定する</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    timeout <span class="op">:=</span> time<span class="op">.</span>After<span class="op">(</span><span class="dv">1500</span> <span class="op">*</span> time<span class="op">.</span>Millisecond<span class="op">)</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">select</span> <span class="op">{</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> response <span class="op">:=</span> <span class="op">&lt;-</span>all<span class="op">:</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        fmt<span class="op">.</span>Fprint<span class="op">(</span>w<span class="op">,</span> response<span class="op">)</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="op">&lt;-</span>timeout<span class="op">:</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>        fmt<span class="op">.</span>Fprint<span class="op">(</span>w<span class="op">,</span> <span class="st">&quot;timeout&quot;</span><span class="op">)</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">// request, main は略</span></span></code></pre></div>
 <p>さて、これでタイムアウトができた。 ・・・と、思うでしょう？</p>
 <p>例えば、タイムアウト時間を 100 ミリ秒とかに設定すると、期待通りに動かないことがすぐにわかるはずです。</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">func</span> handleRoot(w http.ResponseWriter, r *http.Request) {</span>
-<span id="cb10-2"><a href="#cb10-2"></a>    c := <span class="bu">make</span>(<span class="kw">chan</span> <span class="dt">string</span>)</span>
-<span id="cb10-3"><a href="#cb10-3"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;foo&quot;</span>) }()</span>
-<span id="cb10-4"><a href="#cb10-4"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;bar&quot;</span>) }()</span>
-<span id="cb10-5"><a href="#cb10-5"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;baz&quot;</span>) }()</span>
-<span id="cb10-6"><a href="#cb10-6"></a>    <span class="kw">go</span> <span class="kw">func</span>() { c &lt;- request(<span class="st">&quot;qux&quot;</span>) }()</span>
-<span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a>    all := <span class="bu">make</span>(<span class="kw">chan</span> <span class="dt">string</span>)</span>
-<span id="cb10-9"><a href="#cb10-9"></a>    <span class="kw">go</span> <span class="kw">func</span>() {</span>
-<span id="cb10-10"><a href="#cb10-10"></a>        <span class="kw">var</span> res <span class="dt">string</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a>        <span class="kw">for</span> i := <span class="dv">0</span>; i &lt; <span class="dv">4</span>; i++ {</span>
-<span id="cb10-12"><a href="#cb10-12"></a>            res += &lt;-c</span>
-<span id="cb10-13"><a href="#cb10-13"></a>            fmt.Printf(<span class="st">&quot;all: %s</span><span class="ch">\n</span><span class="st">&quot;</span>, res)</span>
-<span id="cb10-14"><a href="#cb10-14"></a>        }</span>
-<span id="cb10-15"><a href="#cb10-15"></a>        all &lt;- res</span>
-<span id="cb10-16"><a href="#cb10-16"></a>    }()</span>
-<span id="cb10-17"><a href="#cb10-17"></a></span>
-<span id="cb10-18"><a href="#cb10-18"></a>    timeout := time.After(<span class="dv">100</span> * time.Millisecond)</span>
-<span id="cb10-19"><a href="#cb10-19"></a></span>
-<span id="cb10-20"><a href="#cb10-20"></a>    <span class="kw">select</span> {</span>
-<span id="cb10-21"><a href="#cb10-21"></a>    <span class="kw">case</span> response := &lt;-all:</span>
-<span id="cb10-22"><a href="#cb10-22"></a>        fmt.Fprint(w, response)</span>
-<span id="cb10-23"><a href="#cb10-23"></a>    <span class="kw">case</span> &lt;-timeout:</span>
-<span id="cb10-24"><a href="#cb10-24"></a>        fmt.Fprint(w, <span class="st">&quot;timeout&quot;</span>)</span>
-<span id="cb10-25"><a href="#cb10-25"></a>    }</span>
-<span id="cb10-26"><a href="#cb10-26"></a>    <span class="kw">return</span></span>
-<span id="cb10-27"><a href="#cb10-27"></a>}</span>
-<span id="cb10-28"><a href="#cb10-28"></a></span>
-<span id="cb10-29"><a href="#cb10-29"></a><span class="co">// request, main は略</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> handleRoot<span class="op">(</span>w http<span class="op">.</span>ResponseWriter<span class="op">,</span> r <span class="op">*</span>http<span class="op">.</span>Request<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    c <span class="op">:=</span> <span class="bu">make</span><span class="op">(</span><span class="kw">chan</span> <span class="dt">string</span><span class="op">)</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;foo&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;bar&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;baz&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span> c <span class="op">&lt;-</span> request<span class="op">(</span><span class="st">&quot;qux&quot;</span><span class="op">)</span> <span class="op">}()</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    all <span class="op">:=</span> <span class="bu">make</span><span class="op">(</span><span class="kw">chan</span> <span class="dt">string</span><span class="op">)</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">go</span> <span class="kw">func</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">var</span> res <span class="dt">string</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">for</span> i <span class="op">:=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">4</span><span class="op">;</span> i<span class="op">++</span> <span class="op">{</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>            res <span class="op">+=</span> <span class="op">&lt;-</span>c</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>            fmt<span class="op">.</span>Printf<span class="op">(</span><span class="st">&quot;all: %s</span><span class="ch">\n</span><span class="st">&quot;</span><span class="op">,</span> res<span class="op">)</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        all <span class="op">&lt;-</span> res</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}()</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    timeout <span class="op">:=</span> time<span class="op">.</span>After<span class="op">(</span><span class="dv">100</span> <span class="op">*</span> time<span class="op">.</span>Millisecond<span class="op">)</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">select</span> <span class="op">{</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> response <span class="op">:=</span> <span class="op">&lt;-</span>all<span class="op">:</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        fmt<span class="op">.</span>Fprint<span class="op">(</span>w<span class="op">,</span> response<span class="op">)</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="op">&lt;-</span>timeout<span class="op">:</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        fmt<span class="op">.</span>Fprint<span class="op">(</span>w<span class="op">,</span> <span class="st">&quot;timeout&quot;</span><span class="op">)</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="co">// request, main は略</span></span></code></pre></div>
 <pre><code>$ go run main.go
 Response: timeout (103.853504ms)
 all: bar,
@@ -364,23 +366,23 @@ all: bar, foo, qux,</code></pre>
 <p>ここからは具体的な使い方を見ていきましょう。</p>
 <h2 id="context-型"><code>Context</code> 型</h2>
 <p><a href="https://blog.golang.org/context">Go Concurrency Patterns: Context - The Go Blog</a> にも記載がありますが、Context のコアな構造は次の通りです。</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">// Context はキャンセルフラグやリクエスト毎の変数、リクエストのデッドラインなどを</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="co">// API 境界をまたいでアクセスするために使います。各メソッドは複数の goroutine から</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="co">// 同時にアクセス可能です。</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="kw">type</span> Context <span class="kw">interface</span> {</span>
-<span id="cb13-5"><a href="#cb13-5"></a>  <span class="co">// Context がキャンセルされたりタイムアウトしたりした時に close されるチャンネルを返す</span></span>
-<span id="cb13-6"><a href="#cb13-6"></a>  Done() &lt;-<span class="kw">chan</span> <span class="kw">struct</span>{}</span>
-<span id="cb13-7"><a href="#cb13-7"></a></span>
-<span id="cb13-8"><a href="#cb13-8"></a>  <span class="co">// なんでこのコンテキストが中止されたのかを示す error オブジェクト。Done チャンネルが</span></span>
-<span id="cb13-9"><a href="#cb13-9"></a>  <span class="co">// close した後にセットされる</span></span>
-<span id="cb13-10"><a href="#cb13-10"></a>  Err() <span class="dt">error</span></span>
-<span id="cb13-11"><a href="#cb13-11"></a></span>
-<span id="cb13-12"><a href="#cb13-12"></a>  <span class="co">// Deadline はこのコンテキストがキャンセルされる予定の time.Time を返す</span></span>
-<span id="cb13-13"><a href="#cb13-13"></a>  Deadline() (deadline time.Time, ok <span class="dt">bool</span>)</span>
-<span id="cb13-14"><a href="#cb13-14"></a></span>
-<span id="cb13-15"><a href="#cb13-15"></a>  <span class="co">// このコンテキストに関連づけられた変数</span></span>
-<span id="cb13-16"><a href="#cb13-16"></a>  Value(key <span class="kw">interface</span>{}) <span class="kw">interface</span>{}</span>
-<span id="cb13-17"><a href="#cb13-17"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Context はキャンセルフラグやリクエスト毎の変数、リクエストのデッドラインなどを</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">// API 境界をまたいでアクセスするために使います。各メソッドは複数の goroutine から</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">// 同時にアクセス可能です。</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> Context <span class="kw">interface</span> <span class="op">{</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Context がキャンセルされたりタイムアウトしたりした時に close されるチャンネルを返す</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  Done<span class="op">()</span> <span class="op">&lt;-</span><span class="kw">chan</span> <span class="kw">struct</span><span class="op">{}</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// なんでこのコンテキストが中止されたのかを示す error オブジェクト。Done チャンネルが</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// close した後にセットされる</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  Err<span class="op">()</span> <span class="dt">error</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Deadline はこのコンテキストがキャンセルされる予定の time.Time を返す</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  Deadline<span class="op">()</span> <span class="op">(</span>deadline time<span class="op">.</span>Time<span class="op">,</span> ok <span class="dt">bool</span><span class="op">)</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">// このコンテキストに関連づけられた変数</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  Value<span class="op">(</span>key <span class="kw">interface</span><span class="op">{})</span> <span class="kw">interface</span><span class="op">{}</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p><code>Done</code> 関数はこのリクエスト全体が完了またはキャンセルされた時にシグナルが渡されるチャンネルを返します。 このチャンネルが閉じるか、シグナルが来た場合は、リクエスト全体が終了したため、各 goroutine は直ちに終了する必要があります。 また、 <code>Err</code> 関数は、このリクエスト然たがキャンセルまたはエラーで終了した場合、そのエラーを返します。</p>
 <h2 id="子-goroutine-をキャンセルさせる">子 goroutine をキャンセルさせる</h2>
 <p><code>Context</code> にはキャンセルを実行するメソッドは定義されていませんでした。 これは、通常の場合、キャンセルシグナルを受け取る goroutine とキャンセルを実施する goroutine は異なるためです。</p>
@@ -394,17 +396,17 @@ all: bar, foo, qux,</code></pre>
 <p>と整理できます。 この場合、A は B にキャンセル可能なコンテキストを渡す必要があり、 <a href="https://tip.golang.org/pkg/context/#WithCancel">context.WithCancel</a> で作成可能です。</p>
 <p>例を見せましょう。</p>
 <p>まず、コンテキストを受け取り、キャンセル可能な無限ループを作ります。</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">// infLoop は無限ループを行います。渡された context が終了した際にはこの関数を抜けます。</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="kw">func</span> infLoop(ctx context.Context) {</span>
-<span id="cb14-3"><a href="#cb14-3"></a>    fmt.Println(<span class="st">&quot;start infLoop&quot;</span>)</span>
-<span id="cb14-4"><a href="#cb14-4"></a>    <span class="kw">for</span> {</span>
-<span id="cb14-5"><a href="#cb14-5"></a>        <span class="kw">select</span> {</span>
-<span id="cb14-6"><a href="#cb14-6"></a>        <span class="kw">case</span> &lt;-ctx.Done():</span>
-<span id="cb14-7"><a href="#cb14-7"></a>            fmt.Println(<span class="st">&quot;exit infLoop&quot;</span>)</span>
-<span id="cb14-8"><a href="#cb14-8"></a>            <span class="kw">return</span></span>
-<span id="cb14-9"><a href="#cb14-9"></a>        }</span>
-<span id="cb14-10"><a href="#cb14-10"></a>    }</span>
-<span id="cb14-11"><a href="#cb14-11"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">// infLoop は無限ループを行います。渡された context が終了した際にはこの関数を抜けます。</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> infLoop<span class="op">(</span>ctx context<span class="op">.</span>Context<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span><span class="st">&quot;start infLoop&quot;</span><span class="op">)</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="op">{</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">{</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">case</span> <span class="op">&lt;-</span>ctx<span class="op">.</span>Done<span class="op">():</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>            fmt<span class="op">.</span>Println<span class="op">(</span><span class="st">&quot;exit infLoop&quot;</span><span class="op">)</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>main では <a href="https://tip.golang.org/pkg/context/#Background">context.Background</a> で新しいコンテキストを作った上で、 この親コンテキストをもとにキャンセル可能な子コンテキストを作り、 <code>infLoop</code> に渡します。</p>
 <pre><code>func main() {
     rand.Seed(time.Now().UnixNano())
@@ -466,14 +468,14 @@ exit infLoop</code></pre>
 <p>WithDeadline は指定時刻に、WithTimeout は指定時間経過後にそれぞれキャンセルされます。</p>
 <h2 id="cancel-の呼び出しはどこに書くか">cancel() の呼び出しはどこに書くか？</h2>
 <p>ここまでのコード例では、 <code>time.Sleep</code> を多用したため、 <code>cancel()</code> を手動で呼び出していました。 しかし、大抵の場合、 <code>foo</code> 関数で子 goroutine を作りっぱなしにすることはなく、 <code>foo</code> が終了するタイミングで子 goroutine も後始末することが多いでしょう。 ですので、 <code>defer</code> を使って下記のように書くことが多いと思います。</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">func</span> foo(ctx context.Context) {</span>
-<span id="cb19-2"><a href="#cb19-2"></a>  ctx, cancel := context.WithCancel(ctx)</span>
-<span id="cb19-3"><a href="#cb19-3"></a>  <span class="kw">defer</span> cancel()</span>
-<span id="cb19-4"><a href="#cb19-4"></a></span>
-<span id="cb19-5"><a href="#cb19-5"></a>  <span class="kw">go</span> <span class="kw">func</span>(ctx) {</span>
-<span id="cb19-6"><a href="#cb19-6"></a>    <span class="co">// ...</span></span>
-<span id="cb19-7"><a href="#cb19-7"></a>  }(ctx)</span>
-<span id="cb19-8"><a href="#cb19-8"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> foo<span class="op">(</span>ctx context<span class="op">.</span>Context<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  ctx<span class="op">,</span> cancel <span class="op">:=</span> context<span class="op">.</span>WithCancel<span class="op">(</span>ctx<span class="op">)</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">defer</span> cancel<span class="op">()</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">go</span> <span class="kw">func</span><span class="op">(</span>ctx<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}(</span>ctx<span class="op">)</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h2 id="コンテキストで値を渡す">コンテキストで値を渡す</h2>
 <p><a href="https://tip.golang.org/pkg/context/#example_WithValue">context.WithValue</a> を使い、値を渡します。 重要なのは、ここで渡す値は、例えばリクエストの処理の間、ずっと受け渡したい値であり、gorouitne や関数のオプションに渡すべきではないということです。 （この関数を使うと便利に値が渡せてしまいますので、濫用に注意しましょう）</p>
 <p><code>context.WithValue</code> では、<code>key</code> と <code>val</code> のそれぞれに <code>interface</code> が使えます。</p>

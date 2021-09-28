@@ -15,19 +15,19 @@
   <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -47,7 +47,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -107,7 +107,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   </header>
   <nav id="TOC">
   <ul>
-  <li><a href="#基本的な使い方">基本的な使い方</a><ul>
+  <li><a href="#基本的な使い方">基本的な使い方</a>
+  <ul>
   <li><a href="#一部の定義を省略する">一部の定義を省略する</a></li>
   <li><a href="#format-と-layout-のフォーマットが違うとエラーになります">format と layout のフォーマットが違うとエラーになります。</a></li>
   <li><a href="#フォーマットに日本語を使う">フォーマットに日本語を使う</a></li>
@@ -123,219 +124,219 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>フォーマットは、<em>必ず 2006年1月2日午後3時4分5秒(山岳部標準時)</em> である必要があります。 なんでこの時間？　と、一瞬思いますが、月日時分秒年の順番で表記した時、左から 1,2,3,4,5,6,7 と増えていきます。</p>
 <p>山岳部標準時は <code>-7</code> です。</p>
 <p>時刻を24時間表記でパースさせたい場合は、<code>15</code> を指定します。</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">package</span> main</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">import</span> (</span>
-<span id="cb1-4"><a href="#cb1-4"></a>    <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>    <span class="st">&quot;time&quot;</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>)</span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">func</span> main() {</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    <span class="co">// パースする対象である時間がどのように参照されているかのフォーマット定義です</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>    layout := <span class="st">&quot;Jan 2, 2006 at 3:04pm (MST)&quot;</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a>    <span class="co">// パースする対象の文字列です</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>    value := <span class="st">&quot;Feb 3, 2013 at 7:54pm (PST)&quot;</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a>    t, _ := time.Parse(layout, value)</span>
-<span id="cb1-15"><a href="#cb1-15"></a></span>
-<span id="cb1-16"><a href="#cb1-16"></a>    fmt.Println(t)</span>
-<span id="cb1-17"><a href="#cb1-17"></a>    <span class="co">// 2013-02-03 19:54:00 +0000 PST</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;time&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// パースする対象である時間がどのように参照されているかのフォーマット定義です</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    layout <span class="op">:=</span> <span class="st">&quot;Jan 2, 2006 at 3:04pm (MST)&quot;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// パースする対象の文字列です</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    value <span class="op">:=</span> <span class="st">&quot;Feb 3, 2013 at 7:54pm (PST)&quot;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    t<span class="op">,</span> _ <span class="op">:=</span> time<span class="op">.</span>Parse<span class="op">(</span>layout<span class="op">,</span> value<span class="op">)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>t<span class="op">)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 2013-02-03 19:54:00 +0000 PST</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>https://play.golang.org/p/Y5yLTbfcULl</p>
 <h2 id="一部の定義を省略する">一部の定義を省略する</h2>
 <p>フォーマット定義およびパースしたい文字列から一部の値を外した場合、デフォルトとして 0 が、 0 が設定できない場合 1 が設定されます。 タイムゾーンの場合は UTC が設定されます。</p>
 <p>下記の例では、時刻やタイムゾーンを省略したため、時・分・秒に 0 が、タイムゾーンに UTC がセットされます。 年を省略した場合は 0 が、月・日を省略した場合は、 1 がセットされます。</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">package</span> main</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">import</span> (</span>
-<span id="cb2-4"><a href="#cb2-4"></a>  <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>  <span class="st">&quot;time&quot;</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>)</span>
-<span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="kw">func</span> main() {</span>
-<span id="cb2-9"><a href="#cb2-9"></a>  layout := <span class="st">&quot;2006-01-02&quot;</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a>  value := <span class="st">&quot;2019-07-23&quot;</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a>  t, e := time.Parse(layout, value)</span>
-<span id="cb2-13"><a href="#cb2-13"></a></span>
-<span id="cb2-14"><a href="#cb2-14"></a>  <span class="kw">if</span> e != <span class="ot">nil</span> {</span>
-<span id="cb2-15"><a href="#cb2-15"></a>    fmt.Println(e)</span>
-<span id="cb2-16"><a href="#cb2-16"></a>  }</span>
-<span id="cb2-17"><a href="#cb2-17"></a></span>
-<span id="cb2-18"><a href="#cb2-18"></a>  fmt.Println(t)</span>
-<span id="cb2-19"><a href="#cb2-19"></a>  <span class="co">// 2019-07-23 00:00:00 +0000 UTC</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;time&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  layout <span class="op">:=</span> <span class="st">&quot;2006-01-02&quot;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  value <span class="op">:=</span> <span class="st">&quot;2019-07-23&quot;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  t<span class="op">,</span> e <span class="op">:=</span> time<span class="op">.</span>Parse<span class="op">(</span>layout<span class="op">,</span> value<span class="op">)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> e <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>e<span class="op">)</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  fmt<span class="op">.</span>Println<span class="op">(</span>t<span class="op">)</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 2019-07-23 00:00:00 +0000 UTC</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>https://play.golang.org/p/twodyyYITV6</p>
 <p>つまり、何もかも省略した場合は、<code>0000-01-01 00:00:00 +0000</code> UTC になります。</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">package</span> main</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">import</span> (</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>  <span class="st">&quot;time&quot;</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>)</span>
-<span id="cb3-7"><a href="#cb3-7"></a></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="kw">func</span> main() {</span>
-<span id="cb3-9"><a href="#cb3-9"></a>  layout := <span class="st">&quot;&quot;</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a></span>
-<span id="cb3-11"><a href="#cb3-11"></a>  value := <span class="st">&quot;&quot;</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a>  t, e := time.Parse(layout, value)</span>
-<span id="cb3-13"><a href="#cb3-13"></a></span>
-<span id="cb3-14"><a href="#cb3-14"></a>  <span class="kw">if</span> e != <span class="ot">nil</span> {</span>
-<span id="cb3-15"><a href="#cb3-15"></a>    fmt.Println(e)</span>
-<span id="cb3-16"><a href="#cb3-16"></a>  }</span>
-<span id="cb3-17"><a href="#cb3-17"></a></span>
-<span id="cb3-18"><a href="#cb3-18"></a>  fmt.Println(t)</span>
-<span id="cb3-19"><a href="#cb3-19"></a>  <span class="co">// 0000-01-01 00:00:00 +0000 UTC</span></span>
-<span id="cb3-20"><a href="#cb3-20"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;time&quot;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  layout <span class="op">:=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  value <span class="op">:=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  t<span class="op">,</span> e <span class="op">:=</span> time<span class="op">.</span>Parse<span class="op">(</span>layout<span class="op">,</span> value<span class="op">)</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> e <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>e<span class="op">)</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  fmt<span class="op">.</span>Println<span class="op">(</span>t<span class="op">)</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 0000-01-01 00:00:00 +0000 UTC</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>https://play.golang.org/p/1xG2G0FNSd1</p>
 <h2 id="format-と-layout-のフォーマットが違うとエラーになります">format と layout のフォーマットが違うとエラーになります。</h2>
 <p>例えば、下記の例を見てみましょう。</p>
 <p>フォーマット定義ではタイムゾーン指定を削りましたが、パースしたい文字列ではタイムゾーンが指定されています。なので、エラーになります。。 この場合、パースすると必ず <code>0001-01-01 00:00:00 +0000 UTC</code> になります。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">package</span> main</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">import</span> (</span>
-<span id="cb4-4"><a href="#cb4-4"></a>  <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>  <span class="st">&quot;time&quot;</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>)</span>
-<span id="cb4-7"><a href="#cb4-7"></a></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="kw">func</span> main() {</span>
-<span id="cb4-9"><a href="#cb4-9"></a>  layout := <span class="st">&quot;Jan 2, 2006 at 3:04pm&quot;</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a>  value := <span class="st">&quot;Feb 3, 2013 at 7:54pm (PST)&quot;</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a>  t, _ := time.Parse(layout, value)</span>
-<span id="cb4-12"><a href="#cb4-12"></a></span>
-<span id="cb4-13"><a href="#cb4-13"></a>  <span class="kw">if</span> e != <span class="ot">nil</span> {</span>
-<span id="cb4-14"><a href="#cb4-14"></a>    fmt.Println(e)</span>
-<span id="cb4-15"><a href="#cb4-15"></a>    <span class="co">// parsing time &quot;Oct 3, 1986 at 8:07am (PST)&quot;: extra text:  (PST)</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a>  }</span>
-<span id="cb4-17"><a href="#cb4-17"></a></span>
-<span id="cb4-18"><a href="#cb4-18"></a>  fmt.Println(t)</span>
-<span id="cb4-19"><a href="#cb4-19"></a>  <span class="co">// 0001-01-01 00:00:00 +0000 UTC</span></span>
-<span id="cb4-20"><a href="#cb4-20"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;time&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  layout <span class="op">:=</span> <span class="st">&quot;Jan 2, 2006 at 3:04pm&quot;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  value <span class="op">:=</span> <span class="st">&quot;Feb 3, 2013 at 7:54pm (PST)&quot;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  t<span class="op">,</span> _ <span class="op">:=</span> time<span class="op">.</span>Parse<span class="op">(</span>layout<span class="op">,</span> value<span class="op">)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> e <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>e<span class="op">)</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// parsing time &quot;Oct 3, 1986 at 8:07am (PST)&quot;: extra text:  (PST)</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  fmt<span class="op">.</span>Println<span class="op">(</span>t<span class="op">)</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 0001-01-01 00:00:00 +0000 UTC</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>https://play.golang.org/p/JOeniv_Y0Wv</p>
 <h2 id="フォーマットに日本語を使う">フォーマットに日本語を使う</h2>
 <p>フォーマットに使用する日時さえあってれば可能です。</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">package</span> main</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">import</span> (</span>
-<span id="cb5-4"><a href="#cb5-4"></a>  <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>  <span class="st">&quot;time&quot;</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>)</span>
-<span id="cb5-7"><a href="#cb5-7"></a></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="kw">func</span> main() {</span>
-<span id="cb5-9"><a href="#cb5-9"></a>  layout := <span class="st">&quot;2006年01月02日 15時04分05秒 (MST)&quot;</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a></span>
-<span id="cb5-11"><a href="#cb5-11"></a>  value := <span class="st">&quot;2019年07月23日 20時10分11秒 (JST)&quot;</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a>  t, e := time.Parse(layout, value)</span>
-<span id="cb5-13"><a href="#cb5-13"></a></span>
-<span id="cb5-14"><a href="#cb5-14"></a>  <span class="kw">if</span> e != <span class="ot">nil</span> {</span>
-<span id="cb5-15"><a href="#cb5-15"></a>    fmt.Println(e)</span>
-<span id="cb5-16"><a href="#cb5-16"></a>  }</span>
-<span id="cb5-17"><a href="#cb5-17"></a></span>
-<span id="cb5-18"><a href="#cb5-18"></a>  fmt.Println(t)</span>
-<span id="cb5-19"><a href="#cb5-19"></a>  <span class="co">// 2019-07-23 20:10:11 +0000 JST</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;time&quot;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  layout <span class="op">:=</span> <span class="st">&quot;2006年01月02日 15時04分05秒 (MST)&quot;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  value <span class="op">:=</span> <span class="st">&quot;2019年07月23日 20時10分11秒 (JST)&quot;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  t<span class="op">,</span> e <span class="op">:=</span> time<span class="op">.</span>Parse<span class="op">(</span>layout<span class="op">,</span> value<span class="op">)</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> e <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>e<span class="op">)</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  fmt<span class="op">.</span>Println<span class="op">(</span>t<span class="op">)</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 2019-07-23 20:10:11 +0000 JST</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>https://play.golang.org/p/dlwONJnLH8i</p>
 <h1 id="組み込みフォーマット">組み込みフォーマット</h1>
 <p><a href="https://golang.org/pkg/time/#pkg-constants">timeパッケージの定数</a> に定義されています。</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">const</span> (</span>
-<span id="cb6-2"><a href="#cb6-2"></a>        ANSIC       = <span class="st">&quot;Mon Jan _2 15:04:05 2006&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>        UnixDate    = <span class="st">&quot;Mon Jan _2 15:04:05 MST 2006&quot;</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>        RubyDate    = <span class="st">&quot;Mon Jan 02 15:04:05 -0700 2006&quot;</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a>        RFC822      = <span class="st">&quot;02 Jan 06 15:04 MST&quot;</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a>        RFC822Z     = <span class="st">&quot;02 Jan 06 15:04 -0700&quot;</span> <span class="co">// RFC822 with numeric zone</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a>        RFC850      = <span class="st">&quot;Monday, 02-Jan-06 15:04:05 MST&quot;</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a>        RFC1123     = <span class="st">&quot;Mon, 02 Jan 2006 15:04:05 MST&quot;</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a>        RFC1123Z    = <span class="st">&quot;Mon, 02 Jan 2006 15:04:05 -0700&quot;</span> <span class="co">// RFC1123 with numeric zone</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a>        RFC3339     = <span class="st">&quot;2006-01-02T15:04:05Z07:00&quot;</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a>        RFC3339Nano = <span class="st">&quot;2006-01-02T15:04:05.999999999Z07:00&quot;</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a>        Kitchen     = <span class="st">&quot;3:04PM&quot;</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a>        <span class="co">// Handy time stamps.</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a>        Stamp      = <span class="st">&quot;Jan _2 15:04:05&quot;</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a>        StampMilli = <span class="st">&quot;Jan _2 15:04:05.000&quot;</span></span>
-<span id="cb6-16"><a href="#cb6-16"></a>        StampMicro = <span class="st">&quot;Jan _2 15:04:05.000000&quot;</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a>        StampNano  = <span class="st">&quot;Jan _2 15:04:05.000000000&quot;</span></span>
-<span id="cb6-18"><a href="#cb6-18"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> <span class="op">(</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>        ANSIC       <span class="op">=</span> <span class="st">&quot;Mon Jan _2 15:04:05 2006&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        UnixDate    <span class="op">=</span> <span class="st">&quot;Mon Jan _2 15:04:05 MST 2006&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        RubyDate    <span class="op">=</span> <span class="st">&quot;Mon Jan 02 15:04:05 -0700 2006&quot;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        RFC822      <span class="op">=</span> <span class="st">&quot;02 Jan 06 15:04 MST&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        RFC822Z     <span class="op">=</span> <span class="st">&quot;02 Jan 06 15:04 -0700&quot;</span> <span class="co">// RFC822 with numeric zone</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        RFC850      <span class="op">=</span> <span class="st">&quot;Monday, 02-Jan-06 15:04:05 MST&quot;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        RFC1123     <span class="op">=</span> <span class="st">&quot;Mon, 02 Jan 2006 15:04:05 MST&quot;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        RFC1123Z    <span class="op">=</span> <span class="st">&quot;Mon, 02 Jan 2006 15:04:05 -0700&quot;</span> <span class="co">// RFC1123 with numeric zone</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        RFC3339     <span class="op">=</span> <span class="st">&quot;2006-01-02T15:04:05Z07:00&quot;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        RFC3339Nano <span class="op">=</span> <span class="st">&quot;2006-01-02T15:04:05.999999999Z07:00&quot;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        Kitchen     <span class="op">=</span> <span class="st">&quot;3:04PM&quot;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Handy time stamps.</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        Stamp      <span class="op">=</span> <span class="st">&quot;Jan _2 15:04:05&quot;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        StampMilli <span class="op">=</span> <span class="st">&quot;Jan _2 15:04:05.000&quot;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        StampMicro <span class="op">=</span> <span class="st">&quot;Jan _2 15:04:05.000000&quot;</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        StampNano  <span class="op">=</span> <span class="st">&quot;Jan _2 15:04:05.000000000&quot;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span></code></pre></div>
 <h1 id="存在しない時間を指定するとエラーになる">存在しない時間を指定するとエラーになる</h1>
 <p>もちろん、エラーになります。</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">package</span> main</span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">import</span> (</span>
-<span id="cb7-4"><a href="#cb7-4"></a>  <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>  <span class="st">&quot;time&quot;</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a>)</span>
-<span id="cb7-7"><a href="#cb7-7"></a></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="kw">func</span> main() {</span>
-<span id="cb7-9"><a href="#cb7-9"></a>  layout := <span class="st">&quot;2006年01月02日 15時04分05秒 (MST)&quot;</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a></span>
-<span id="cb7-11"><a href="#cb7-11"></a>  <span class="co">// 例えば、25時という存在しない時間にすると・・・</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a>  value := <span class="st">&quot;2019年07月23日 25時10分11秒 (JST)&quot;</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a>  t, e := time.Parse(layout, value)</span>
-<span id="cb7-14"><a href="#cb7-14"></a></span>
-<span id="cb7-15"><a href="#cb7-15"></a>  <span class="kw">if</span> e != <span class="ot">nil</span> {</span>
-<span id="cb7-16"><a href="#cb7-16"></a>  <span class="co">// 下記のように時間が0-23の範囲外であるというエラーが出てきます。</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a>    fmt.Println(e)</span>
-<span id="cb7-18"><a href="#cb7-18"></a>    <span class="co">// parsing time &quot;2019年07月23日 25時10分11秒 (JST)&quot;: hour out of range</span></span>
-<span id="cb7-19"><a href="#cb7-19"></a>  }</span>
-<span id="cb7-20"><a href="#cb7-20"></a></span>
-<span id="cb7-21"><a href="#cb7-21"></a>  fmt.Println(t)</span>
-<span id="cb7-22"><a href="#cb7-22"></a>  <span class="co">// 0001-01-01 00:00:00 +0000 UTC</span></span>
-<span id="cb7-23"><a href="#cb7-23"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;time&quot;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  layout <span class="op">:=</span> <span class="st">&quot;2006年01月02日 15時04分05秒 (MST)&quot;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 例えば、25時という存在しない時間にすると・・・</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  value <span class="op">:=</span> <span class="st">&quot;2019年07月23日 25時10分11秒 (JST)&quot;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  t<span class="op">,</span> e <span class="op">:=</span> time<span class="op">.</span>Parse<span class="op">(</span>layout<span class="op">,</span> value<span class="op">)</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> e <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 下記のように時間が0-23の範囲外であるというエラーが出てきます。</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>e<span class="op">)</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// parsing time &quot;2019年07月23日 25時10分11秒 (JST)&quot;: hour out of range</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  fmt<span class="op">.</span>Println<span class="op">(</span>t<span class="op">)</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 0001-01-01 00:00:00 +0000 UTC</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>https://play.golang.org/p/rhndc5_U4he</p>
 <h1 id="タイムゾーンを省略したけど日本時間にしたい---time.parseinlocation-で指定したタイムゾーンとみなしてパースする">タイムゾーンを省略したけど、日本時間にしたい - <code>time.ParseInLocation</code> で指定したタイムゾーンとみなしてパースする</h1>
 <p>例えば、日本国内のみで使うなら、タイムゾーンをいちいち設定するのは大変面倒だと思います。</p>
 <p><code>time.Parse</code> では、フォーマット定義（とパースしたい文字列）でタイムゾーンが指定されていない場合 <code>UTC</code> と判断していましたが、 <code>time.ParseInLocatoin</code> では、指定したタイムゾーンと見做すことができます。</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">package</span> main</span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">import</span> (</span>
-<span id="cb8-4"><a href="#cb8-4"></a>  <span class="st">&quot;fmt&quot;</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a>  <span class="st">&quot;time&quot;</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a>)</span>
-<span id="cb8-7"><a href="#cb8-7"></a></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="kw">func</span> main() {</span>
-<span id="cb8-9"><a href="#cb8-9"></a>  loc, _ := time.LoadLocation(<span class="st">&quot;Asia/Tokyo&quot;</span>)</span>
-<span id="cb8-10"><a href="#cb8-10"></a></span>
-<span id="cb8-11"><a href="#cb8-11"></a>  <span class="co">// time.ParseInLocation は、フォーマット定義でタイムゾーンが指定されていない場合</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a>  <span class="co">// loc で指定されたタイムゾーンとしてパースします </span></span>
-<span id="cb8-13"><a href="#cb8-13"></a>  layout := <span class="st">&quot;Jan 2, 2006 at 3:04pm&quot;</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a>  value := <span class="st">&quot;Jul 3, 2019 at 8:07pm&quot;</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a>  t, e := time.ParseInLocation(layout, value, loc)</span>
-<span id="cb8-16"><a href="#cb8-16"></a></span>
-<span id="cb8-17"><a href="#cb8-17"></a>  <span class="kw">if</span> e != <span class="ot">nil</span> {</span>
-<span id="cb8-18"><a href="#cb8-18"></a>    fmt.Println(e)</span>
-<span id="cb8-19"><a href="#cb8-19"></a>  }</span>
-<span id="cb8-20"><a href="#cb8-20"></a></span>
-<span id="cb8-21"><a href="#cb8-21"></a>  <span class="co">// 上記の場合、 loc が日本なので、 JST とみなします</span></span>
-<span id="cb8-22"><a href="#cb8-22"></a>  fmt.Println(t)</span>
-<span id="cb8-23"><a href="#cb8-23"></a>  <span class="co">// 2019-07-03 20:07:00 +0900 JST</span></span>
-<span id="cb8-24"><a href="#cb8-24"></a></span>
-<span id="cb8-25"><a href="#cb8-25"></a></span>
-<span id="cb8-26"><a href="#cb8-26"></a></span>
-<span id="cb8-27"><a href="#cb8-27"></a>  <span class="co">// time.Pasere の場合は UTC とみなします</span></span>
-<span id="cb8-28"><a href="#cb8-28"></a>  layout = <span class="st">&quot;Jan 2, 2006 at 3:04pm&quot;</span></span>
-<span id="cb8-29"><a href="#cb8-29"></a>  value = <span class="st">&quot;Jul 3, 2019 at 8:07pm&quot;</span></span>
-<span id="cb8-30"><a href="#cb8-30"></a>  t, e = time.Parse(layout, value)</span>
-<span id="cb8-31"><a href="#cb8-31"></a></span>
-<span id="cb8-32"><a href="#cb8-32"></a>  <span class="kw">if</span> e != <span class="ot">nil</span> {</span>
-<span id="cb8-33"><a href="#cb8-33"></a>    fmt.Println(e)</span>
-<span id="cb8-34"><a href="#cb8-34"></a>  }</span>
-<span id="cb8-35"><a href="#cb8-35"></a></span>
-<span id="cb8-36"><a href="#cb8-36"></a>  fmt.Println(t)</span>
-<span id="cb8-37"><a href="#cb8-37"></a>  <span class="co">// 2019-07-03 20:07:00 +0000 UTC</span></span>
-<span id="cb8-38"><a href="#cb8-38"></a></span>
-<span id="cb8-39"><a href="#cb8-39"></a></span>
-<span id="cb8-40"><a href="#cb8-40"></a></span>
-<span id="cb8-41"><a href="#cb8-41"></a>  <span class="co">// フォーマット定義にタイムゾーンが指定されている場合には、指定されたタイムゾーン通りにパースします</span></span>
-<span id="cb8-42"><a href="#cb8-42"></a>  layout = <span class="st">&quot;Jan 2, 2006 at 3:04pm (MST)&quot;</span></span>
-<span id="cb8-43"><a href="#cb8-43"></a>  value = <span class="st">&quot;Jul 3, 2019 at 8:07pm (PST)&quot;</span></span>
-<span id="cb8-44"><a href="#cb8-44"></a>  t, e = time.ParseInLocation(layout, value, loc)</span>
-<span id="cb8-45"><a href="#cb8-45"></a></span>
-<span id="cb8-46"><a href="#cb8-46"></a>  <span class="kw">if</span> e != <span class="ot">nil</span> {</span>
-<span id="cb8-47"><a href="#cb8-47"></a>    fmt.Println(e)</span>
-<span id="cb8-48"><a href="#cb8-48"></a>  }</span>
-<span id="cb8-49"><a href="#cb8-49"></a></span>
-<span id="cb8-50"><a href="#cb8-50"></a>  fmt.Println(t)</span>
-<span id="cb8-51"><a href="#cb8-51"></a>  <span class="co">// 2019-07-03 20:07:00 +0000 PST</span></span>
-<span id="cb8-52"><a href="#cb8-52"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;time&quot;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  loc<span class="op">,</span> _ <span class="op">:=</span> time<span class="op">.</span>LoadLocation<span class="op">(</span><span class="st">&quot;Asia/Tokyo&quot;</span><span class="op">)</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// time.ParseInLocation は、フォーマット定義でタイムゾーンが指定されていない場合</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// loc で指定されたタイムゾーンとしてパースします </span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  layout <span class="op">:=</span> <span class="st">&quot;Jan 2, 2006 at 3:04pm&quot;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  value <span class="op">:=</span> <span class="st">&quot;Jul 3, 2019 at 8:07pm&quot;</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  t<span class="op">,</span> e <span class="op">:=</span> time<span class="op">.</span>ParseInLocation<span class="op">(</span>layout<span class="op">,</span> value<span class="op">,</span> loc<span class="op">)</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> e <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>e<span class="op">)</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 上記の場合、 loc が日本なので、 JST とみなします</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  fmt<span class="op">.</span>Println<span class="op">(</span>t<span class="op">)</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 2019-07-03 20:07:00 +0900 JST</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">// time.Pasere の場合は UTC とみなします</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  layout <span class="op">=</span> <span class="st">&quot;Jan 2, 2006 at 3:04pm&quot;</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  value <span class="op">=</span> <span class="st">&quot;Jul 3, 2019 at 8:07pm&quot;</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  t<span class="op">,</span> e <span class="op">=</span> time<span class="op">.</span>Parse<span class="op">(</span>layout<span class="op">,</span> value<span class="op">)</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> e <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>e<span class="op">)</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  fmt<span class="op">.</span>Println<span class="op">(</span>t<span class="op">)</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 2019-07-03 20:07:00 +0000 UTC</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  <span class="co">// フォーマット定義にタイムゾーンが指定されている場合には、指定されたタイムゾーン通りにパースします</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  layout <span class="op">=</span> <span class="st">&quot;Jan 2, 2006 at 3:04pm (MST)&quot;</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  value <span class="op">=</span> <span class="st">&quot;Jul 3, 2019 at 8:07pm (PST)&quot;</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  t<span class="op">,</span> e <span class="op">=</span> time<span class="op">.</span>ParseInLocation<span class="op">(</span>layout<span class="op">,</span> value<span class="op">,</span> loc<span class="op">)</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> e <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span>e<span class="op">)</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>  fmt<span class="op">.</span>Println<span class="op">(</span>t<span class="op">)</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 2019-07-03 20:07:00 +0000 PST</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>https://play.golang.org/p/ltbXZvzGWTN</p>
 </article>
 <footer>

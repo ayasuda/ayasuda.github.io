@@ -15,19 +15,19 @@
   <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -47,7 +47,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -108,7 +108,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   </header>
   <nav id="TOC">
   <ul>
-  <li><a href="#日目-crossed-wires">3 日目: Crossed Wires</a><ul>
+  <li><a href="#日目-crossed-wires">3 日目: Crossed Wires</a>
+  <ul>
   <li><a href="#問目-パネルを開けたらそこはワイヤーの天国でした">1 問目: パネルを開けたら、そこは、ワイヤーの天国でした。</a></li>
   <li><a href="#問目-アラートの原因はなんだったのか">2 問目: アラートの原因はなんだったのか。</a></li>
   </ul></li>
@@ -127,59 +128,59 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>R75,D30,R83,U83,L12,D49,R71,U7,L72
 U62,R66,U55,R34,D71,R55,D58,R83</code></pre>
 <p>移動用の数字をパースするプログラムを書いて行こう。 まずはいつも通り、標準入力から定義を読み込む部分を作る。</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">def</span> cordinates(directions)</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  directions</span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">end</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="kw">while</span> l = gets</span>
-<span id="cb3-8"><a href="#cb3-8"></a>  directions = l.strip.split(<span class="st">&quot;,&quot;</span>)</span>
-<span id="cb3-9"><a href="#cb3-9"></a>  p cordinates(directions)</span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">def</span> cordinates(directions)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  directions</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> l <span class="kw">=</span> <span class="fu">gets</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  directions <span class="kw">=</span> l<span class="at">.strip.split</span>(<span class="st">&quot;,&quot;</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">p</span> cordinates(directions)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
 <p>次に、<code>cordinates</code> メソッドを実装していく。 こいつは入力を基に、ワイヤーが通過する座標を列挙した配列を返すメソッドにする予定だ。</p>
 <p>まずは、方向指示をパースしよう。こんな風にできる。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb4-1"><a href="#cb4-1"></a>direction, magnitude = d[<span class="dv">0</span>], d[<span class="dv">1</span>,d.length()-<span class="dv">1</span>].to_i</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>direction, magnitude <span class="kw">=</span> d<span class="kw">[</span><span class="dv">0</span><span class="kw">]</span>, d<span class="kw">[</span><span class="dv">1</span>,d<span class="at">.length</span>()<span class="kw">-</span><span class="dv">1</span><span class="kw">]</span><span class="at">.to_i</span></span></code></pre></div>
 <p>後は、方向を考慮して、ただひたすら、座標を記録していくだけだ。 実装はこんな感じになる。</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">def</span> cordinates(directions)</span>
-<span id="cb5-4"><a href="#cb5-4"></a>  cordinates = []</span>
-<span id="cb5-5"><a href="#cb5-5"></a>  current = [<span class="dv">0</span>, <span class="dv">0</span>]</span>
-<span id="cb5-6"><a href="#cb5-6"></a>  directions.each <span class="kw">do</span> |d|</span>
-<span id="cb5-7"><a href="#cb5-7"></a>    direction, magnitude = d[<span class="dv">0</span>], d[<span class="dv">1</span>,d.length()-<span class="dv">1</span>].to_i</span>
-<span id="cb5-8"><a href="#cb5-8"></a>    <span class="kw">case</span> direction</span>
-<span id="cb5-9"><a href="#cb5-9"></a>    <span class="kw">when</span> <span class="st">&quot;U&quot;</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>      magnitude.times <span class="kw">do</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a>        current[<span class="dv">1</span>] += <span class="dv">1</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a>        cordinates &lt;&lt; current.dup</span>
-<span id="cb5-13"><a href="#cb5-13"></a>      <span class="kw">end</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a>    <span class="kw">when</span> <span class="st">&quot;R&quot;</span></span>
-<span id="cb5-15"><a href="#cb5-15"></a>      magnitude.times <span class="kw">do</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a>        current[<span class="dv">0</span>] += <span class="dv">1</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a>        cordinates &lt;&lt; current.dup</span>
-<span id="cb5-18"><a href="#cb5-18"></a>      <span class="kw">end</span></span>
-<span id="cb5-19"><a href="#cb5-19"></a>    <span class="kw">when</span> <span class="st">&quot;D&quot;</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a>      magnitude.times <span class="kw">do</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a>        current[<span class="dv">1</span>] -= <span class="dv">1</span></span>
-<span id="cb5-22"><a href="#cb5-22"></a>        cordinates &lt;&lt; current.dup</span>
-<span id="cb5-23"><a href="#cb5-23"></a>      <span class="kw">end</span></span>
-<span id="cb5-24"><a href="#cb5-24"></a>    <span class="kw">when</span> <span class="st">&quot;L&quot;</span></span>
-<span id="cb5-25"><a href="#cb5-25"></a>      magnitude.times <span class="kw">do</span></span>
-<span id="cb5-26"><a href="#cb5-26"></a>        current[<span class="dv">0</span>] -= <span class="dv">1</span></span>
-<span id="cb5-27"><a href="#cb5-27"></a>        cordinates &lt;&lt; current.dup</span>
-<span id="cb5-28"><a href="#cb5-28"></a>      <span class="kw">end</span></span>
-<span id="cb5-29"><a href="#cb5-29"></a>    <span class="kw">else</span></span>
-<span id="cb5-30"><a href="#cb5-30"></a>      <span class="dt">STDERR</span>.puts = <span class="st">&quot;UNKNOWN DIRECTION :&quot;</span> + d</span>
-<span id="cb5-31"><a href="#cb5-31"></a>    <span class="kw">end</span></span>
-<span id="cb5-32"><a href="#cb5-32"></a>  <span class="kw">end</span></span>
-<span id="cb5-33"><a href="#cb5-33"></a>  cordinates</span>
-<span id="cb5-34"><a href="#cb5-34"></a><span class="kw">end</span></span>
-<span id="cb5-35"><a href="#cb5-35"></a></span>
-<span id="cb5-36"><a href="#cb5-36"></a><span class="kw">while</span> l = gets</span>
-<span id="cb5-37"><a href="#cb5-37"></a>  directions = l.strip.split(<span class="st">&quot;,&quot;</span>)</span>
-<span id="cb5-38"><a href="#cb5-38"></a>  p cordinates(directions)</span>
-<span id="cb5-39"><a href="#cb5-39"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">def</span> cordinates(directions)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  cordinates <span class="kw">=</span> <span class="kw">[]</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  current <span class="kw">=</span> <span class="kw">[</span><span class="dv">0</span>, <span class="dv">0</span><span class="kw">]</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  directions<span class="at">.each</span> <span class="cf">do</span> <span class="kw">|</span>d<span class="kw">|</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    direction, magnitude <span class="kw">=</span> d<span class="kw">[</span><span class="dv">0</span><span class="kw">]</span>, d<span class="kw">[</span><span class="dv">1</span>,d<span class="at">.length</span>()<span class="kw">-</span><span class="dv">1</span><span class="kw">]</span><span class="at">.to_i</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> direction</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="st">&quot;U&quot;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      magnitude<span class="at">.times</span> <span class="cf">do</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        current<span class="kw">[</span><span class="dv">1</span><span class="kw">]</span> <span class="kw">+=</span> <span class="dv">1</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        cordinates <span class="kw">&lt;&lt;</span> current<span class="at">.dup</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="cf">end</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="st">&quot;R&quot;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      magnitude<span class="at">.times</span> <span class="cf">do</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        current<span class="kw">[</span><span class="dv">0</span><span class="kw">]</span> <span class="kw">+=</span> <span class="dv">1</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        cordinates <span class="kw">&lt;&lt;</span> current<span class="at">.dup</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      <span class="cf">end</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="st">&quot;D&quot;</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>      magnitude<span class="at">.times</span> <span class="cf">do</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        current<span class="kw">[</span><span class="dv">1</span><span class="kw">]</span> <span class="kw">-=</span> <span class="dv">1</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        cordinates <span class="kw">&lt;&lt;</span> current<span class="at">.dup</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>      <span class="cf">end</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="st">&quot;L&quot;</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>      magnitude<span class="at">.times</span> <span class="cf">do</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        current<span class="kw">[</span><span class="dv">0</span><span class="kw">]</span> <span class="kw">-=</span> <span class="dv">1</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        cordinates <span class="kw">&lt;&lt;</span> current<span class="at">.dup</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>      <span class="cf">end</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>      <span class="cn">STDERR</span><span class="at">.puts</span> <span class="kw">=</span> <span class="st">&quot;UNKNOWN DIRECTION :&quot;</span> <span class="kw">+</span> d</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  cordinates</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> l <span class="kw">=</span> <span class="fu">gets</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  directions <span class="kw">=</span> l<span class="at">.strip.split</span>(<span class="st">&quot;,&quot;</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">p</span> cordinates(directions)</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
 <p>動かしてみると、まぁいい感じになっている。</p>
 <pre class="console"><code>% cat test1.tsv| ./ans1.rb
 [[1, 0], [2, 0], ...(中略)..., [74, 0], [75, 0], [75, -1] ...(後略)</code></pre>
@@ -204,11 +205,11 @@ p cross.map{|c| c[0].abs + c[1].abs }.min</code></pre>
 <h2 id="問目-アラートの原因はなんだったのか">2 問目: アラートの原因はなんだったのか。</h2>
 <p>さて、次は交差地点へのステップ数を求めなきゃいけないらしい。</p>
 <p>ここまで出来てればほとんど出来上がったようなもんです。</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb9-1"><a href="#cb9-1"></a>crosses = paths[<span class="dv">0</span>] &amp; paths[<span class="dv">1</span>]</span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a>steps = corsses.map{|c| paths[<span class="dv">0</span>].index(c) + paths[<span class="dv">1</span>].index(c) + <span class="dv">2</span> }</span>
-<span id="cb9-4"><a href="#cb9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5"></a>p steps.min</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>crosses <span class="kw">=</span> paths<span class="kw">[</span><span class="dv">0</span><span class="kw">]</span> <span class="kw">&amp;</span> paths<span class="kw">[</span><span class="dv">1</span><span class="kw">]</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>steps <span class="kw">=</span> corsses<span class="at">.map</span><span class="kw">{|</span>c<span class="kw">|</span> paths<span class="kw">[</span><span class="dv">0</span><span class="kw">]</span><span class="at">.index</span>(c) <span class="kw">+</span> paths<span class="kw">[</span><span class="dv">1</span><span class="kw">]</span><span class="at">.index</span>(c) <span class="kw">+</span> <span class="dv">2</span> <span class="kw">}</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">p</span> steps<span class="at">.min</span></span></code></pre></div>
 <p>こいつも動きを試してみると・・・</p>
 <pre class="console"><code>% cat test1.tsv| ./ans1.rb
 610</code></pre>

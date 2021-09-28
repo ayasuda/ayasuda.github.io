@@ -15,19 +15,19 @@
   <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -47,7 +47,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -107,7 +107,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   </header>
   <nav id="TOC">
   <ul>
-  <li><a href="#簡単な-ruby-のスクリプトでもライブラリのバージョン管理をしたい">簡単な ruby のスクリプトでも、ライブラリのバージョン管理をしたい！</a><ul>
+  <li><a href="#簡単な-ruby-のスクリプトでもライブラリのバージョン管理をしたい">簡単な ruby のスクリプトでも、ライブラリのバージョン管理をしたい！</a>
+  <ul>
   <li><a href="#使いみち">使いみち</a></li>
   </ul></li>
   </ul>
@@ -117,18 +118,18 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>そんなわけで、 Bundler にはインラインで依存ライブラリを指定する記法が用意されています。</p>
 <p>https://github.com/bundler/bundler-features/issues/47</p>
 <p>この issue を読むと、誕生背景やサンプルコード、実装内容に制限事項が網羅されているので解説など不要な気がしますが、 将来の自分のために日本語でまとめておきましょう。 なお、詳しい情報は <a href="https://github.com/bundler/bundler/blob/master/lib/bundler/inline.rb">APIドキュメント</a> に載っていますので、 使いたい方はそちらをご参照ください。</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode rb"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">#!/usr/bin/env ruby</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>require <span class="st">&#39;bundler/inline&#39;</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>gemfile <span class="kw">do</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>  source <span class="st">&#39;https://rubygems.org&#39;</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>  gem <span class="st">&#39;to_gunma&#39;</span>, <span class="st">&#39;0,0.2&#39;</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">end</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a>array = [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]</span>
-<span id="cb1-11"><a href="#cb1-11"></a>array.to_gunma!</span>
-<span id="cb1-12"><a href="#cb1-12"></a>puts array.to_s</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode rb"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">#!/usr/bin/env ruby</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span> <span class="vs">&#39;bundler/inline&#39;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>gemfile <span class="cf">do</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  source <span class="vs">&#39;https://rubygems.org&#39;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  gem <span class="vs">&#39;to_gunma&#39;</span>, <span class="vs">&#39;0,0.2&#39;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>array <span class="kw">=</span> <span class="kw">[</span><span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span><span class="kw">]</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>array<span class="at">.to_gunma!</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">puts</span> array<span class="at">.to_s</span></span></code></pre></div>
 <p>上記に示すサンプルコードのように、 <code>require 'bundler/inline'</code> することで インラインで Gemfile を宣言する <code>gemfile</code> メソッドを使えるようになります。</p>
 <p>このファイルを実行する環境で gem がインストール済みであれば、 <code>gemfile</code> メソッドのブロック内で定義した ライブラリを自動的に require までしてくれます。</p>
 <p>また、第一引数に <code>true</code> を設定することで、未インストールの時に自動的にインストールまでしてくれます。</p>

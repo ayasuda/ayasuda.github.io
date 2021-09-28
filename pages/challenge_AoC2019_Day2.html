@@ -15,19 +15,19 @@
   <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -47,7 +47,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -108,7 +108,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   </header>
   <nav id="TOC">
   <ul>
-  <li><a href="#日目-1202-program-alarm">2 日目: 1202 Program Alarm</a><ul>
+  <li><a href="#日目-1202-program-alarm">2 日目: 1202 Program Alarm</a>
+  <ul>
   <li><a href="#問目-コンピュータを作ろう">1 問目: コンピュータを作ろう！</a></li>
   <li><a href="#問目-アラートの原因はなんだったのか">2 問目: アラートの原因はなんだったのか。</a></li>
   </ul></li>
@@ -133,24 +134,24 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>1,9,10,70,2,3,11,0,99,30,40,50</code></pre>
 <p>・・・という風にプログラムを処理するコンピュータ自体を、これから作っていくわけです。</p>
 <p>幸いにもテスト用のプログラムと動かすとどのようになるかが問題文中に含まれているので、 まずはテスト用のファイルを用意して、昨日と同じようにこれらをただ出力するプログラムを書いて見ます。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode test.txt"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1"></a>1,0,0,0,99</span>
-<span id="cb4-2"><a href="#cb4-2"></a>2,3,0,3,99</span>
-<span id="cb4-3"><a href="#cb4-3"></a>2,4,4,5,99,0</span>
-<span id="cb4-4"><a href="#cb4-4"></a>1,1,1,4,99,5,6,0,99</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode ruby:ans1.rb"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">def</span> run(program)</span>
-<span id="cb5-4"><a href="#cb5-4"></a>  <span class="kw">return</span> program</span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="kw">end</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a></span>
-<span id="cb5-7"><a href="#cb5-7"></a>program = <span class="st">&quot;&quot;</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="kw">while</span> l = gets</span>
-<span id="cb5-10"><a href="#cb5-10"></a>  program = l.strip.split(<span class="st">&quot;,&quot;</span>).map(&amp;<span class="st">:to_i</span>)</span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="kw">end</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a></span>
-<span id="cb5-13"><a href="#cb5-13"></a>result = run(program)</span>
-<span id="cb5-14"><a href="#cb5-14"></a>p result.join(<span class="st">&quot;,&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode test.txt"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>1,0,0,0,99</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>2,3,0,3,99</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>2,4,4,5,99,0</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>1,1,1,4,99,5,6,0,99</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode ruby:ans1.rb"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">def</span> run(program)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> program</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>program <span class="kw">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> l <span class="kw">=</span> <span class="fu">gets</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  program <span class="kw">=</span> l<span class="at">.strip.split</span>(<span class="st">&quot;,&quot;</span>)<span class="at">.map</span>(<span class="kw">&amp;</span><span class="wa">:to_i</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>result <span class="kw">=</span> run(program)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">p</span> result<span class="at">.join</span>(<span class="st">&quot;,&quot;</span>)</span></code></pre></div>
 <p>ちょっとただ出力するだけと見せかけて、 <code>strip</code> で改行文字を外して、<code>split</code> で配列化して <code>map(&amp;:to_i)</code> で全て Integer にしています。</p>
 <p>実行してみると以下の通り。</p>
 <pre class="console"><code>cat test.txt | ./ans1.rb
@@ -161,79 +162,79 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>続いて、プログラムの実行部分である、 <code>run</code> メソッドの内容を書いていきましょう。</p>
 <p>一見すると、すごく難しそうに見えますが、少しずつ実装していけば思った以上に簡単に作れます。</p>
 <p>今回は数値の列を順番に処理していくわけですから、ループで処理することはすぐに思いつくと思います。 ruby なので <code>program.each{|i| ... }</code> としたくなりますが、今回の「プログラム」はプログラム自身を書き換えていくので、 まずは無限ループを作って、配列の要素を一つずつみることにします。</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode ruby:ans1.rb"><code class="sourceCode ruby"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">def</span> run(program)</span>
-<span id="cb7-2"><a href="#cb7-2"></a>  pos = <span class="dv">0</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a>  <span class="kw">while</span> <span class="dv">1</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>    <span class="co"># program[pos] をごにょごにょする。</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>  <span class="kw">end</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode ruby:ans1.rb"><code class="sourceCode ruby"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">def</span> run(program)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  pos <span class="kw">=</span> <span class="dv">0</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> <span class="dv">1</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># program[pos] をごにょごにょする。</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
 <p>次に制御コードによる分岐を作って行きます。 「プログラム」、つまり配列の要素の最初は制御コードになっているはずです。 というわけで、 <code>case</code> 文で分岐を書きましょう。ひとまず <code>99</code> のプログラム終了と、定義外の制御コードによるエラーを実装します。</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode ruby:ans1.rb"><code class="sourceCode ruby"><span id="cb8-1"><a href="#cb8-1"></a><span class="dt">OP_ADD</span> = <span class="dv">1</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="dt">OP_MULTI</span> = <span class="dv">2</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="dt">OP_HALT</span> = <span class="dv">99</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="kw">def</span> run(program)</span>
-<span id="cb8-6"><a href="#cb8-6"></a>  pos = <span class="dv">0</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a>  <span class="kw">while</span> <span class="dv">1</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a>    <span class="kw">case</span> program[pos]</span>
-<span id="cb8-9"><a href="#cb8-9"></a>    <span class="kw">when</span> <span class="dt">OP_HALT</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a>      <span class="kw">return</span> program</span>
-<span id="cb8-11"><a href="#cb8-11"></a>    <span class="kw">when</span> <span class="dt">OP_ADD</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a>      <span class="co"># 加算処理書く</span></span>
-<span id="cb8-13"><a href="#cb8-13"></a>    <span class="kw">when</span> <span class="dt">OP_MULTI</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a>      <span class="co"># 乗算処理書く</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a>    <span class="kw">else</span></span>
-<span id="cb8-16"><a href="#cb8-16"></a>      <span class="co"># 謎の制御コードはエラーにする</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a>      <span class="dt">STDERR</span>.puts <span class="st">&quot;UNKWOWN OPERATION&quot;</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a>      exit <span class="dv">-1</span></span>
-<span id="cb8-19"><a href="#cb8-19"></a>    <span class="kw">end</span></span>
-<span id="cb8-20"><a href="#cb8-20"></a>  <span class="kw">end</span></span>
-<span id="cb8-21"><a href="#cb8-21"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode ruby:ans1.rb"><code class="sourceCode ruby"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cn">OP_ADD</span> <span class="kw">=</span> <span class="dv">1</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cn">OP_MULTI</span> <span class="kw">=</span> <span class="dv">2</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cn">OP_HALT</span> <span class="kw">=</span> <span class="dv">99</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">def</span> run(program)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  pos <span class="kw">=</span> <span class="dv">0</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> <span class="dv">1</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> program<span class="kw">[</span>pos<span class="kw">]</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="cn">OP_HALT</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> program</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="cn">OP_ADD</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="co"># 加算処理書く</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="cn">OP_MULTI</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="co"># 乗算処理書く</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="co"># 謎の制御コードはエラーにする</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      <span class="cn">STDERR</span><span class="at">.puts</span> <span class="st">&quot;UNKWOWN OPERATION&quot;</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exit</span> <span class="kw">-</span><span class="dv">1</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
 <p>続いて加算を書いて行きましょう。 まず、制御コードの次の数字、２番目の数字、３番目の数字をそれぞれ取り出しましょう。</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb9-1"><a href="#cb9-1"></a>i, j, o = program[pos+<span class="dv">1</span>], program[pos+<span class="dv">2</span>], program[pos+<span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>i, j, o <span class="kw">=</span> program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">1</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">2</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">3</span><span class="kw">]</span></span></code></pre></div>
 <p>後は、 <code>i</code>, <code>j</code> がさ示す数を足して、結果を <code>o</code> が指し示す場所に保存するだけです。 ・・・というわけでこんなコードになります。</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb10-1"><a href="#cb10-1"></a>program[o] = program[i] + program[j]</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>program<span class="kw">[</span>o<span class="kw">]</span> <span class="kw">=</span> program<span class="kw">[</span>i<span class="kw">]</span> <span class="kw">+</span> program<span class="kw">[</span>j<span class="kw">]</span></span></code></pre></div>
 <p>最後に、<code>pos</code> を「制御コード、次の数字、２番目の数字、３番目の数字」の次、つまり 4 つ進めれば加算部分は完成です。</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">when</span> <span class="dt">OP_ADD</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>  i, j, o = program[pos+<span class="dv">1</span>], program[pos+<span class="dv">2</span>], program[pos+<span class="dv">3</span>]</span>
-<span id="cb11-3"><a href="#cb11-3"></a>  program[o] = program[i] + program[j]</span>
-<span id="cb11-4"><a href="#cb11-4"></a>  pos = pos + <span class="dv">4</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">when</span> <span class="cn">OP_ADD</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  i, j, o <span class="kw">=</span> program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">1</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">2</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">3</span><span class="kw">]</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  program<span class="kw">[</span>o<span class="kw">]</span> <span class="kw">=</span> program<span class="kw">[</span>i<span class="kw">]</span> <span class="kw">+</span> program<span class="kw">[</span>j<span class="kw">]</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  pos <span class="kw">=</span> pos <span class="kw">+</span> <span class="dv">4</span></span></code></pre></div>
 <p>乗算もおんなじ感じに実装すると、全体像はこんな感じです。</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="dt">OP_ADD</span> = <span class="dv">1</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="dt">OP_MULTI</span> = <span class="dv">2</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="dt">OP_HALT</span> = <span class="dv">99</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="kw">def</span> run(program)</span>
-<span id="cb12-8"><a href="#cb12-8"></a>  pos = <span class="dv">0</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a>  <span class="kw">while</span> <span class="dv">1</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a>    <span class="kw">case</span> program[pos]</span>
-<span id="cb12-11"><a href="#cb12-11"></a>    <span class="kw">when</span> <span class="dt">OP_HALT</span></span>
-<span id="cb12-12"><a href="#cb12-12"></a>      <span class="kw">return</span> program</span>
-<span id="cb12-13"><a href="#cb12-13"></a>    <span class="kw">when</span> <span class="dt">OP_ADD</span></span>
-<span id="cb12-14"><a href="#cb12-14"></a>      i, j, o = program[pos+<span class="dv">1</span>], program[pos+<span class="dv">2</span>], program[pos+<span class="dv">3</span>]</span>
-<span id="cb12-15"><a href="#cb12-15"></a>      program[o] = program[i] + program[j]</span>
-<span id="cb12-16"><a href="#cb12-16"></a>      pos = pos + <span class="dv">4</span></span>
-<span id="cb12-17"><a href="#cb12-17"></a>    <span class="kw">when</span> <span class="dt">OP_MULTI</span></span>
-<span id="cb12-18"><a href="#cb12-18"></a>      i, j, o = program[pos+<span class="dv">1</span>], program[pos+<span class="dv">2</span>], program[pos+<span class="dv">3</span>]</span>
-<span id="cb12-19"><a href="#cb12-19"></a>      program[o] = program[i] * program[j]</span>
-<span id="cb12-20"><a href="#cb12-20"></a>      pos = pos + <span class="dv">4</span></span>
-<span id="cb12-21"><a href="#cb12-21"></a>    <span class="kw">else</span></span>
-<span id="cb12-22"><a href="#cb12-22"></a>      <span class="dt">STDERR</span>.puts <span class="st">&quot;UNKWOWN OPERATION&quot;</span></span>
-<span id="cb12-23"><a href="#cb12-23"></a>      exit <span class="dv">-1</span></span>
-<span id="cb12-24"><a href="#cb12-24"></a>    <span class="kw">end</span></span>
-<span id="cb12-25"><a href="#cb12-25"></a>  <span class="kw">end</span></span>
-<span id="cb12-26"><a href="#cb12-26"></a><span class="kw">end</span></span>
-<span id="cb12-27"><a href="#cb12-27"></a></span>
-<span id="cb12-28"><a href="#cb12-28"></a>program = <span class="st">&quot;&quot;</span></span>
-<span id="cb12-29"><a href="#cb12-29"></a></span>
-<span id="cb12-30"><a href="#cb12-30"></a><span class="kw">while</span> l = gets</span>
-<span id="cb12-31"><a href="#cb12-31"></a>  program = l.strip.split(<span class="st">&quot;,&quot;</span>).map(&amp;<span class="st">:to_i</span>)</span>
-<span id="cb12-32"><a href="#cb12-32"></a><span class="kw">end</span></span>
-<span id="cb12-33"><a href="#cb12-33"></a></span>
-<span id="cb12-34"><a href="#cb12-34"></a>result = run(program)</span>
-<span id="cb12-35"><a href="#cb12-35"></a>p result.join(<span class="st">&quot;,&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cn">OP_ADD</span> <span class="kw">=</span> <span class="dv">1</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cn">OP_MULTI</span> <span class="kw">=</span> <span class="dv">2</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="cn">OP_HALT</span> <span class="kw">=</span> <span class="dv">99</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="cf">def</span> run(program)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  pos <span class="kw">=</span> <span class="dv">0</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> <span class="dv">1</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> program<span class="kw">[</span>pos<span class="kw">]</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="cn">OP_HALT</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> program</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="cn">OP_ADD</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>      i, j, o <span class="kw">=</span> program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">1</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">2</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">3</span><span class="kw">]</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      program<span class="kw">[</span>o<span class="kw">]</span> <span class="kw">=</span> program<span class="kw">[</span>i<span class="kw">]</span> <span class="kw">+</span> program<span class="kw">[</span>j<span class="kw">]</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>      pos <span class="kw">=</span> pos <span class="kw">+</span> <span class="dv">4</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="cn">OP_MULTI</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>      i, j, o <span class="kw">=</span> program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">1</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">2</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">3</span><span class="kw">]</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>      program<span class="kw">[</span>o<span class="kw">]</span> <span class="kw">=</span> program<span class="kw">[</span>i<span class="kw">]</span> <span class="kw">*</span> program<span class="kw">[</span>j<span class="kw">]</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>      pos <span class="kw">=</span> pos <span class="kw">+</span> <span class="dv">4</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>      <span class="cn">STDERR</span><span class="at">.puts</span> <span class="st">&quot;UNKWOWN OPERATION&quot;</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exit</span> <span class="kw">-</span><span class="dv">1</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>program <span class="kw">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> l <span class="kw">=</span> <span class="fu">gets</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  program <span class="kw">=</span> l<span class="at">.strip.split</span>(<span class="st">&quot;,&quot;</span>)<span class="at">.map</span>(<span class="kw">&amp;</span><span class="wa">:to_i</span>)</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>result <span class="kw">=</span> run(program)</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="fu">p</span> result<span class="at">.join</span>(<span class="st">&quot;,&quot;</span>)</span></code></pre></div>
 <p>ね！　簡単でしょ！</p>
 <p>こいつを動かして見て、テストプログラムが動くか確認しましょう。</p>
 <pre><code>cat test.txt | ./ans1.rb
@@ -249,87 +250,87 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>そして、出力が 19690720 となる入力の組み合わせを見つけることで、宇宙船のアラートが止められるとのことです。</p>
 <p>そんなわけで、プログラムを修正して行きましょう。</p>
 <p>まず、入力のペアを走査するプログラムを作ります。</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb14-1"><a href="#cb14-1"></a>(<span class="dv">0</span>..<span class="dv">99</span>).each <span class="kw">do</span> |n|</span>
-<span id="cb14-2"><a href="#cb14-2"></a>  (<span class="dv">0</span>..<span class="dv">99</span>).each <span class="kw">do</span> |v|</span>
-<span id="cb14-3"><a href="#cb14-3"></a>  <span class="kw">end</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">0</span><span class="kw">..</span><span class="dv">99</span>)<span class="at">.each</span> <span class="cf">do</span> <span class="kw">|</span>n<span class="kw">|</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">0</span><span class="kw">..</span><span class="dv">99</span>)<span class="at">.each</span> <span class="cf">do</span> <span class="kw">|</span>v<span class="kw">|</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
 <p>そして、 <code>run</code> メソッドを <code>n</code>, <code>v</code> を取れるように改造します。 また、第一引数の <code>program</code> の渡し方を修正します。この「プログラム」は実行中に各種数値がどんどん変わっていくので、 そのまま渡さず <code>Array.dup</code> を使いコピーを渡すことにします。 最後に、 <code>run</code> メソッドの返り値を「プログラム」の出力に変更します。</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode diff"><code class="sourceCode diff"><span id="cb15-1"><a href="#cb15-1"></a><span class="st">- def run(program)</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="va">+ def run(program, n, v)</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>   pos = 0</span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="va">+  program[1] = n</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="va">+  program[2] = v</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a>   while 1</span>
-<span id="cb15-7"><a href="#cb15-7"></a>     case program[pos]</span>
-<span id="cb15-8"><a href="#cb15-8"></a>     when OP_HALT</span>
-<span id="cb15-9"><a href="#cb15-9"></a><span class="st">-      return program</span></span>
-<span id="cb15-10"><a href="#cb15-10"></a><span class="va">+      return program[0]</span></span>
-<span id="cb15-11"><a href="#cb15-11"></a>     when OP_ADD</span>
-<span id="cb15-12"><a href="#cb15-12"></a>       i, j, o = program[pos+1], program[pos+2], program[pos+3]</span>
-<span id="cb15-13"><a href="#cb15-13"></a>       program[o] = program[i] + program[j]</span>
-<span id="cb15-14"><a href="#cb15-14"></a>       pos = pos + 4</span>
-<span id="cb15-15"><a href="#cb15-15"></a>     when OP_MULTI</span>
-<span id="cb15-16"><a href="#cb15-16"></a>       i, j, o = program[pos+1], program[pos+2], program[pos+3]</span>
-<span id="cb15-17"><a href="#cb15-17"></a>       program[o] = program[i] * program[j]</span>
-<span id="cb15-18"><a href="#cb15-18"></a>       pos = pos + 4</span>
-<span id="cb15-19"><a href="#cb15-19"></a>     else</span>
-<span id="cb15-20"><a href="#cb15-20"></a>       STDERR.puts &quot;UNKWOWN OPERATION&quot;</span>
-<span id="cb15-21"><a href="#cb15-21"></a>       exit -1</span>
-<span id="cb15-22"><a href="#cb15-22"></a>     end</span>
-<span id="cb15-23"><a href="#cb15-23"></a>   end</span>
-<span id="cb15-24"><a href="#cb15-24"></a> end</span>
-<span id="cb15-25"><a href="#cb15-25"></a></span>
-<span id="cb15-26"><a href="#cb15-26"></a> (0..99).each do |n|</span>
-<span id="cb15-27"><a href="#cb15-27"></a>   (0..99).each do |v|</span>
-<span id="cb15-28"><a href="#cb15-28"></a><span class="va">+    result = run(program.dup, n, v)</span></span>
-<span id="cb15-29"><a href="#cb15-29"></a>   end</span>
-<span id="cb15-30"><a href="#cb15-30"></a> end</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode diff"><code class="sourceCode diff"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="st">- def run(program)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="va">+ def run(program, n, v)</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>   pos = 0</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="va">+  program[1] = n</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="va">+  program[2] = v</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>   while 1</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>     case program[pos]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>     when OP_HALT</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="st">-      return program</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="va">+      return program[0]</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>     when OP_ADD</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>       i, j, o = program[pos+1], program[pos+2], program[pos+3]</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>       program[o] = program[i] + program[j]</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>       pos = pos + 4</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>     when OP_MULTI</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>       i, j, o = program[pos+1], program[pos+2], program[pos+3]</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>       program[o] = program[i] * program[j]</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>       pos = pos + 4</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>     else</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>       STDERR.puts &quot;UNKWOWN OPERATION&quot;</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>       exit -1</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>     end</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>   end</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a> end</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a> (0..99).each do |n|</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>   (0..99).each do |v|</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="va">+    result = run(program.dup, n, v)</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>   end</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a> end</span></code></pre></div>
 <p>最後に、ターゲットとなる <code>19690720</code> と「プログラム」の出力が一致する <code>n, v</code> の組み合わせを見つけておしまいです！</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb16-1"><a href="#cb16-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a></span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="dt">OP_ADD</span> = <span class="dv">1</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="dt">OP_MULTI</span> = <span class="dv">2</span></span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="dt">OP_HALT</span> = <span class="dv">99</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="kw">def</span> run(program, n, v)</span>
-<span id="cb16-8"><a href="#cb16-8"></a>  pos = <span class="dv">0</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a>  program[<span class="dv">1</span>] = n</span>
-<span id="cb16-10"><a href="#cb16-10"></a>  program[<span class="dv">2</span>] = v</span>
-<span id="cb16-11"><a href="#cb16-11"></a>  <span class="kw">while</span> <span class="dv">1</span></span>
-<span id="cb16-12"><a href="#cb16-12"></a>    <span class="kw">case</span> program[pos]</span>
-<span id="cb16-13"><a href="#cb16-13"></a>    <span class="kw">when</span> <span class="dt">OP_HALT</span></span>
-<span id="cb16-14"><a href="#cb16-14"></a>      <span class="kw">return</span> program[<span class="dv">0</span>]</span>
-<span id="cb16-15"><a href="#cb16-15"></a>    <span class="kw">when</span> <span class="dt">OP_ADD</span></span>
-<span id="cb16-16"><a href="#cb16-16"></a>      i, j, o = program[pos+<span class="dv">1</span>], program[pos+<span class="dv">2</span>], program[pos+<span class="dv">3</span>]</span>
-<span id="cb16-17"><a href="#cb16-17"></a>      program[o] = program[i] + program[j]</span>
-<span id="cb16-18"><a href="#cb16-18"></a>      pos = pos + <span class="dv">4</span></span>
-<span id="cb16-19"><a href="#cb16-19"></a>    <span class="kw">when</span> <span class="dt">OP_MULTI</span></span>
-<span id="cb16-20"><a href="#cb16-20"></a>      i, j, o = program[pos+<span class="dv">1</span>], program[pos+<span class="dv">2</span>], program[pos+<span class="dv">3</span>]</span>
-<span id="cb16-21"><a href="#cb16-21"></a>      program[o] = program[i] * program[j]</span>
-<span id="cb16-22"><a href="#cb16-22"></a>      pos = pos + <span class="dv">4</span></span>
-<span id="cb16-23"><a href="#cb16-23"></a>    <span class="kw">else</span></span>
-<span id="cb16-24"><a href="#cb16-24"></a>      <span class="dt">STDERR</span>.puts <span class="st">&quot;UNKWOWN OPERATION&quot;</span></span>
-<span id="cb16-25"><a href="#cb16-25"></a>      exit <span class="dv">-1</span></span>
-<span id="cb16-26"><a href="#cb16-26"></a>    <span class="kw">end</span></span>
-<span id="cb16-27"><a href="#cb16-27"></a>  <span class="kw">end</span></span>
-<span id="cb16-28"><a href="#cb16-28"></a><span class="kw">end</span></span>
-<span id="cb16-29"><a href="#cb16-29"></a></span>
-<span id="cb16-30"><a href="#cb16-30"></a><span class="kw">while</span> l = gets</span>
-<span id="cb16-31"><a href="#cb16-31"></a>  program = l.strip.split(<span class="st">&quot;,&quot;</span>).map(&amp;<span class="st">:to_i</span>)</span>
-<span id="cb16-32"><a href="#cb16-32"></a><span class="kw">end</span></span>
-<span id="cb16-33"><a href="#cb16-33"></a></span>
-<span id="cb16-34"><a href="#cb16-34"></a>target = <span class="dv">19690720</span></span>
-<span id="cb16-35"><a href="#cb16-35"></a></span>
-<span id="cb16-36"><a href="#cb16-36"></a>(<span class="dv">0</span>..<span class="dv">99</span>).each <span class="kw">do</span> |n|</span>
-<span id="cb16-37"><a href="#cb16-37"></a>  (<span class="dv">0</span>..<span class="dv">99</span>).each <span class="kw">do</span> |v|</span>
-<span id="cb16-38"><a href="#cb16-38"></a>    result = run(program.dup, n, v)</span>
-<span id="cb16-39"><a href="#cb16-39"></a>    <span class="kw">if</span> result == target</span>
-<span id="cb16-40"><a href="#cb16-40"></a>      puts <span class="dv">100</span> * n + v</span>
-<span id="cb16-41"><a href="#cb16-41"></a>      exit</span>
-<span id="cb16-42"><a href="#cb16-42"></a>    <span class="kw">end</span></span>
-<span id="cb16-43"><a href="#cb16-43"></a>  <span class="kw">end</span></span>
-<span id="cb16-44"><a href="#cb16-44"></a><span class="kw">end</span></span>
-<span id="cb16-45"><a href="#cb16-45"></a><span class="dt">STDERR</span>.puts <span class="st">&quot;NOT FOUND&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cn">OP_ADD</span> <span class="kw">=</span> <span class="dv">1</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cn">OP_MULTI</span> <span class="kw">=</span> <span class="dv">2</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="cn">OP_HALT</span> <span class="kw">=</span> <span class="dv">99</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="cf">def</span> run(program, n, v)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  pos <span class="kw">=</span> <span class="dv">0</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  program<span class="kw">[</span><span class="dv">1</span><span class="kw">]</span> <span class="kw">=</span> n</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  program<span class="kw">[</span><span class="dv">2</span><span class="kw">]</span> <span class="kw">=</span> v</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> <span class="dv">1</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> program<span class="kw">[</span>pos<span class="kw">]</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="cn">OP_HALT</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> program<span class="kw">[</span><span class="dv">0</span><span class="kw">]</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="cn">OP_ADD</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>      i, j, o <span class="kw">=</span> program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">1</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">2</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">3</span><span class="kw">]</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>      program<span class="kw">[</span>o<span class="kw">]</span> <span class="kw">=</span> program<span class="kw">[</span>i<span class="kw">]</span> <span class="kw">+</span> program<span class="kw">[</span>j<span class="kw">]</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>      pos <span class="kw">=</span> pos <span class="kw">+</span> <span class="dv">4</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">when</span> <span class="cn">OP_MULTI</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>      i, j, o <span class="kw">=</span> program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">1</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">2</span><span class="kw">]</span>, program<span class="kw">[</span>pos<span class="kw">+</span><span class="dv">3</span><span class="kw">]</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>      program<span class="kw">[</span>o<span class="kw">]</span> <span class="kw">=</span> program<span class="kw">[</span>i<span class="kw">]</span> <span class="kw">*</span> program<span class="kw">[</span>j<span class="kw">]</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>      pos <span class="kw">=</span> pos <span class="kw">+</span> <span class="dv">4</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>      <span class="cn">STDERR</span><span class="at">.puts</span> <span class="st">&quot;UNKWOWN OPERATION&quot;</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exit</span> <span class="kw">-</span><span class="dv">1</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> l <span class="kw">=</span> <span class="fu">gets</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  program <span class="kw">=</span> l<span class="at">.strip.split</span>(<span class="st">&quot;,&quot;</span>)<span class="at">.map</span>(<span class="kw">&amp;</span><span class="wa">:to_i</span>)</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>target <span class="kw">=</span> <span class="dv">19690720</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>(<span class="dv">0</span><span class="kw">..</span><span class="dv">99</span>)<span class="at">.each</span> <span class="cf">do</span> <span class="kw">|</span>n<span class="kw">|</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">0</span><span class="kw">..</span><span class="dv">99</span>)<span class="at">.each</span> <span class="cf">do</span> <span class="kw">|</span>v<span class="kw">|</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    result <span class="kw">=</span> run(program<span class="at">.dup</span>, n, v)</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> result <span class="kw">==</span> target</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">puts</span> <span class="dv">100</span> <span class="kw">*</span> n <span class="kw">+</span> v</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exit</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a><span class="cn">STDERR</span><span class="at">.puts</span> <span class="st">&quot;NOT FOUND&quot;</span></span></code></pre></div>
 <!-- bursts into flames
 magic somke -->
 </article>

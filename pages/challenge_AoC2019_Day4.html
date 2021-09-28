@@ -15,19 +15,19 @@
   <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -47,7 +47,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -108,7 +108,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   </header>
   <nav id="TOC">
   <ul>
-  <li><a href="#日目-secure-container">4 日目: Secure Container</a><ul>
+  <li><a href="#日目-secure-container">4 日目: Secure Container</a>
+  <ul>
   <li><a href="#問目条件に合う数字はいくつある">1 問目：条件に合う数字はいくつある？</a></li>
   <li><a href="#問目さらに条件に合う数字はいくつある">2 問目：さらに条件に合う数字はいくつある？</a></li>
   </ul></li>
@@ -129,26 +130,26 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>今回、俺に与えられた範囲は 246515-739105。</p>
 <p>そんなわけで、手っ取り早く範囲をループで回してチェックしてみよう。</p>
 <p>中身は後で書くとして、形はこんな感じ。</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>range = <span class="dv">246515</span>..<span class="dv">739105</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>res = []</span>
-<span id="cb1-6"><a href="#cb1-6"></a>range.each <span class="kw">do</span> |n|</span>
-<span id="cb1-7"><a href="#cb1-7"></a>  res &lt;&lt; n</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">end</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a>p res.size</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>range <span class="kw">=</span> <span class="dv">246515</span><span class="kw">..</span><span class="dv">739105</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>res <span class="kw">=</span> <span class="kw">[]</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>range<span class="at">.each</span> <span class="cf">do</span> <span class="kw">|</span>n<span class="kw">|</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  res <span class="kw">&lt;&lt;</span> n</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">p</span> res<span class="at">.size</span></span></code></pre></div>
 <p>後は 2 つの条件をそれぞれ実装してみよう。</p>
 <p>今回の問題では各数字を一桁ずつの配列に突っ込んで処理するのが良いだろう。 複数桁の数値を 1 桁ずつの配列にするには、<code>log10</code> でやるのが正攻法だ。 ただ、 ruby ならそんなに気にせず文字列を経由して配列にバラせる。</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb2-1"><a href="#cb2-1"></a>n = <span class="dv">204923</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>n.to_s.split(<span class="st">&quot;&quot;</span>).map(&amp;<span class="st">:to_i</span>) <span class="co"># [2, 0, 4, 9, 2, 3]</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n <span class="kw">=</span> <span class="dv">204923</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n<span class="at">.to_s.split</span>(<span class="st">&quot;&quot;</span>)<span class="at">.map</span>(<span class="kw">&amp;</span><span class="wa">:to_i</span>) <span class="co"># [2, 0, 4, 9, 2, 3]</span></span></code></pre></div>
 <p>後は、こんな感じに条件を書けばよかろう。</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># 隣接して同じ数字が 2 つ並びます。(例 122345 だと 22)</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>(na[<span class="dv">0</span>] == na[<span class="dv">1</span>]) || (na[<span class="dv">1</span>] == na[<span class="dv">2</span>]) || (na[<span class="dv">2</span>] == na[<span class="dv">3</span>]) || (na[<span class="dv">3</span>] == na[<span class="dv">4</span>]) || (na[<span class="dv">4</span>] == na[<span class="dv">5</span>])</span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># 数値は、左から順に見ると、同じ数字か、大きくなります。(例 111123, 135679)</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>(na[<span class="dv">0</span>] &lt;= na[<span class="dv">1</span>]) &amp;&amp; (na[<span class="dv">1</span>] &lt;= na[<span class="dv">2</span>]) &amp;&amp; (na[<span class="dv">2</span>] &lt;= na[<span class="dv">3</span>]) &amp;&amp; (na[<span class="dv">3</span>] &lt;= na[<span class="dv">4</span>]) &amp;&amp; (na[<span class="dv">4</span>] &lt;= na[<span class="dv">5</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 隣接して同じ数字が 2 つ並びます。(例 122345 だと 22)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>(na<span class="kw">[</span><span class="dv">0</span><span class="kw">]</span> <span class="kw">==</span> na<span class="kw">[</span><span class="dv">1</span><span class="kw">]</span>) <span class="kw">||</span> (na<span class="kw">[</span><span class="dv">1</span><span class="kw">]</span> <span class="kw">==</span> na<span class="kw">[</span><span class="dv">2</span><span class="kw">]</span>) <span class="kw">||</span> (na<span class="kw">[</span><span class="dv">2</span><span class="kw">]</span> <span class="kw">==</span> na<span class="kw">[</span><span class="dv">3</span><span class="kw">]</span>) <span class="kw">||</span> (na<span class="kw">[</span><span class="dv">3</span><span class="kw">]</span> <span class="kw">==</span> na<span class="kw">[</span><span class="dv">4</span><span class="kw">]</span>) <span class="kw">||</span> (na<span class="kw">[</span><span class="dv">4</span><span class="kw">]</span> <span class="kw">==</span> na<span class="kw">[</span><span class="dv">5</span><span class="kw">]</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 数値は、左から順に見ると、同じ数字か、大きくなります。(例 111123, 135679)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>(na<span class="kw">[</span><span class="dv">0</span><span class="kw">]</span> <span class="kw">&lt;=</span> na<span class="kw">[</span><span class="dv">1</span><span class="kw">]</span>) <span class="kw">&amp;&amp;</span> (na<span class="kw">[</span><span class="dv">1</span><span class="kw">]</span> <span class="kw">&lt;=</span> na<span class="kw">[</span><span class="dv">2</span><span class="kw">]</span>) <span class="kw">&amp;&amp;</span> (na<span class="kw">[</span><span class="dv">2</span><span class="kw">]</span> <span class="kw">&lt;=</span> na<span class="kw">[</span><span class="dv">3</span><span class="kw">]</span>) <span class="kw">&amp;&amp;</span> (na<span class="kw">[</span><span class="dv">3</span><span class="kw">]</span> <span class="kw">&lt;=</span> na<span class="kw">[</span><span class="dv">4</span><span class="kw">]</span>) <span class="kw">&amp;&amp;</span> (na<span class="kw">[</span><span class="dv">4</span><span class="kw">]</span> <span class="kw">&lt;=</span> na<span class="kw">[</span><span class="dv">5</span><span class="kw">]</span>)</span></code></pre></div>
 <p>後はこれにあう数値の数を数えればオッケーだ。</p>
 <h2 id="問目さらに条件に合う数字はいくつある">2 問目：さらに条件に合う数字はいくつある？</h2>
 <p>エルフ氏曰く、さらに条件があるとのこと。</p>
@@ -168,71 +169,71 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>まずは配列を用意する。</p>
 <pre><code>buf = []; rand(1000..2000).times{ buf &lt;&lt; rand(10) }</code></pre>
 <p>この配列を走査するわけだから、メソッドの構造はこんなかんじ。</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> get_gropus(ary)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>  groups = []</span>
-<span id="cb5-3"><a href="#cb5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4"></a>  idx = <span class="dv">0</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>  <span class="kw">while</span> idx &lt; ary.size</span>
-<span id="cb5-6"><a href="#cb5-6"></a>    <span class="co"># 連続する数値を見つけたら groups に突っ込む</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>    idx += <span class="dv">1</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>  <span class="kw">end</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a></span>
-<span id="cb5-10"><a href="#cb5-10"></a>  groups</span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">def</span> get_gropus(ary)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  groups <span class="kw">=</span> <span class="kw">[]</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  idx <span class="kw">=</span> <span class="dv">0</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> idx <span class="kw">&lt;</span> ary<span class="at">.size</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 連続する数値を見つけたら groups に突っ込む</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    idx <span class="kw">+=</span> <span class="dv">1</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  groups</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
 <p>ループの中を考えていくと、次の要素と自分とを比較することになる。</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb6-1"><a href="#cb6-1"></a>i = <span class="dv">0</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">while</span> idx &lt; ary.size</span>
-<span id="cb6-3"><a href="#cb6-3"></a>  current = ary[idx]</span>
-<span id="cb6-4"><a href="#cb6-4"></a>  <span class="kw">if</span> current == ary[idx + <span class="dv">1</span>]</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    <span class="co"># 連続する数値を見つけたら groups に突っ込む</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a>  <span class="kw">end</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a>  idx += <span class="dv">1</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>i <span class="kw">=</span> <span class="dv">0</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> idx <span class="kw">&lt;</span> ary<span class="at">.size</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  current <span class="kw">=</span> ary<span class="kw">[</span>idx<span class="kw">]</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> current <span class="kw">==</span> ary<span class="kw">[</span>idx <span class="kw">+</span> <span class="dv">1</span><span class="kw">]</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 連続する数値を見つけたら groups に突っ込む</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  idx <span class="kw">+=</span> <span class="dv">1</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
 <p>今回は連続する数値を見て行きたいので、ここももちろんループになる。 中のループで見た場所は、次のループで見なくて良いので、 <code>idx += 1</code> の部分にも少し工夫をしよう。</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb7-1"><a href="#cb7-1"></a>i = <span class="dv">0</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">while</span> idx &lt; ary.size</span>
-<span id="cb7-3"><a href="#cb7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4"></a>  current = ary[idx]</span>
-<span id="cb7-5"><a href="#cb7-5"></a></span>
-<span id="cb7-6"><a href="#cb7-6"></a>  group = [current]</span>
-<span id="cb7-7"><a href="#cb7-7"></a>  j = <span class="dv">1</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a>  <span class="co"># いくつ連続するかわからないので、無限ループで配列を走査していく。</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a>  <span class="kw">while</span> <span class="dv">true</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a>    <span class="co"># 次の数値と違うなら、ループを抜ける</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a>    <span class="kw">break</span> <span class="kw">unless</span> current == ary[idx + j]</span>
-<span id="cb7-12"><a href="#cb7-12"></a></span>
-<span id="cb7-13"><a href="#cb7-13"></a>    group &lt;&lt; ary[idx + j]</span>
-<span id="cb7-14"><a href="#cb7-14"></a>    j += <span class="dv">1</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a>  <span class="kw">end</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a></span>
-<span id="cb7-17"><a href="#cb7-17"></a>  idx += j <span class="co"># 上の無限ループで隣り合うところまでは配列の中身を見て行ったので、 `j` を足す。</span></span>
-<span id="cb7-18"><a href="#cb7-18"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>i <span class="kw">=</span> <span class="dv">0</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> idx <span class="kw">&lt;</span> ary<span class="at">.size</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  current <span class="kw">=</span> ary<span class="kw">[</span>idx<span class="kw">]</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  group <span class="kw">=</span> <span class="kw">[</span>current<span class="kw">]</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  j <span class="kw">=</span> <span class="dv">1</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># いくつ連続するかわからないので、無限ループで配列を走査していく。</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> <span class="dv">true</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 次の数値と違うなら、ループを抜ける</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span> <span class="cf">unless</span> current <span class="kw">==</span> ary<span class="kw">[</span>idx <span class="kw">+</span> j<span class="kw">]</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    group <span class="kw">&lt;&lt;</span> ary<span class="kw">[</span>idx <span class="kw">+</span> j<span class="kw">]</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    j <span class="kw">+=</span> <span class="dv">1</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  idx <span class="kw">+=</span> j <span class="co"># 上の無限ループで隣り合うところまでは配列の中身を見て行ったので、 `j` を足す。</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
 <p>最後に、グループを返すようにすれば良いだろう。すると、メソッドの全体像は下記のようになる。</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">def</span> get_groupsl(ary)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>  groups = []</span>
-<span id="cb8-3"><a href="#cb8-3"></a></span>
-<span id="cb8-4"><a href="#cb8-4"></a>  i = <span class="dv">0</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a>  <span class="kw">while</span> idx &lt; ary.size</span>
-<span id="cb8-6"><a href="#cb8-6"></a></span>
-<span id="cb8-7"><a href="#cb8-7"></a>    current = ary[idx]</span>
-<span id="cb8-8"><a href="#cb8-8"></a></span>
-<span id="cb8-9"><a href="#cb8-9"></a>    group = [current]</span>
-<span id="cb8-10"><a href="#cb8-10"></a>    j = <span class="dv">1</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a>    <span class="co"># いくつ連続するかわからないので、無限ループで配列を走査していく。</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a>    <span class="kw">while</span> <span class="dv">true</span></span>
-<span id="cb8-13"><a href="#cb8-13"></a>      <span class="co"># 次の数値と違うなら、ループを抜ける</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a>      <span class="kw">break</span> <span class="kw">unless</span> current == ary[idx + j]</span>
-<span id="cb8-15"><a href="#cb8-15"></a></span>
-<span id="cb8-16"><a href="#cb8-16"></a>      group &lt;&lt; ary[idx + j]</span>
-<span id="cb8-17"><a href="#cb8-17"></a>      j += <span class="dv">1</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a>    <span class="kw">end</span></span>
-<span id="cb8-19"><a href="#cb8-19"></a></span>
-<span id="cb8-20"><a href="#cb8-20"></a>    groups &lt;&lt; group <span class="kw">if</span> group.size &gt; <span class="dv">1</span></span>
-<span id="cb8-21"><a href="#cb8-21"></a>    idx += j <span class="co"># 上の無限ループで隣り合うところまでは配列の中身を見て行ったので、 `j` を足す。</span></span>
-<span id="cb8-22"><a href="#cb8-22"></a>  <span class="kw">end</span></span>
-<span id="cb8-23"><a href="#cb8-23"></a></span>
-<span id="cb8-24"><a href="#cb8-24"></a>  groups</span>
-<span id="cb8-25"><a href="#cb8-25"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">def</span> get_groupsl(ary)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  groups <span class="kw">=</span> <span class="kw">[]</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  i <span class="kw">=</span> <span class="dv">0</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> idx <span class="kw">&lt;</span> ary<span class="at">.size</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    current <span class="kw">=</span> ary<span class="kw">[</span>idx<span class="kw">]</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    group <span class="kw">=</span> <span class="kw">[</span>current<span class="kw">]</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    j <span class="kw">=</span> <span class="dv">1</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># いくつ連続するかわからないので、無限ループで配列を走査していく。</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="dv">true</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="co"># 次の数値と違うなら、ループを抜ける</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span> <span class="cf">unless</span> current <span class="kw">==</span> ary<span class="kw">[</span>idx <span class="kw">+</span> j<span class="kw">]</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      group <span class="kw">&lt;&lt;</span> ary<span class="kw">[</span>idx <span class="kw">+</span> j<span class="kw">]</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      j <span class="kw">+=</span> <span class="dv">1</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    groups <span class="kw">&lt;&lt;</span> group <span class="cf">if</span> group<span class="at">.size</span> <span class="kw">&gt;</span> <span class="dv">1</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    idx <span class="kw">+=</span> j <span class="co"># 上の無限ループで隣り合うところまでは配列の中身を見て行ったので、 `j` を足す。</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  groups</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
 <p>後は、このメソッドで得られたグループのうち、長さが 2 になる、つまり隣り合う数字が 2 桁までのものが必ず含まれているかを確認すれば良い。</p>
 <pre><code>get_group(ary).any?{|g| g.size == 2}</code></pre>
 <p>これでできた。</p>

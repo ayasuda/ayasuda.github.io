@@ -15,19 +15,19 @@
   <link rel="stylesheet" href="/css/style.css">
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -47,7 +47,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -108,7 +108,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   </header>
   <nav id="TOC">
   <ul>
-  <li><a href="#日目-the-tyranny-of-the-rocket-equation">1 日目: The Tyranny of the Rocket Equation</a><ul>
+  <li><a href="#日目-the-tyranny-of-the-rocket-equation">1 日目: The Tyranny of the Rocket Equation</a>
+  <ul>
   <li><a href="#問目さっさと燃料を計算する簡単なお仕事">1 問目：さっさと燃料を計算する簡単なお仕事。</a></li>
   <li><a href="#ネタバレ-2-問目燃料自体の重さもあるよね-って話">(ネタバレ) 2 問目：燃料自体の重さもあるよね？　って話。</a></li>
   </ul></li>
@@ -123,16 +124,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>Specifically, to find the fuel required for a module, take its mass, divide by three, round down, and subtract 2.</p>
 </blockquote>
 <p>いたってシンプルなので、サクッと以下の ruby コードで計算させてみる</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>m = <span class="dv">12</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>p m / <span class="dv">3</span> - <span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>m <span class="kw">=</span> <span class="dv">12</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">p</span> m <span class="kw">/</span> <span class="dv">3</span> <span class="kw">-</span> <span class="dv">2</span></span></code></pre></div>
 <p>・・・あんまりにも単純すぎるので、問題を解きやすく改善する。</p>
 <p>この問題では、入力は見ての通り数値が1 行ごとに書かれたテキストで提供される。 そんなわけで、標準入力から数値を受け取って標準出力に表示するようにしよう。</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">while</span> l = gets</span>
-<span id="cb2-4"><a href="#cb2-4"></a>  p l.to_i / <span class="dv">3</span> - <span class="dv">2</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> l <span class="kw">=</span> <span class="fu">gets</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">p</span> l<span class="at">.to_i</span> <span class="kw">/</span> <span class="dv">3</span> <span class="kw">-</span> <span class="dv">2</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
 <p>テスト用のファイルを用意して・・・</p>
 <pre class="text:test.tsv"><code>12
 14
@@ -145,15 +146,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 654
 33583</code></pre>
 <p>というわけで正しく動いていそうなので合計値を表示するようにし…</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>a = <span class="dv">0</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">while</span> l = gets</span>
-<span id="cb5-5"><a href="#cb5-5"></a>  f = l.to_i / <span class="dv">3</span> - <span class="dv">2</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>  p f</span>
-<span id="cb5-7"><a href="#cb5-7"></a>  a += f</span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="kw">end</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a>p a</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>a <span class="kw">=</span> <span class="dv">0</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> l <span class="kw">=</span> <span class="fu">gets</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  f <span class="kw">=</span> l<span class="at">.to_i</span> <span class="kw">/</span> <span class="dv">3</span> <span class="kw">-</span> <span class="dv">2</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">p</span> f</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  a <span class="kw">+=</span> f</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">p</span> a</span></code></pre></div>
 <p>早速計算させてみよう。</p>
 <pre class="console"><code>$ curl https://adventofcode.com/2019/day/1/input
 Puzzle inputs differ by user.  Please log in to get your puzzle input.</code></pre>
@@ -181,21 +182,21 @@ Puzzle inputs differ by user.  Please log in to get your puzzle input.</code></p
 <p>なので、合計 966 になる。</p>
 <p>うん。つまりは再帰が求められている。</p>
 <p>・・・と、いうわけでサクッと以下のプログラムを書く</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">def</span> calc(mass)</span>
-<span id="cb8-4"><a href="#cb8-4"></a>  fuel = mass / <span class="dv">3</span> - <span class="dv">2</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a>  <span class="kw">return</span> <span class="dv">0</span> <span class="kw">if</span> fuel &lt;= <span class="dv">0</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a>  fuel + calc(mass)</span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="kw">end</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a></span>
-<span id="cb8-9"><a href="#cb8-9"></a>a = <span class="dv">0</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="kw">while</span> l = gets</span>
-<span id="cb8-11"><a href="#cb8-11"></a>  f = calc(l.to_i)</span>
-<span id="cb8-12"><a href="#cb8-12"></a>  p f</span>
-<span id="cb8-13"><a href="#cb8-13"></a>  a += f</span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="kw">end</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a>p a</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode ruby:ans.rb"><code class="sourceCode ruby"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /usr/bin/env ruby</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">def</span> calc(mass)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  fuel <span class="kw">=</span> mass <span class="kw">/</span> <span class="dv">3</span> <span class="kw">-</span> <span class="dv">2</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span> <span class="cf">if</span> fuel <span class="kw">&lt;=</span> <span class="dv">0</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  fuel <span class="kw">+</span> calc(mass)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>a <span class="kw">=</span> <span class="dv">0</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> l <span class="kw">=</span> <span class="fu">gets</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  f <span class="kw">=</span> calc(l<span class="at">.to_i</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">p</span> f</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  a <span class="kw">+=</span> f</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">p</span> a</span></code></pre></div>
 <p>こいつを早速 test.tsv にかましてみると　</p>
 <pre class="console"><code>$ cat test.tsv | ./ans.rb
 2
