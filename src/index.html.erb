@@ -29,7 +29,7 @@
             <div class="content-meta">
               <div class="published"><%= page.to_date %></div>
               <ul class="keywords">
-                <% page.tags.each do |tag| %>
+                <% page.tags&.each do |tag| %>
                   <li><a href="/pages/tags/<%= tag %>.html"><%= tag %></a></li>
                 <% end %>
               </ul>
