@@ -11,7 +11,7 @@ keywords:
   - Advento of Code
 ---
 
-[1日目](./challenge_AoC2019_Day1)
+[1日目](/challenge_AoC2019_Day1)はこちら。
 
 さて、2 日目。
 サンタを乗せた宇宙船は無事発射されたようだ。現在はどうも月からスイングバイしているところとのこと。
