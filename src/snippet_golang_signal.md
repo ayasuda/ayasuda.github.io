@@ -1,10 +1,15 @@
 ---
 title: 'Go 言語でのシグナル処理'
 date: '2021-10-12'
-description: ''
+description: 'Go 言語でシグナルを受け取り、適宜処理する方法についてサンプルコードともにまとめました'
+tags:
+  - Go
 keywords:
   - Signal
   - Go
+  - シグナル
+  - シグナル処理
+  - Go言語
 ---
 
 Go 1.17.1 にて検証済みです

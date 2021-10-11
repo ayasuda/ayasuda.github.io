@@ -8,7 +8,8 @@
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Atsushi Yasuda">
-  <meta name="keywords" content="Signal, Daemon">
+  <meta name="description" content="サーバプログラムなどを書くときに覚えておいたほうが良い、「シグナル処理」とは何かについて基礎知識を簡単にまとめました">
+  <meta name="keywords" content="OS, Signal, Daemon, シグナル, SIGINT, SIGTERM">
   <meta name="date" content="2021-10-12">
   <title>シグナル処理ことはじめ</title>
   <link rel="stylesheet" href="/css/style.css">
@@ -34,6 +35,12 @@
     <h1>シグナル処理ことはじめ</h1>
     <div class="content-meta">
     <div class="published">2021-10-12</div>
+      <ul class="keywords">
+        <li><a href="/pages/tags/基礎知識.html">基礎知識</a></li>
+        <li><a href="/pages/tags/Tips.html">Tips</a></li>
+      </ul>
+      <p>サーバプログラムなどを書くときに覚えておいたほうが良い、「シグナル処理」とは何かについて基礎知識を簡単にまとめました</p>
+    </div>
   </header>
   <nav id="TOC">
   <ul>
@@ -72,7 +79,7 @@
 <p>その他にも、セグメンテーション違反が起きたときの <code>SIGSEGV</code> や、<code>Ctrl + Z</code> 押したときの <code>SIGSTP</code> などもありますが、あまり自分で処理するプログラムを書くことはない印象です。</p>
 <p>その他のシグナルについては、 <a href="https://ja.wikipedia.org/wiki/%E3%82%B7%E3%82%B0%E3%83%8A%E3%83%AB_(Unix)">wikipedia</a> を読むのが一番わかりやすいと思います。</p>
 <h1 id="各言語でのシグナル制御">各言語でのシグナル制御</h1>
-<p>各言語でのシグナル処理の実装例を、個別のページに記しました。 それぞれ無限ループしながら１秒に１ずつカウントを標準出力に書き、 <code>Ctrl + C</code> を受け取ったら “bye” と書いて終了するプログラムだ。</p>
+<p>各言語でのシグナル処理の実装例を、個別のページに記しました。 適宜、読んでいただければ幸いです。</p>
 <ul>
 <li><a href="/pages/snippet_golang_signal.html">Go 言語でのシグナル処理</a></li>
 <li>C 言語でのシグナル処理 (tbd)</li>
