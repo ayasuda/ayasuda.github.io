@@ -150,32 +150,38 @@ footer a{
 }
 
 .content h1 {
-  font-size: 5rem;
-  letter-spacing: -2px;
-  text-indent: -3px;
-}
-
-.content h1 {
-  font-size: 3.6rem;
+  font-size: 3rem;
   letter-spacing: -1px;
 }
 
 .content h2 {
-  font-size: 3rem;
+  font-size: 2rem;
   letter-spacing: -0.6px;
 }
 
 .content h3 {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
 }
-
-.content h4, .content h5, .content h6 {
-  font-size: 2rem;
-}
+.content h4{font-size:1.6em;}
+.content h5{font-size:1.6em;}
+.content h6{font-size:1.6em;}
 
 .content {
   font-size: 1.6rem;
 }
+
+div.sourceCode {
+  margin: 2rem;
+  padding-left: 0.5rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  padding-right: 0rem;
+}
+
+p > code {
+  color: #990000;
+}
+
 
 /* 8. Index page 
 /* ---------------------------------------------------------- */

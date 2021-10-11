@@ -87,7 +87,7 @@ func main() {
 
 以下のコマンドでこのコードは実行可能です。
 
-```
+```bash
 $ go run main.go
 ```
 
@@ -255,14 +255,14 @@ func main() {
 
 実行すると、10秒間は何も操作できません
 
-```
+```bash
 $ go run main.go
 ignore Ctrl + C
 ```
 
 10 秒経つと `Ctrl + C` が入力可能になり、入力すると、 "bye" と表示してプログラムが終了します
 
-```
+```bash
 start to accept Ctrl + c
 ^Cbye
 ```
@@ -319,7 +319,7 @@ func main() {
 実行すると、1秒ごとに Ctrl + C が受付可能か表示されます
 10 秒経つと `Ctrl + C` が入力可能になり、入力すると、 "bye" と表示してプログラムが終了します
 
-```
+```bash
 $ go run main.go
 ignore Ctrl + C
 ignoring Ctrl + C
@@ -478,7 +478,7 @@ func main() {
 
 このプログラムを実行することで、 `Ctrl + C` が入力された時に "bye" ではなく、go ランタイムデフォルトの表示がされるようになります。
 
-```
+```bash
 $ go run main.go
 ^Csignal: interrupt
 ```
@@ -536,7 +536,7 @@ func main() {
 
 このプログラムを実行することで、 `Reset` と同じように `Ctrl + C` が入力された時に "bye" ではなく、go ランタイムデフォルトの表示がされるようになります。
 
-```
+```bash
 $ go run main.go
 ^Csignal: interrupt
 ```

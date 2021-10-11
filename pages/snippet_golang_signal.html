@@ -185,7 +185,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;-</span>done</span>
 <span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>以下のコマンドでこのコードは実行可能です。</p>
-<pre><code>$ go run main.go</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> go run main.go</span></code></pre></div>
 <p>コードを実行すると、１秒毎に数字をカウントアップし続けます。 終了したい場合は <code>Ctrl + C</code> を入力します。</p>
 <h2 id="signal-型">Signal 型</h2>
 <p>公式ドキュメントは https://pkg.go.dev/os@go1.17.1#Signal にあります。</p>
@@ -297,11 +297,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span><span class="st">&quot;bye&quot;</span><span class="op">)</span></span>
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>実行すると、10秒間は何も操作できません</p>
-<pre><code>$ go run main.go
-ignore Ctrl + C</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> go run main.go</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ignore</span> Ctrl + C</span></code></pre></div>
 <p>10 秒経つと <code>Ctrl + C</code> が入力可能になり、入力すると、 “bye” と表示してプログラムが終了します</p>
-<pre><code>start to accept Ctrl + c
-^Cbye</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">start</span> to accept Ctrl + c</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">^Cbye</span></span></code></pre></div>
 <h2 id="ignored">Ignored</h2>
 <p>特定のシグナルが <code>Ignore</code> で無視されるように設定されているかを確認する関数です。 (<a href="https://github.com/ayasuda/sandbox/blob/master/go/signal/ignored/main.go">github</a>)</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
@@ -345,23 +345,23 @@ ignore Ctrl + C</code></pre>
 <span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span><span class="st">&quot;bye&quot;</span><span class="op">)</span></span>
 <span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>実行すると、1秒ごとに Ctrl + C が受付可能か表示されます 10 秒経つと <code>Ctrl + C</code> が入力可能になり、入力すると、 “bye” と表示してプログラムが終了します</p>
-<pre><code>$ go run main.go
-ignore Ctrl + C
-ignoring Ctrl + C
-ignoring Ctrl + C
-ignoring Ctrl + C
-ignoring Ctrl + C
-ignoring Ctrl + C
-ignoring Ctrl + C
-ignoring Ctrl + C
-ignoring Ctrl + C
-ignoring Ctrl + C
-ignoring Ctrl + C
-start to accept Ctrl + c
-wait Ctrl + C
-wait Ctrl + C
-wait Ctrl + C
-^Cbye</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> go run main.go</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ignore</span> Ctrl + C</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ex">ignoring</span> Ctrl + C</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ex">ignoring</span> Ctrl + C</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="ex">ignoring</span> Ctrl + C</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="ex">ignoring</span> Ctrl + C</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="ex">ignoring</span> Ctrl + C</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="ex">ignoring</span> Ctrl + C</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="ex">ignoring</span> Ctrl + C</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="ex">ignoring</span> Ctrl + C</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="ex">ignoring</span> Ctrl + C</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="ex">ignoring</span> Ctrl + C</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="ex">start</span> to accept Ctrl + c</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="bu">wait</span> Ctrl + C</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="bu">wait</span> Ctrl + C</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="bu">wait</span> Ctrl + C</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="ex">^Cbye</span></span></code></pre></div>
 <h2 id="notifycontext">NotifyContext</h2>
 <p>公式ドキュメントは https://pkg.go.dev/os/signal@go1.17.1#NotifyContext にあります</p>
 <p>Context そのものの説明については <a href="/pages/what_is_context_at_go.html">Context についての記事</a> を読んでもらうとして、 Go 言語の世界では外部プロセスの起動や API 呼び出しなど、並行に行いたい処理を実施する際には <code>Context</code> を 呼び出し元から呼び出し先に渡してやるのが一つのお約束となっていました。 そのようにすることで、タイムアウトや呼び出し元からのキャンセル処理などが書きやすくなっていました。</p>
@@ -474,8 +474,8 @@ wait Ctrl + C
 <span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;-</span>done</span>
 <span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>このプログラムを実行することで、 <code>Ctrl + C</code> が入力された時に “bye” ではなく、go ランタイムデフォルトの表示がされるようになります。</p>
-<pre><code>$ go run main.go
-^Csignal: interrupt</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> go run main.go</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">^Csignal:</span> interrupt</span></code></pre></div>
 <h2 id="stop">Stop</h2>
 <p>公式ドキュメントは https://pkg.go.dev/os/signal@go1.17.1#Stop にあります</p>
 <p><code>Reset</code> に似ていますが、こちら (<a href="https://github.com/ayasuda/sandbox/blob/master/go/signal/stop/main.go">github</a>) はチャンネルを指定して受信を停止する関数です。</p>
@@ -520,8 +520,8 @@ wait Ctrl + C
 <span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;-</span>done</span>
 <span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>このプログラムを実行することで、 <code>Reset</code> と同じように <code>Ctrl + C</code> が入力された時に “bye” ではなく、go ランタイムデフォルトの表示がされるようになります。</p>
-<pre><code>$ go run main.go
-^Csignal: interrupt</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> go run main.go</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">^Csignal:</span> interrupt</span></code></pre></div>
 </article>
 <footer>
   <a href="/">Home</a>
