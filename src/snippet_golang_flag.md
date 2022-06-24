@@ -425,7 +425,8 @@ func main() {
 
 ```
 $ go run main.go --help
-this is custom message
+thit
+is custom message
 ```
 
 ## help エラーの取り扱い
