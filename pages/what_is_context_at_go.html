@@ -487,7 +487,7 @@ exit infLoop</code></pre>
 <h1 id="まとめと-context-を使う際のルールについて">まとめと Context を使う際のルールについて</h1>
 <p><code>context</code> パッケージを使うと、リクエストの処理中の値を取り扱いや、リクエスト自体がキャンセルされた際の、子 goroutine の適切なキャンセルなどをとてもスッキリと記述できます。 ・・・が、それにはいくつかルールが必要です。</p>
 <p><a href="https://blog.golang.org/context">Go Concurrency Patterns: Context - The Go Blog</a> の最後に、Google 社内でのルールについて記されています。 まず、 <code>context</code> を用いる全ての関数で、最初の引数として <code>context</code> を受け取れるようにしています。 この時、 <em>必ず第１引数</em> にしています（社内規約です）。 また、 <code>context</code> を用いた関数が goroutine を呼び出すなら、適切なキャンセル処理をする必要があります。 このルールに従うことで、謎の goroutin がサーバ上で残るなど変な不具合がぐっと減らせるはずでしょう。</p>
-<p>サンプルコードは https://github.com/ayasuda/sandbox/tree/master/go_context においてあります。</p>
+<p>サンプルコードは https://github.com/ayasuda/sandbox/tree/master/go/context においてあります。</p>
 <h1 id="参照">参照</h1>
 <ul>
 <li><a href="https://tip.golang.org/pkg/context/">context - The Go Programming Language</a></li>

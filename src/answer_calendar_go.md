@@ -247,7 +247,7 @@ func main() {
 
 # 解答例
 
-ソースコードは [こちら](https://github.com/ayasuda/sandbox/blob/master/go_cal/main.go) にあります。
+ソースコードは [こちら](https://github.com/ayasuda/sandbox/blob/master/go/cal/main.go) にあります。
 
 ```go:main.go
 package main

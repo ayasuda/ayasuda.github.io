@@ -526,7 +526,7 @@ func foo(ctx context.Context) {
 また、 `context` を用いた関数が goroutine を呼び出すなら、適切なキャンセル処理をする必要があります。
 このルールに従うことで、謎の goroutin がサーバ上で残るなど変な不具合がぐっと減らせるはずでしょう。
 
-サンプルコードは https://github.com/ayasuda/sandbox/tree/master/go_context においてあります。
+サンプルコードは https://github.com/ayasuda/sandbox/tree/master/go/context においてあります。
 
 # 参照
 
