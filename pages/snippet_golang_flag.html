@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <base href="https://ayasuda.github.io/">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Atsushi Yasuda">
+  <meta name="description" content="Go 言語でコマンドライン引数を受け取り、適宜処理する方法についてサンプルコードともにまとめました">
+  <meta name="keywords" content="Go, Args, flag, コマンドライン引数">
+  <meta name="date" content="2022-07-23">
+  <title>Go 言語でのコマンドライン引数処理</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138223597-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-138223597-1');
+  </script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header class="site-header">
+  <h1><a href="/">ayasuda.github.io</a></h1>
+</header>
+<article class="content">
+  <header>
+    <h1>Go 言語でのコマンドライン引数処理</h1>
+    <div class="content-meta">
+    <div class="published">2022-07-23</div>
+      <ul class="keywords">
+        <li><a href="/pages/tags/Go.html">Go</a></li>
+      </ul>
+      <p>Go 言語でコマンドライン引数を受け取り、適宜処理する方法についてサンプルコードともにまとめました</p>
+    </div>
+  </header>
+  <nav id="TOC">
+  <ul>
+  <li><a href="#コマンドライン引数を得る---os.args">コマンドライン引数を得る - os.Args</a></li>
+  <li><a href="#オプションと引数を解析する---flag-パッケージ">オプションと引数を解析する - flag パッケージ</a>
+  <ul>
+  <li><a href="#基本的な使い方">基本的な使い方</a></li>
+  <li><a href="#オプションを定義し値を読み取るるためのポインタを受け取る">オプションを定義し、値を読み取るるためのポインタを受け取る</a></li>
+  <li><a href="#オプションを定義し事前に宣言した変数に紐付ける">オプションを定義し、事前に宣言した変数に紐付ける</a></li>
+  <li><a href="#オプションの設定先に独自の型-構造体や取れる値に制限をかける場合など-を用いる---value-interface">オプションの設定先に独自の型 (構造体や取れる値に制限をかける場合など) を用いる - Value interface</a></li>
+  <li><a href="#long-オプションと-short-オプションを定義する">long オプションと short オプションを定義する</a></li>
+  <li><a href="#v--vv--vvv--vvvv-のようにv-の数で出力レベルを切り替えられるオプションを定義する">-v, -vv, -vvv, -vvvv のように、v の数で出力レベルを切り替えられるオプションを定義する</a></li>
+  <li><a href="#引数を受け取る---args">引数を受け取る - Args</a></li>
+  <li><a href="#サブコマンドを定義する---newflagset">サブコマンドを定義する - NewFlagSet()</a></li>
+  <li><a href="#ヘルプメッセージを表示する---printdefaults">ヘルプメッセージを表示する - PrintDefaults()</a></li>
+  <li><a href="#オリジナルのヘルプメッセージを表示する---usage">オリジナルのヘルプメッセージを表示する - Usage</a></li>
+  <li><a href="#存在しないフラグなどが指定されたエラー時の挙動を変更する---errorhandling">存在しないフラグなどが指定されたエラー時の挙動を変更する - ErrorHandling</a></li>
+  <li><a href="#オプションのテスト">オプションのテスト</a></li>
+  </ul></li>
+  </ul>
+  </nav>
+<p>コマンドライン引数処理とは何か？　については <a href="/pages/what_is_command_line_argument.html">コマンドライン引数処理ことはじめ</a> にてまとめました。 ここでは、 Go 言語でコマンドライン引数処理をどのようにやるのかについてまとめていきます。</p>
+<h1 id="コマンドライン引数を得る---os.args">コマンドライン引数を得る - os.Args</h1>
+<p>コマンドライン引数は <a href="https://golang.org/pkg/os/#pkg-variables">os.Args</a> から参照できます。</p>
+<p><code>os.Args</code> にはプログラム名および実行時の引数がスライスの形で保持されます。</p>
+<p>サンプルプログラムから実行例を見ていきましょう。単純に <code>os.Args</code> を標準出力に出力するプログラムを用意しました。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode go:args.go"><code class="sourceCode go"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;os&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  fmt<span class="op">.</span>Println<span class="op">(</span>os<span class="op">.</span>Args<span class="op">)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>以下のようにプログラムをビルドして実行できます。</p>
+<pre><code>$ go build args.go
+$ ./args foo bar --baz &quot;qux&quot;</code></pre>
+<p>プログラムを実行すると、実行時に呼び出したプログラム名、引数が表示されます。</p>
+<pre><code>[./args foo bar --baz qux]</code></pre>
+<p>ご覧の通り、呼び出した時のプログラム名と引数がシンプルにそのまま表示されました。</p>
+<h1 id="オプションと引数を解析する---flag-パッケージ">オプションと引数を解析する - flag パッケージ</h1>
+<p>オプションと引数を解析するには標準ライブラリの <a href="https://golang.org/pkg/flag/">flag</a> パッケージを用います。 もちろん、 <code>os.Args</code> を自分で解析しても良いですが、ライブラリを用いた方が楽でしょう。</p>
+<h2 id="基本的な使い方">基本的な使い方</h2>
+<p>最も基本的な流れは以下の通りです。</p>
+<ol type="1">
+<li>プログラム中で読み取りたいオプションを定義する</li>
+<li><code>flag.Parse()</code> を呼び出し、コマンドライン引数を解析し、変数に割り当てる　</li>
+</ol>
+<p>基本的な使い方を説明するために、</p>
+<ul>
+<li><code>--flagname</code> という数値を読み取るオプション</li>
+<li><code>--ip</code> という文字列を読み取るオプション</li>
+</ul>
+<p>の 2 つを定義した<a href="https://github.com/ayasuda/sandbox/blob/master/go/flag/basic/main.go">サンプルコード</a> をみていきましょう。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;flag&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// オプションを宣言する</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 名前は flagname で、数値。例えば、 --flagname 2525 のようになる</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// デフォルト値は 1234 とする</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// オプションの使用方法として &quot;help message for flagname&quot; を記述しておく</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> ip <span class="op">=</span> flag<span class="op">.</span>Int<span class="op">(</span><span class="st">&quot;flagname&quot;</span><span class="op">,</span> <span class="dv">1234</span><span class="op">,</span> <span class="st">&quot;help message for flagname&quot;</span><span class="op">)</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 与えられた引数をパースする</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ここでは `ip` に `--flagname` で与えられた数値をセットする</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    flag<span class="op">.</span>Parse<span class="op">()</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span><span class="st">&quot;ip has value &quot;</span><span class="op">,</span> <span class="op">*</span>ip<span class="op">)</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>13 行目の <code>flag.Int</code> で、数値を受け取るオプション <code>--flagname</code> を定義しています。 また、このオプションで指定された数値が変数 <code>var ip</code> に入力される様に定義しています。</p>
+<p>17 行目で <code>flag.Parse</code> を呼び出し、具体的にユーザがプログラム実行時に入力したコマンドライン引数を解析しています。 このタイミングで、変数 <code>ip</code> に引数をセットします。</p>
+<p>このコードを実行してみましょう。 実行するときに、もちろんオプションを指定して実行してみます。 以下の様に実行します。</p>
+<pre><code>$ go run main.go --flagname 2525
+ip has value 2525
+
+$ go build -o main main.go
+$ ./main --flagname 2525
+ip has value 2525</code></pre>
+<p>きちんと、コマンドライン引数が処理されているのがわかるかと思います。</p>
+<h2 id="オプションを定義し値を読み取るるためのポインタを受け取る">オプションを定義し、値を読み取るるためのポインタを受け取る</h2>
+<p>コマンドライン引数を定義し、入力された値を読み取るポインタを設定するには引数の型に応じて <a href="https://pkg.go.dev/flag#Bool">Bool</a> <a href="https://pkg.go.dev/flag#Int">Int</a> <a href="https://pkg.go.dev/flag#Int64">Int64</a> <a href="https://pkg.go.dev/flag#Uint">Uint</a> <a href="https://pkg.go.dev/flag#Uint64">Uint64</a> <a href="https://pkg.go.dev/flag#Float64">Float64</a> <a href="https://pkg.go.dev/flag#String">String</a> <a href="https://pkg.go.dev/flag#Duration">Duration</a> を使用します。</p>
+<p>これらの関数は、第1引数としてオプション名、第2引数にデフォルト値を、第3引数にヘルプメッセージを指定します。 関数の返り値として、オプションをパースした際に値が設定される変数の <em>ポインタ</em> が返されます。 <code>flag.Parse()</code> を呼び出すことで、コマンドライン引数がパースされてポインタの示す値が更新されます。</p>
+<p><a href="https://github.com/ayasuda/sandbox/blob/master/go/flag/non_vars/main.go">サンプルコード</a> を見てみましょう。</p>
+<pre><code>package main
+
+import (
+    &quot;flag&quot;
+    &quot;fmt&quot;
+)
+
+func main() {
+  // 各種オプションを定義する
+    var flagBool = flag.Bool(&quot;bool-flag&quot;, false, &quot;usage message for flag.Bool&quot;)
+    var flagInt = flag.Int(&quot;int-flag&quot;, 0, &quot;usage message for flag.Int&quot;)
+    var flagInt64 = flag.Int64(&quot;int64-flag&quot;, 0, &quot;usage message for flag.Int64&quot;)
+    var flagUint = flag.Uint(&quot;uint-flag&quot;, 0, &quot;usage message for flag.Uint&quot;)
+    var flagUint64 = flag.Uint64(&quot;uint64-flag&quot;, 0, &quot;usage message for flag.Uint64&quot;)
+    var flagFloat64 = flag.Float64(&quot;float64-flag&quot;, 0, &quot;usage message for flag.Float64&quot;)
+    var flagString = flag.String(&quot;string-flag&quot;, &quot;&quot;, &quot;usage message for flag.String&quot;)
+    var flagDuration = flag.Duration(&quot;duration-flag&quot;, 0, &quot;usage message for flag.Duration&quot;)
+
+  // この段階では、ポインタが示す値はデフォルト値となっています。
+
+    flag.Parse()
+
+  // flag.Parse() を呼び出すことでコマンドライン引数が処理されポインタがさす値が更新されます
+
+    fmt.Printf(&quot;bool-flag has value %t\n&quot;, *flagBool)
+    fmt.Printf(&quot;int-flag has value %d\n&quot;, *flagInt)
+    fmt.Printf(&quot;int64-flag has value %d\n&quot;, *flagInt64)
+    fmt.Printf(&quot;uint-flag has value %d\n&quot;, *flagUint)
+    fmt.Printf(&quot;uint64-flag has value %d\n&quot;, *flagUint64)
+    fmt.Printf(&quot;float64-flag has value %f\n&quot;, *flagFloat64)
+    fmt.Printf(&quot;string-flag has value &#39;%s&#39;\n&quot;, *flagString)
+    fmt.Printf(&quot;duration-flag has value %d\n&quot;, *flagDuration)
+}</code></pre>
+<p>オプションが定義できたので、プログラムの実行時に定義したオプションを呼び出すことができます。</p>
+<pre><code>$ go run main.go \
+  --bool-flag \
+  --int-flag 47 \
+  --int64-flag 53 \
+  --uint-flag 59 \
+  --uint64-flag 61 \
+  --float64-flag 3.14 \
+  --string-flag &quot;foobar&quot; \
+  --duration-flag 12h34m56s
+bool-flag has value true
+int-flag has value 47
+int64-flag has value 53
+uint-flag has value 59
+uint64-flag has value 61
+float64-flag has value 3.140000
+string-flag has value &#39;foobar&#39;
+duration-flag has value 45296000000000</code></pre>
+<h2 id="オプションを定義し事前に宣言した変数に紐付ける">オプションを定義し、事前に宣言した変数に紐付ける</h2>
+<p>オプション定義時にポインタを受け取るのではなく、予め宣言した変数を元にオプションを定義することもできます。</p>
+<p><a href="https://pkg.go.dev/flag#BoolVar">BoolVar</a> <a href="https://pkg.go.dev/flag#IntVar">IntVar</a> <a href="https://pkg.go.dev/flag#Int64Var">Int64Var</a> <a href="https://pkg.go.dev/flag#UintVar">UintVar</a> <a href="https://pkg.go.dev/flag#Uint64Var">Uint64Var</a> <a href="https://pkg.go.dev/flag#Float64Var">Float64Var</a> <a href="https://pkg.go.dev/flag#StringVar">StringVar</a> <a href="https://pkg.go.dev/flag#DurationVar">DurationVar</a> を用いてオプションの定義をします。</p>
+<p><a href="https://github.com/ayasuda/sandbox/blob/master/go/flag/vars/main.go">サンプルコード</a></p>
+<pre><code>package main
+
+import (
+    &quot;flag&quot;
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {
+
+  // 事前に変数を宣言しておきます
+
+    var flagBoolVar bool
+    var flagIntVar int
+    var flagInt64Var int64
+    var flagUintVar uint
+    var flagUint64Var uint64
+    var flagFloat64Var float64
+    var flagStringVar string
+    var flagDurationVar time.Duration
+
+  // オプションを定義し、宣言済みの変数を割り当てます
+
+    flag.BoolVar(&amp;flagBoolVar, &quot;bool-var-flag&quot;, false, &quot;usage message for flag.Bool&quot;)
+    flag.IntVar(&amp;flagIntVar, &quot;int-var-flag&quot;, 0, &quot;usage message for flag.Int&quot;)
+    flag.Int64Var(&amp;flagInt64Var, &quot;int64-var-flag&quot;, 0, &quot;usage message for flag.Int64&quot;)
+    flag.UintVar(&amp;flagUintVar, &quot;uint-var-flag&quot;, 0, &quot;usage message for flag.Uint&quot;)
+    flag.Uint64Var(&amp;flagUint64Var, &quot;uint64-var-flag&quot;, 0, &quot;usage message for flag.Uint64&quot;)
+    flag.Float64Var(&amp;flagFloat64Var, &quot;float64-var-flag&quot;, 0, &quot;usage message for flag.Float64&quot;)
+    flag.StringVar(&amp;flagStringVar, &quot;string-var-flag&quot;, &quot;&quot;, &quot;usage message for flag.String&quot;)
+    flag.DurationVar(&amp;flagDurationVar, &quot;duration-var-flag&quot;, 0, &quot;usage message for flag.Duration&quot;)
+
+  // この段階では、変数の値はデフォルト値となっています。
+
+    flag.Parse()
+
+  // flag.Parse() を呼び出すことでコマンドライン引数が処理され変数の値が更新されます
+
+    fmt.Printf(&quot;bool-var-flag has value %t\n&quot;, flagBoolVar)
+    fmt.Printf(&quot;int-var-flag has value %d\n&quot;, flagIntVar)
+    fmt.Printf(&quot;int64-var-flag has value %d\n&quot;, flagInt64Var)
+    fmt.Printf(&quot;uint-var-flag has value %d\n&quot;, flagUintVar)
+    fmt.Printf(&quot;uint64-var-flag has value %d\n&quot;, flagUint64Var)
+    fmt.Printf(&quot;float64-var-flag has value %f\n&quot;, flagFloat64Var)
+    fmt.Printf(&quot;string-var-flag has value &#39;%s&#39;\n&quot;, flagStringVar)
+    fmt.Printf(&quot;duration-var-flag has value %d\n&quot;, flagDurationVar)
+}
+</code></pre>
+<p>オプションが定義できたので、プログラムの実行時に定義したオプションを呼び出すことができます。</p>
+<pre><code>$ go run main.go \
+  --bool-var-flag \
+  --int-var-flag 47 \
+  --int64-var-flag 53 \
+  --uint-var-flag 59 \
+  --uint64-var-flag 61 \
+  --float64-var-flag 3.14 \
+  --string-var-flag &quot;foobar&quot; \
+  --duration-var-flag 12h34m56s
+bool-var-flag has value true
+int-var-flag has value 47
+int64-var-flag has value 53
+uint-var-flag has value 59
+uint64-var-flag has value 61
+float64-var-flag has value 3.140000
+string-var-flag has value &#39;foobar&#39;
+duration-var-flag has value 45296000000000</code></pre>
+<h2 id="オプションの設定先に独自の型-構造体や取れる値に制限をかける場合など-を用いる---value-interface">オプションの設定先に独自の型 (構造体や取れる値に制限をかける場合など) を用いる - Value interface</h2>
+<p>TODO: ここは曜日 enum をとるオプションとかみたいな、実践例で説明する</p>
+<p>さらに細かい制御を行いたい場合として、 <a href="https://pkg.go.dev/flag#Value">Value</a> interface を実装した型を用意し、 <code>flag.Var()</code> を呼び出すことで細かな動きを実装できます</p>
+<p>具体的には、自前の型が <code>String()</code> と <code>Set()</code> を実装しているとき、 <code>flag.Var()</code> に割り当てられるようになります。</p>
+<p>以下が <a href="https://github.com/ayasuda/sandbox/blob/master/go/flag/value_interface/main.go">サンプルコード</a> です。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode go:flag.go"><code class="sourceCode go"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;flag&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> Foo <span class="op">{</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    Attr <span class="dt">string</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Value interface を満たすために String() を実装する</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">// String() 関数はプログラム診断などのために使います</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> <span class="op">(</span>f Foo<span class="op">)</span> String<span class="op">()</span> <span class="dt">string</span> <span class="op">{</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> f<span class="op">.</span>Attr</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">// Value interface を満たすために Set() を実装する</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">// Set() 関数は flag.Parse が実際のオプションをこの変数に割り当てるために使われます</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> <span class="op">(</span>f Foo<span class="op">)</span> Set<span class="op">(</span>s <span class="dt">string</span><span class="op">)</span> <span class="dt">error</span> <span class="op">{</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    f<span class="op">.</span>Attr <span class="op">=</span> s</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="ot">nil</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> foo Foo</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    flag<span class="op">.</span>Var<span class="op">(&amp;</span>foo<span class="op">,</span> <span class="st">&quot;foo&quot;</span><span class="op">,</span> <span class="st">&quot;help message&quot;</span><span class="op">)</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    flag<span class="op">.</span>Parse<span class="op">()</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span><span class="st">&quot;foo is &quot;</span><span class="op">,</span> foo<span class="op">)</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<pre><code>$ go run main.go --foo bar
+foo is bar</code></pre>
+<h2 id="long-オプションと-short-オプションを定義する">long オプションと short オプションを定義する</h2>
+<p>flag パッケージでは同じ変数を複数のオプションに割り当て可能です。 これを利用することで、同じオプションに対して long オプションと short オプションを定義することができます。 例えば、 <code>-f</code> と <code>--filename</code> の２つの同じオプションを定義することができます。</p>
+<p>同じ変数を使う場合、初期値の割り当て順序は <em>未定義</em> です。ですので、同じ初期値を用いるようにしましょう。</p>
+<p>以下が<a href="https://github.com/ayasuda/sandbox/blob/master/go/flag/two_flags/main.go">サンプルコード</a>です。</p>
+<p>ただし、この手法ではヘルプメッセージがあまりうまく定義できません。</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode go:flag.go"><code class="sourceCode go"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;flag&quot;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> <span class="op">(</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">default</span> <span class="op">=</span> <span class="st">&quot;default value&quot;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        usage   <span class="op">=</span> <span class="st">&quot;usage message&quot;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> option <span class="dt">string</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">// short オプションとして `-f` を定義する</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    flag<span class="op">.</span>StringVar<span class="op">(&amp;</span>option<span class="op">,</span> <span class="st">&quot;f&quot;</span><span class="op">,</span> <span class="kw">default</span><span class="op">,</span> usage<span class="op">)</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">// long オプションとして `--flagname` を定義する</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    flag<span class="op">.</span>StringVar<span class="op">(&amp;</span>option<span class="op">,</span> <span class="st">&quot;flagname&quot;</span><span class="op">,</span> <span class="kw">default</span><span class="op">,</span> usage<span class="op">)</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    flag<span class="op">.</span>Parse<span class="op">()</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span><span class="st">&quot;option is&quot;</span><span class="op">,</span> option<span class="op">)</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<pre><code>$ go run main.go --flagname foo
+option is foo
+$ go run main.go -f bar
+option is bar</code></pre>
+<h2 id="v--vv--vvv--vvvv-のようにv-の数で出力レベルを切り替えられるオプションを定義する">-v, -vv, -vvv, -vvvv のように、v の数で出力レベルを切り替えられるオプションを定義する</h2>
+<p><code>ssh</code> コマンドなどでは、<code>-v</code>, <code>-vv</code> と v を重ねることで出力レベルを切り替えることができます。 これを <code>flag</code> パッケージで実現するためには、個別にオプションを定義し、個別に出力レベルを取得する関数を定義するのが良いでしょう。</p>
+<p>以下が<a href="https://github.com/ayasuda/sandbox/blob/master/go/flag/verbose_option/main.go">サンプルコード</a>です。</p>
+<p>ただし、この手法ではヘルプメッセージがあまりうまく定義できません。</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;flag&quot;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">:=</span> flag<span class="op">.</span>Bool<span class="op">(</span><span class="st">&quot;v&quot;</span><span class="op">,</span> <span class="ot">false</span><span class="op">,</span> <span class="st">&quot;usage&quot;</span><span class="op">)</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">:=</span> flag<span class="op">.</span>Bool<span class="op">(</span><span class="st">&quot;vv&quot;</span><span class="op">,</span> <span class="ot">false</span><span class="op">,</span> <span class="st">&quot;usage&quot;</span><span class="op">)</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    v3 <span class="op">:=</span> flag<span class="op">.</span>Bool<span class="op">(</span><span class="st">&quot;vvv&quot;</span><span class="op">,</span> <span class="ot">false</span><span class="op">,</span> <span class="st">&quot;usage&quot;</span><span class="op">)</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    v4 <span class="op">:=</span> flag<span class="op">.</span>Bool<span class="op">(</span><span class="st">&quot;vvvv&quot;</span><span class="op">,</span> <span class="ot">false</span><span class="op">,</span> <span class="st">&quot;usage&quot;</span><span class="op">)</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    v5 <span class="op">:=</span> flag<span class="op">.</span>Bool<span class="op">(</span><span class="st">&quot;vvvvv&quot;</span><span class="op">,</span> <span class="ot">false</span><span class="op">,</span> <span class="st">&quot;usage&quot;</span><span class="op">)</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  flag<span class="op">.</span>Parse<span class="op">()</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    vLv <span class="op">:=</span> getVerboseLevel<span class="op">(*</span>v1<span class="op">,</span> <span class="op">*</span>v2<span class="op">,</span> <span class="op">*</span>v3<span class="op">,</span> <span class="op">*</span>v4<span class="op">,</span> <span class="op">*</span>v5<span class="op">)</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Printf<span class="op">(</span><span class="st">&quot;verbose level is %d</span><span class="ch">\n</span><span class="st">&quot;</span><span class="op">,</span> vLv<span class="op">)</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> getVerboseLevel<span class="op">(</span>v <span class="op">...</span><span class="dt">bool</span><span class="op">)</span> <span class="dt">int</span> <span class="op">{</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    cnt <span class="op">:=</span> <span class="dv">0</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> idx<span class="op">,</span> i <span class="op">:=</span> <span class="kw">range</span> v <span class="op">{</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>        <span class="kw">if</span> i <span class="op">{</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>            cnt <span class="op">=</span> idx <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> cnt</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<pre><code>$ go run main.go
+verbose level is 0
+$ go run main.go -vv
+verbose level is 2
+$ go run main.go -vvvv
+verbose level is 4</code></pre>
+<h2 id="引数を受け取る---args">引数を受け取る - Args</h2>
+<p>定義したオプション以外の値として、引数を取得するために <a href="https://pkg.go.dev/flag#Arg">Arg</a>, <a href="https://pkg.go.dev/flag#Args">Args</a> が、 個数を取るために <a href="https://pkg.go.dev/flag#NArg">NArg</a> が用意されています。</p>
+<p>引数は、オプションの後に指定された値です。ですので、例えば <code>-n</code> というオプションを定義したプログラムでは以下のように処理されます</p>
+<div class="line-block">コマンドライン引数 | オプション | 引数 (Args で取得可能な値) |<br />
+<code>-n 47 foo bar</code> | <code>-n 47</code> | <code>foo bar</code> |<br />
+<code>foo</code> | - | <code>foo</code> |<br />
+<code>foo -n 47</code> | - | <code>foo -n 47</code> |</div>
+<p>以下が<a href="https://github.com/ayasuda/sandbox/blob/master/go/flag/args/main.go">サンプルコード</a>です。</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> main</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;flag&quot;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;fmt&quot;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> nFlag <span class="op">=</span> flag<span class="op">.</span>Int<span class="op">(</span><span class="st">&quot;n&quot;</span><span class="op">,</span> <span class="dv">1234</span><span class="op">,</span> <span class="st">&quot;help message for flagname&quot;</span><span class="op">)</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    flag<span class="op">.</span>Parse<span class="op">()</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Printf<span class="op">(</span><span class="st">&quot;arguments num: %d</span><span class="ch">\n</span><span class="st">&quot;</span><span class="op">,</span> flag<span class="op">.</span>NArg<span class="op">())</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Printf<span class="op">(</span><span class="st">&quot;arguments as []string: %v</span><span class="ch">\n</span><span class="st">&quot;</span><span class="op">,</span> flag<span class="op">.</span>Args<span class="op">())</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Println<span class="op">(</span><span class="st">&quot;each arguments&quot;</span><span class="op">)</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> i<span class="op">,</span> j <span class="op">:=</span> <span class="dv">0</span><span class="op">,</span> flag<span class="op">.</span>NArg<span class="op">();</span> i <span class="op">&lt;</span> j<span class="op">;</span> i<span class="op">++</span> <span class="op">{</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        fmt<span class="op">.</span>Printf<span class="op">(</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">argument %d: %s</span><span class="ch">\n</span><span class="st">&quot;</span><span class="op">,</span> i<span class="op">,</span> flag<span class="op">.</span>Arg<span class="op">(</span>i<span class="op">))</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">.</span>Printf<span class="op">(</span><span class="st">&quot;n sets %d</span><span class="ch">\n</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">*</span>nFlag<span class="op">)</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<pre><code>$ go run main.go -n 47 arg1 arg2
+arguments num: 2
+arguments as []string: [arg1 arg2]
+each arguments
+        argument 0: arg1
+        argument 1: arg2
+n sets 47</code></pre>
+<p>オプションの後は引数として扱われるので、以下のようにコマンドライン引数を指定した場合は <code>-n 47</code> がオプションではなく引数として扱われます。 そのため、定義したオプションはデフォルト値のままとなります。</p>
+<pre><code>$ go run main.go arg1 -n 47 arg2
+arguments num: 4
+arguments as []string: [arg1 -n 47 arg2]
+each arguments
+        argument 0: arg1
+        argument 1: -n
+        argument 2: 47
+        argument 3: arg2
+n sets 1234</code></pre>
+<h2 id="サブコマンドを定義する---newflagset">サブコマンドを定義する - NewFlagSet()</h2>
+<p>サブコマンドは引数をさらに処理することで実現可能です。</p>
+<p><a href="https://pkg.go.dev/flag#FlagSet">FlagSet</a> 構造体が用意されており、 定義したオプションはこの型の定義済み変数 <a href="https://pkg.go.dev/flag#pkg-variables">CommandLine</a> に保存されます。</p>
+<p>同様に、サブコマンド用の <code>FlagSet</code> を宣言し、親コマンドの引数をこの <code>FlagSet</code> でパースすることで、サブコマンドのオプションを処理することができます。</p>
+<p>以下が<a href="https://github.com/ayasuda/sandbox/blob/master/go/flag/flag_set/main.go">サンプルコード</a>です。</p>
+<pre><code>package main
+
+import (
+    &quot;flag&quot;
+    &quot;fmt&quot;
+)
+
+func main() {
+
+    // 親コマンド向けの引数を定義する
+    rf := flag.String(&quot;rootFlag&quot;, &quot;default var&quot;, &quot;usage of root flag&quot;)
+
+
+    // サブコマンド用の変数セットを作成し、引数 --subFlag を定義する
+    sub := flag.NewFlagSet(&quot;sub&quot;, flag.ExitOnError)
+    sf := sub.String(&quot;subFlag&quot;, &quot;default var&quot;, &quot;usage message&quot;)
+
+    flag.Parse()
+
+    // 引数の１番目をサブコマンドとして取得する
+    // 特にサブコマンドが指定されずにプログラムが呼び出された場合、subCmd は空文字になります
+    subCmd := flag.Arg(0)
+
+    switch subCmd {
+    case &quot;sub&quot;:
+        // flag.Args() 自体には &quot;sub&quot; が最初に入ってしまうので使えない
+        // なので、最初の１つを取り除いた [1:] をサブコマンドの FlagSet に Parse 関数で渡す
+        // flag.Arg(0) があることで、len(flag.Args()) &gt; 0 は自明
+        sub.Parse(flag.Args()[1:])
+    default:
+        // noop
+    }
+
+    fmt.Printf(&quot;rootFlag is %s\n&quot;, *rf)
+    fmt.Printf(&quot;root arguments as []string: %v\n&quot;, flag.Args())
+    fmt.Printf(&quot;subFlag is %s\n&quot;, *sf)
+    fmt.Printf(&quot;sub arguments as []string: %v\n&quot;, sub.Args())
+}</code></pre>
+<p>このプログラムを呼び出した結果は以下のようになります</p>
+<pre><code>$ go run main.go --rootFlag foofoo sub --subFlag barbar arg1 arg2
+rootFlag is foofoo
+root arguments as []string: [sub --subFlag barbar arg1 arg2]
+subFlag is barbar
+sub arguments as []string: [arg1 arg2]</code></pre>
+<p><code>FlagSet</code> を新しく作成する際には <a href="https://pkg.go.dev/flag#NewFlagSet">NewFlagSet</a> を用います。 第1引数には FlagSet 名を指定します。この名前は、デフォルトのヘルプメッセージや、エラーメッセージで用いられます。</p>
+<pre><code>$ go run main.go sub --help
+Usage of sub:
+  -subFlag string
+        usage message (default &quot;default var&quot;)</code></pre>
+<p>第2引数にはエラー時の挙動を表した定数を指定します。 エラー時の挙動を表した定数については「存在しないフラグなどが指定されたエラー時の挙動を変更する - ErrorHandling」にて解説します。</p>
+<h2 id="ヘルプメッセージを表示する---printdefaults">ヘルプメッセージを表示する - PrintDefaults()</h2>
+<p><a href="https://pkg.go.dev/flag#PrintDefaults">PrintDefaults</a> を使うと、定義したオプションをもとにヘルプメッセージを標準エラーに出力することができます。</p>
+<p>メッセージの出力先を標準エラー以外にしたい場合は、 <a href="https://pkg.go.dev/flag#FlagSet.SetOutput">CommandLine.SetOutput</a> を呼び出すことで変更可能です。</p>
+<p>以下が<a href="https://github.com/ayasuda/sandbox/blob/master/go/flag/print_default/main.go">サンプルコード</a>です。</p>
+<pre><code>package main
+
+import (
+    &quot;flag&quot;
+    &quot;time&quot;
+)
+
+func main() {
+    var _ = flag.Bool(&quot;bool-flag&quot;, false, &quot;usage message for flag.Bool&quot;)
+    var _ = flag.Int(&quot;int-flag&quot;, 0, &quot;usage message for flag.Int&quot;)
+    var _ = flag.Int64(&quot;int64-flag&quot;, 0, &quot;usage message for flag.Int64&quot;)
+    var _ = flag.Uint(&quot;uint-flag&quot;, 0, &quot;usage message for flag.Uint&quot;)
+    var _ = flag.Uint64(&quot;uint64-flag&quot;, 0, &quot;usage message for flag.Uint64&quot;)
+    var _ = flag.Float64(&quot;float64-flag&quot;, 0, &quot;usage message for flag.Float64&quot;)
+    var _ = flag.String(&quot;string-flag&quot;, &quot;&quot;, &quot;usage message for flag.String&quot;)
+    var _ = flag.Duration(&quot;duration-flag&quot;, 0, &quot;usage message for flag.Duration&quot;)
+
+    var flagBoolVar bool
+    var flagIntVar int
+    var flagInt64Var int64
+    var flagUintVar uint
+    var flagUint64Var uint64
+    var flagFloat64Var float64
+    var flagStringVar string
+    var flagDurationVar time.Duration
+    flag.BoolVar(&amp;flagBoolVar, &quot;bool-var-flag&quot;, false, &quot;usage message for flag.Bool&quot;)
+    flag.IntVar(&amp;flagIntVar, &quot;int-var-flag&quot;, 0, &quot;usage message for flag.Int&quot;)
+    flag.Int64Var(&amp;flagInt64Var, &quot;int64-var-flag&quot;, 0, &quot;usage message for flag.Int64&quot;)
+    flag.UintVar(&amp;flagUintVar, &quot;uint-var-flag&quot;, 0, &quot;usage message for flag.Uint&quot;)
+    flag.Uint64Var(&amp;flagUint64Var, &quot;uint64-var-flag&quot;, 0, &quot;usage message for flag.Uint64&quot;)
+    flag.Float64Var(&amp;flagFloat64Var, &quot;float64-var-flag&quot;, 0, &quot;usage message for flag.Float64&quot;)
+    flag.StringVar(&amp;flagStringVar, &quot;string-var-flag&quot;, &quot;&quot;, &quot;usage message for flag.String&quot;)
+    flag.DurationVar(&amp;flagDurationVar, &quot;duration-var-flag&quot;, 0, &quot;usage message for flag.Duration&quot;)
+
+    // 定義した各オプションの、usage を表示します
+    flag.PrintDefaults()
+}
+</code></pre>
+<pre><code>$ go run main.go
+  -bool-flag
+        usage message for flag.Bool
+  -bool-var-flag
+        usage message for flag.Bool
+  -duration-flag duration
+        usage message for flag.Duration
+  -duration-var-flag duration
+        usage message for flag.Duration
+  -float64-flag float
+        usage message for flag.Float64
+  -float64-var-flag float
+        usage message for flag.Float64
+  -int-flag int
+        usage message for flag.Int
+  -int-var-flag int
+        usage message for flag.Int
+  -int64-flag int
+        usage message for flag.Int64
+  -int64-var-flag int
+        usage message for flag.Int64
+  -string-flag string
+        usage message for flag.String
+  -string-var-flag string
+        usage message for flag.String
+  -uint-flag uint
+        usage message for flag.Uint
+  -uint-var-flag uint
+        usage message for flag.Uint
+  -uint64-flag uint
+        usage message for flag.Uint64
+  -uint64-var-flag uint
+        usage message for flag.Uint64</code></pre>
+<h2 id="オリジナルのヘルプメッセージを表示する---usage">オリジナルのヘルプメッセージを表示する - Usage</h2>
+<p>組み込みのヘルプメッセージではなく、オリジナルのヘルプメッセージを表示したい場合は定義済み変数 <a href="https://pkg.go.dev/flag#pkg-constants">Usage</a> を書き換えます</p>
+<p>以下が<a href="https://github.com/ayasuda/sandbox/blob/master/go/flag/usage/main.go">サンプルコード</a>です。</p>
+<pre><code>package main
+
+import (
+    &quot;flag&quot;
+    &quot;fmt&quot;
+)
+
+func main() {
+    flag.Usage = func() {
+        fmt.Fprintf(flag.CommandLine.Output(), &quot;this is custom message\n&quot;)
+    }
+    flag.Parse()
+}</code></pre>
+<pre><code>$ go run main.go --help
+this is custom message</code></pre>
+<h2 id="存在しないフラグなどが指定されたエラー時の挙動を変更する---errorhandling">存在しないフラグなどが指定されたエラー時の挙動を変更する - ErrorHandling</h2>
+<p><code>FlagSet</code> を新しく作成する際に用いる <a href="https://pkg.go.dev/flag#NewFlagSet">NewFlagSet</a> の第2引数はエラー時の挙動を表す <a href="https://pkg.go.dev/flag#ErrorHandling">ErrorHandling</a> です。</p>
+<p>この値を変更することでオプションの処理時 (<code>flag.Parse()</code> を呼び出した時) のエラー、 例えば存在しないオプションが指定されていた場合や、 <code>Var</code> で定義したオプションの <code>Set()</code> 中でエラーが起きた場合などの挙動を変更できます。</p>
+<p>なお、 <code>-h</code>, <code>--help</code> が指定されてプログラムを呼び出され、さらにこれらのオプションを定義していなかった場合、 <code>flag.Parse()</code> は特殊なエラー <a href="https://pkg.go.dev/flag#pkg-variables">ErrHelp</a> を発生させ、この <code>FlagSet</code> で設定されている動作に従います</p>
+<p><code>ContinueOnError</code>, <code>ExitOnError</code> または <code>PanicOnError</code> のいずれかから選択でき、それぞれ以下のような挙動になります。</p>
+<ul>
+<li><code>ContinueOnError</code>: エラー発生時にも処理を継続します</li>
+<li><code>ExitOnError</code>: エラー発生時に <code>os.Exit(2)</code> を呼び出し、エラー終了します。または、<code>-h</code>, <code>--help</code> オプションが指定されていた場合は <code>os.Exit(0)</code> でプログラムを終了します</li>
+<li><code>PanicOnError</code>; エラー発生時にパニックでプログラムを終了します</li>
+</ul>
+<p>定義済み変数 <code>CommandLine</code> の errorHandling は <code>ExitOnError</code> に設定されており、基本的には変更できません …が、もし変更したい場合は <code>CommandLine.Init()</code> を呼び出すことで無理やり変更できます。</p>
+<p>以下が<a href="https://github.com/ayasuda/sandbox/blob/master/go/flag/err_exit/main.go">サンプルコード</a>です。</p>
+<pre><code>package main
+
+import (
+    &quot;flag&quot;
+    &quot;fmt&quot;
+)
+
+func main() {
+    flag.Int(&quot;sample&quot;, 0, &quot;default usage message&quot;)
+
+    // Init を呼び出すことで errorHandling が変更できる
+    // しかし、CommandLine はデフォルトで ExitOnError が指定されているのでコメントアウトする
+    // flag.CommandLine.Init(os.Arg[0], flag.ExitOnError)
+
+    flag.Parse()
+    fmt.Println(&quot;This line should not be printed if -h, --help added or some error happened&quot;)
+}</code></pre>
+<p>当たり前ではありますが、特段エラーが発生しない場合は処理は継続します</p>
+<pre><code>$ go run main.go --sample 47
+This line should not be printed if -h, --help added or some error happened</code></pre>
+<p><code>-h</code>, <code>--help</code> などが指定され、しかし未定義の場合は <code>ErrHelp</code> が発生し、ヘルプメッセージが出力されます。 その後、設定された <code>ExitOnError</code> に基づきプログラムは終了します。</p>
+<p>なので、 “This line should…” は表示されません。</p>
+<pre><code>$ go run main.go -h
+Usage of main:
+  -sample int
+        default usage message</code></pre>
+<p>存在しないオプションを指定した場合、その旨を示すエラーメッセージとヘルプメッセージが出力されます。 その後、設定された <code>ExitOnError</code> に基づきプログラムは終了します。 また、このエラーは <code>ErrHelp</code> ではないのでプログラムは Exit(2) で終了します。</p>
+<p>なので、 “This line should…” は表示されません。</p>
+<pre><code>$ go run main.go --not-defined
+flag provided but not defined: -not-defined
+Usage of main:
+  -sample int
+        default usage message
+exit status 2</code></pre>
+<h2 id="オプションのテスト">オプションのテスト</h2>
+<p><code>flagSet</code> または <code>flag.CommandLine</code> の <code>Parse()</code> に配列を渡すことでテストが可能です。 テスト前に <code>Init()</code> などでエラー時の挙動を変更しておく必要があります。</p>
+<p>とはいえ、余程特殊なことをしていない限りはオプションのテストは不要でしょう。</p>
+<p>flag パッケージ自身はテストされていますし、あくまでも開発者はオプションの定義をするのみに使用を留めた方が良いかと思います。</p>
+</article>
+<footer>
+  <a href="/">Home</a>
+</footer>
+</body>
+</html>
