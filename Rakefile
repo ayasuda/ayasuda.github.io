@@ -92,6 +92,14 @@ task :install do
   sh "gem install webrick"
 end
 
+desc "show podsted articles"
+task :published do
+  SRCS.each do |src|
+    page = Page.new(src)
+    next unless page.publish?
+    puts [src, page.title].join("\t")
+  end
+end
 
 desc "show draft articles"
 task :draft do
