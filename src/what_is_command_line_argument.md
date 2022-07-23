@@ -1,6 +1,6 @@
 ---
 title: 'コマンドライン引数ことはじめ'
-date: '2100-12-31'
+date: '2022-07-23'
 description: ''
 keywords:
   - Golang
