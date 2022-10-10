@@ -20,3 +20,6 @@ $ rake
 
 * `introduction_`: this post describes a introduction of tools, application, framework or else.
 * `what_is_`: this post describes a feature of language, patterns, technics, or else.
+
+
+site image from: https://pixabay.com/ja/photos/shibuyasky-%e6%b8%8b%e8%b0%b7%e5%8c%ba-4768679/
