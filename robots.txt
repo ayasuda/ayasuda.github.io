@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://ayasuda.github.io/sitemap.xml
