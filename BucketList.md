@@ -69,6 +69,9 @@ x Go 言語
   シグナル処理まとめ 
   引数
   標準入力
+  Passwordstate 攻撃
+  codecov supply chain attack
+  ソーラーウィンズ事件
 
 golang のお勉強
   go module について
@@ -76,6 +79,7 @@ golang のお勉強
   アプリケーション作るときのテンプレート
   server やるときのシグナル処理テンプレート
   ロガーに関する考察
+
 
 スタイルの修正
   Casper ベースで
