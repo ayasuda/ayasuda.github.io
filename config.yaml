@@ -1,0 +1,34 @@
+baseURL: 'https://ayasuda.github.io'
+
+languageCode: ja-jp
+title: "ayasuda.github.io"
+theme: toha
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+
+params:
+  background: /images/site/shibuyasky-g574fd7369_1920.jpg
+  logo:
+    main: /images/site/IMG_3559_icon.jpeg
+  gitRepo: https://github.com/ayasuda/ayasuda.github.io
+  gitBranch: master
+
+  features:
+    portfolio:
+      enable: false
+    blog:
+      enable: true
+    notes:
+      enable: false
+
+
+  newsletter:
+    enable: false
+
+  enableTOC: true
+  enableTags: true
