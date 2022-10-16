@@ -1,34 +1,64 @@
 baseURL: 'https://ayasuda.github.io'
+title: "ayasuda.github.io"
+paginate: 10
+theme: PaperMod
 
 languageCode: ja-jp
-title: "ayasuda.github.io"
-theme: toha
+hasCJKLanguage: true
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+googleAnalytics: UA-138223597-1
+
+minify:
+  minifyOutput: true
 
 outputs:
   home:
     - HTML
     - RSS
-    - JSON
 
 
 params:
-  background: /images/site/shibuyasky-g574fd7369_1920.jpg
-  logo:
-    main: /images/site/IMG_3559_icon.jpeg
-  gitRepo: https://github.com/ayasuda/ayasuda.github.io
-  gitBranch: master
+  title: "ayasuda.gihtub.io"
+  description: "ayasuda の個人的なホームページ"
+  keyword: [Blog, ayasuda]
+  author: ayasuda
+  DateFormat: "2006-01-02"
+  defaultTheme: auto # dark, light
 
-  features:
-    portfolio:
-      enable: false
-    blog:
-      enable: true
-    notes:
-      enable: false
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: false
+  ShowWordCount: true
+  ShowRssButtonInSectionTermList: true
+  UseHugoToc: true
+  disableSpecial1stPost: true
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: true
+  tocopen: true
 
+  profileMode:
+    enabled: true
+    subtitle: "ayasuda の個人的なページ"
+    imageUrl: https://avatars.githubusercontent.com/u/219491?v=4
+    buttons:
+      - name: Posts
+        url: pages
+      - name: Tags
+        url: tags
 
-  newsletter:
-    enable: false
-
-  enableTOC: true
-  enableTags: true
+menu:
+  main:
+    - identifier: posts
+      name: Posts
+      url: pages/
+      weight: 10
